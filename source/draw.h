@@ -30,14 +30,14 @@ private:
 };
 
 struct Menu : public IMyDrawable {
-    Menu(IStateManager state_manager);
-    void draw_into(sf::RenderWindow& window) {
+//    Menu(IStateManager state_manager);
+    void draw_into(sf::RenderWindow& window) override {
         for (auto& ptr_button: m_buttons)
             ptr_button->draw_into(window);
     }
     void process_mouse(sf::Vector2f pos, bool is_pressed);
 private:
-    std::vector<std::unique_ptr<Button>> m_buttons;
+    std::vector<Button*> m_buttons;
 //    ISelectCommand* m_ptr_command;
 };
 

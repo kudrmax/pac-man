@@ -6,7 +6,7 @@
 #include <iostream>
 #include <memory>
 
-class IStateManager;
+//class IStateManager;
 //class Menu;
 
 class IState {
@@ -36,15 +36,17 @@ public:
     bool do_step() override { return false; };
 };
 
+class Menu;
+
 class SelectState : public IState, public IWindowKeeper {
 public:
 //    SelectState(type state_manager, type window_title);
-    void event_handling(){};
-    void update(){};
-    void render(){};
+    void event_handling() override {};
+    void update() override {};
+    void render() override {};
     bool do_step() override {};
 private:
-//    Menu m_menu;
+    Menu* m_menu;
 };
 
 class GameState : public IState, public IWindowKeeper {
