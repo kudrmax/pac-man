@@ -1,4 +1,5 @@
 #pragma once
+#include "menu.h"
 #include "state.h"
 #include "state_manager.h"
 #include <SFML/Graphics.hpp>
@@ -6,6 +7,9 @@
 
 class Application : public IStateManager {
 public:
+    Application(): m_ptr_state_current() {
+
+    }
     void set_next_state(IState* state) override {};
     int run();
     void apply_deffer_state_change(){};
@@ -14,6 +18,6 @@ private:
     void update(){};
     void render(){};
 private:
-    IState* m_ptr_state_current;
-    IState* m_ptr_state_next;
+    IState* m_ptr_state_current = nullptr;
+    IState* m_ptr_state_next = nullptr;
 };
