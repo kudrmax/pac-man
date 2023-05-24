@@ -13,7 +13,7 @@ class IStateManager;
 class IState {
 public:
     IState() = default;
-    explicit IState(std::unique_ptr<IStateManager> state_manager){};
+    explicit IState(std::unique_ptr<IStateManager> state_manager) {};
     virtual bool do_step() = 0;
     virtual ~IState() = default;
 protected:
@@ -23,14 +23,15 @@ protected:
 
 class IWindowKeeper {
 public:
-    IWindowKeeper(sf::VideoMode mode, std::string title){};
+    IWindowKeeper(sf::VideoMode mode, const std::string& title) : m_window(mode, "test") {};
 protected:
     virtual void event_handling() = 0;
     virtual void update() = 0;
     virtual void render() = 0;
     virtual ~IWindowKeeper() = default;
 protected:
-    sf::RenderWindow m_window{ sf::VideoMode(800, 800), "SFML" };
+//    sf::RenderWindow m_window{ sf::VideoMode(800, 800), "SFML" };
+    sf::RenderWindow m_window;
 };
 
 //class ExitState : public IState {
@@ -77,24 +78,14 @@ private:
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class SelectState : public IState, public IWindowKeeper {
 public:
-    SelectState(IStateManager* state_manager, std::string window_title) :
-            IWindowKeeper({800, 600}, window_title), m_menu(state_manager) {};
+    using IWindowKeeper::IWindowKeeper;
+    SelectState(IStateManager* state_manager, const std::string& window_title) :
+            m_menu(state_manager),
+            IWindowKeeper({800, 800}, window_title) {
+//        m_window = sf::RenderWindow(sf::VideoMode(800, 800), window_title)
+    };
     void event_handling() override {
         sf::Event event;
         while (m_window.pollEvent(event)) {
