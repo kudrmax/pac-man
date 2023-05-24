@@ -13,11 +13,11 @@ class IStateManager;
 class IState {
 public:
     IState() = default;
-    explicit IState(IStateManager* state_manager){};
+    explicit IState(std::unique_ptr<IStateManager> state_manager){};
     virtual bool do_step() = 0;
     virtual ~IState() = default;
 protected:
-    IStateManager* m_state_manager;
+    std::unique_ptr<IStateManager> m_state_manager;
 };
 
 
@@ -67,11 +67,12 @@ private:
 };
 
 struct Menu : public IMyDrawable {
+    Menu(std::unique_ptr<IStateManager> state_manager) {};
     Menu(IStateManager* state_manager) {};
     void draw_into(sf::RenderWindow& window) override {};
 //    void process_mouse(sf::Vector2f pos, bool is_pressed) {};
 private:
-    std::vector<Button*> m_buttons;
+    std::vector<std::unique_ptr<Button>> m_buttons;
 //    ISelectCommand* m_ptr_command;
 };
 
