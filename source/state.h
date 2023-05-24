@@ -71,15 +71,23 @@ struct GameCommand : public IChangeStateCommand {
 struct Button : public IMyDrawable, public sf::RectangleShape {
 public:
     using RectangleShape::RectangleShape;
-    void draw_into(sf::RenderWindow& window) override {};
+    void draw_into(sf::RenderWindow& window) override {
+        window.draw(m_rectangle);
+        window.draw(m_text);
+        window.display();
+        std::cout << "draw_into() in Button\n";
+    };
     Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
            ISelectCommand* ptr_command) {
         m_rectangle.setSize(button_size);
         m_rectangle.setOrigin(button_size.x / 2, button_size.y / 2);
         m_rectangle.setPosition(button_center_pos);
+        m_rectangle.setFillColor(sf::Color::Yellow);
         m_text.setString(text);
         m_text.setOrigin(button_size.x / 2, button_size.y / 2);
         m_text.setPosition(button_center_pos);
+        m_text.setFillColor(sf::Color::Blue);
+        std::cout << "I'm here\n";
     };
     void select() {};
     void unselect() {};
@@ -95,9 +103,15 @@ private:
 };
 
 struct Menu : public IMyDrawable {
-    Menu(std::unique_ptr<IStateManager> state_manager) {};
-    Menu(IStateManager* state_manager) {};
-    void draw_into(sf::RenderWindow& window) override {};
+//    Menu(std::unique_ptr<IStateManager> state_manager) {};
+    Menu(IStateManager* state_manager) {
+//        auto temp = Button({50,50}, { 50,50} , "Exit", 16, nullptr);
+        m_buttons.push_back(std::make_unique<Button>(Button({50,50}, { 50,50} , "Exit", 16, nullptr)));
+    };
+    void draw_into(sf::RenderWindow& window) override {
+        for(auto& ptr_button: m_buttons)
+            ptr_button->draw_into(window);
+    };
     void process_mouse(sf::Vector2f pos, bool is_pressed) {};
 private:
     std::vector<std::unique_ptr<Button>> m_buttons;
@@ -109,8 +123,7 @@ public:
     using IWindowKeeper::IWindowKeeper;
     SelectState(IStateManager* state_manager, const std::string& window_title) :
             m_menu(state_manager),
-            IWindowKeeper({ 800, 800 }, window_title) {
-    };
+            IWindowKeeper({ 800, 800 }, window_title) {};
     void event_handling() override {
         sf::Event event;
         while (m_window.pollEvent(event)) {
@@ -123,15 +136,16 @@ public:
     };
     void update() override {};
     void render() override {
-        m_window.clear(sf::Color(0x222222FF));
-        auto circle = sf::CircleShape();
-        circle.setRadius(60);
-        circle.setFillColor(sf::Color::Red);
-        m_window.draw(circle);
-        m_window.display();
+//        m_window.clear(sf::Color(0x222222FF));
+//        auto circle = sf::CircleShape();
+//        circle.setRadius(60);
+//        circle.setFillColor(sf::Color::Red);
+//        m_window.draw(circle);
+//        m_window.display();
+        m_menu.draw_into(m_window);
     };
     bool do_step() override {
-        std::cout << "SelectState\n";
+//        std::cout << "SelectState\n";
         event_handling();
         update();
         render();
