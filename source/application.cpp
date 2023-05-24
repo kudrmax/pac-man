@@ -2,8 +2,10 @@
 
 int Application::run() {
     try {
-        while (m_ptr_state_current->do_step())
+        while (m_ptr_state_current->do_step()) {
             apply_deffer_state_change();
+            std::cout << "Game is worknig\n";
+        }
     }
     catch (std::exception& ex) {
         std::cout << ex.what() << '\n';
