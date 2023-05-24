@@ -34,10 +34,10 @@ protected:
     sf::RenderWindow m_window;
 };
 
-//class ExitState : public IState {
-//public:
-//    bool do_step() override { return false; };
-//};
+class ExitState : public IState {
+public:
+    bool do_step() override { return false; };
+};
 
 
 
@@ -65,17 +65,39 @@ private:
     sf::Font m_font;
     sf::Text m_text;
     RectangleShape m_rectangle;
+    //    ISelectCommand* m_ptr_command;
 };
 
 struct Menu : public IMyDrawable {
     Menu(std::unique_ptr<IStateManager> state_manager) {};
     Menu(IStateManager* state_manager) {};
     void draw_into(sf::RenderWindow& window) override {};
-//    void process_mouse(sf::Vector2f pos, bool is_pressed) {};
+    void process_mouse(sf::Vector2f pos, bool is_pressed) {};
 private:
     std::vector<std::unique_ptr<Button>> m_buttons;
-//    ISelectCommand* m_ptr_command;
 };
+
+struct ISelectCommand{
+    virtual void execute() = 0;
+    virtual ~ISelectCommand() = default;
+};
+
+struct IChangeStateCommand : public ISelectCommand{
+    IChangeStateCommand(IStateManager state_manager);
+protected:
+    std::unique_ptr<IStateManager> m_state_manager;
+};
+
+struct ExitCommand : public IChangeStateCommand{
+    void execute(){};
+};
+
+struct GameCommand : public IChangeStateCommand{
+//    GameCommand(IStateManager state_manager, GameBuilderDirector* ptr_director);
+    void execute(){};
+};
+
+
 
 
 class SelectState : public IState, public IWindowKeeper {
@@ -91,6 +113,7 @@ public:
         while (m_window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 m_window.close();
+                auto exit_ptr = std::make_unique<ExitState>();;
                 return;
             }
         }
