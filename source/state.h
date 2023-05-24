@@ -13,7 +13,7 @@ class IStateManager;
 class IState {
 public:
     IState() = default;
-    explicit IState(IStateManager* state_manager);
+    explicit IState(IStateManager* state_manager){};
     virtual bool do_step() = 0;
     virtual ~IState() = default;
 protected:
@@ -23,9 +23,7 @@ protected:
 
 class IWindowKeeper {
 public:
-    IWindowKeeper(sf::VideoMode mode, std::string title) {
-
-    };
+    IWindowKeeper(sf::VideoMode mode, std::string title){};
 protected:
     virtual void event_handling() = 0;
     virtual void update() = 0;
@@ -35,10 +33,10 @@ protected:
     sf::RenderWindow m_window{ sf::VideoMode(800, 800), "SFML" };
 };
 
-class ExitState : public IState {
-public:
-    bool do_step() override { return false; };
-};
+//class ExitState : public IState {
+//public:
+//    bool do_step() override { return false; };
+//};
 
 
 
@@ -70,7 +68,7 @@ private:
 
 struct Menu : public IMyDrawable {
     Menu(IStateManager* state_manager) {};
-    void draw_into(sf::RenderWindow& window) override;
+    void draw_into(sf::RenderWindow& window) override {};
 //    void process_mouse(sf::Vector2f pos, bool is_pressed) {};
 private:
     std::vector<Button*> m_buttons;
@@ -104,16 +102,19 @@ private:
     Menu m_menu;
 };
 
-class GameState : public IState, public IWindowKeeper {
-public:
-//    GameState(IStateManager* state_manager, std::string window_title);
-//    void set_maze(Maze maze);
-//    void set_context(GameContext context);
-    bool do_step() override { return true; };
-private:
-//    void process_key_pressed(code);
-//    void process_event(IGameEvent* ptr_event);
-private:
-//    ContextManager m_context_manager;
-//    Maze m_maze;
-};
+//class GameState : public IState, public IWindowKeeper {
+//public:
+////    GameState(IStateManager* state_manager, std::string window_title);
+////    void set_maze(Maze maze);
+////    void set_context(GameContext context);
+//    bool do_step() override { return true; };
+//    void event_handling() override {};
+//    void update() override {};
+//    void render() override {};
+//private:
+////    void process_key_pressed(code);
+////    void process_event(IGameEvent* ptr_event);
+//private:
+////    ContextManager m_context_manager;
+////    Maze m_maze;
+//};
