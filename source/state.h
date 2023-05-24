@@ -1,62 +1,69 @@
+#pragma once
+#include "draw.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <memory>
 
 class IStateManager;
 
 class IState {
 public:
-    IState(IStateManager* state_manager);
-    bool do_step();
+    explicit IState(IStateManager* state_manager);
+    virtual bool do_step() = 0;
+    virtual ~IState() = default;
 protected:
     IStateManager* m_state_manager;
 };
 
 class IStateManager {
 public:
-    void set_next_state(IState* state);
+    void virtual set_next_state(std::unique_ptr<IState> state) = 0;
+    virtual ~IStateManager() = default;
 };
 
 
 class Application : public IStateManager {
 public:
-    void set_next_state(IState* state);
+    void set_next_state(std::unique_ptr<IState> state){};
     int run();
-    void apply_deffer_state_change();
+    void apply_deffer_state_change(){};
 private:
-    void event_handling();
-    void update();
-    void render();
+    void event_handling(){};
+    void update(){};
+    void render(){};
 private:
-    IState* m_ptr_state_current;
-    IState* m_ptr_state_next;
+    std::unique_ptr<IState> m_ptr_state_current;
+    std::unique_ptr<IState> m_ptr_state_next;
 };
 
 
-class IWindowKeeper{
+class IWindowKeeper {
 public:
 //    IWindowKeeper(type mode, std::string title);
 protected:
     void event_handling();
     void update();
     void render();
+    virtual ~IWindowKeeper() = default;
 protected:
-    sf::RenderWindow m_window;
-};
-
-class SelectLevelState : public IState, public IWindowKeeper {
-public:
-//    SelectLevelState(type state_manager, type window_title);
-private:
-//    Menu m_menu;
+    sf::RenderWindow m_window{ sf::VideoMode(800, 800), "SFML" };
 };
 
 class ExitState : public IState {
 public:
-    bool do_step();
+    bool do_step() override { return false; };
+};
+
+class SelectState : public IState, public IWindowKeeper {
+public:
+//    SelectState(type state_manager, type window_title);
+private:
+    Menu m_menu;
 };
 
 class GameState : public IState, public IWindowKeeper {
 public:
-    GameState(IStateManager* state_manager, std::string window_title);
+//    GameState(IStateManager* state_manager, std::string window_title);
 //    void set_maze(Maze maze);
 //    void set_context(GameContext context);
 private:
