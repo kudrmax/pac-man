@@ -40,9 +40,6 @@ public:
 };
 
 
-
-
-
 class IStateManager;
 
 struct IMyDrawable {
@@ -50,11 +47,40 @@ struct IMyDrawable {
     virtual ~IMyDrawable() = default;
 };
 
+struct ISelectCommand {
+    virtual void execute() = 0;
+    virtual ~ISelectCommand() = default;
+};
+
+struct IChangeStateCommand : public ISelectCommand {
+    IChangeStateCommand(IStateManager state_manager);
+protected:
+    std::unique_ptr<IStateManager> m_state_manager;
+};
+
+struct ExitCommand : public IChangeStateCommand {
+    void execute() {};
+};
+
+struct GameCommand : public IChangeStateCommand {
+//    GameCommand(IStateManager state_manager, GameBuilderDirector* ptr_director);
+    void execute() {};
+};
+
+
 struct Button : public IMyDrawable, public sf::RectangleShape {
 public:
     using RectangleShape::RectangleShape;
     void draw_into(sf::RenderWindow& window) override {};
-//    Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size, ISelectCommand* ptr_command);
+    Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
+           ISelectCommand* ptr_command) {
+        m_rectangle.setSize(button_size);
+        m_rectangle.setOrigin(button_size.x / 2, button_size.y / 2);
+        m_rectangle.setPosition(button_center_pos);
+        m_text.setString(text);
+        m_text.setOrigin(button_size.x / 2, button_size.y / 2);
+        m_text.setPosition(button_center_pos);
+    };
     void select() {};
     void unselect() {};
     bool is_selected() { return true; };
@@ -65,7 +91,7 @@ private:
     sf::Font m_font;
     sf::Text m_text;
     RectangleShape m_rectangle;
-    //    ISelectCommand* m_ptr_command;
+    ISelectCommand* m_ptr_command;
 };
 
 struct Menu : public IMyDrawable {
@@ -77,36 +103,13 @@ private:
     std::vector<std::unique_ptr<Button>> m_buttons;
 };
 
-struct ISelectCommand{
-    virtual void execute() = 0;
-    virtual ~ISelectCommand() = default;
-};
-
-struct IChangeStateCommand : public ISelectCommand{
-    IChangeStateCommand(IStateManager state_manager);
-protected:
-    std::unique_ptr<IStateManager> m_state_manager;
-};
-
-struct ExitCommand : public IChangeStateCommand{
-    void execute(){};
-};
-
-struct GameCommand : public IChangeStateCommand{
-//    GameCommand(IStateManager state_manager, GameBuilderDirector* ptr_director);
-    void execute(){};
-};
-
-
-
 
 class SelectState : public IState, public IWindowKeeper {
 public:
     using IWindowKeeper::IWindowKeeper;
     SelectState(IStateManager* state_manager, const std::string& window_title) :
             m_menu(state_manager),
-            IWindowKeeper({800, 800}, window_title) {
-//        m_window = sf::RenderWindow(sf::VideoMode(800, 800), window_title)
+            IWindowKeeper({ 800, 800 }, window_title) {
     };
     void event_handling() override {
         sf::Event event;
