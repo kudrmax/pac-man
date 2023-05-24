@@ -1,0 +1,5 @@
+CMakeLists.txt
+library
+cmake-*
+.idea/
+.DS_Store
