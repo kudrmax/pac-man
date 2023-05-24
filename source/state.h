@@ -1,4 +1,5 @@
 #pragma once
+
 #include "draw.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -22,28 +23,13 @@ public:
 };
 
 
-class Application : public IStateManager {
-public:
-    void set_next_state(std::unique_ptr<IState> state){};
-    int run();
-    void apply_deffer_state_change(){};
-private:
-    void event_handling(){};
-    void update(){};
-    void render(){};
-private:
-    std::unique_ptr<IState> m_ptr_state_current;
-    std::unique_ptr<IState> m_ptr_state_next;
-};
-
-
 class IWindowKeeper {
 public:
 //    IWindowKeeper(type mode, std::string title);
 protected:
-    void event_handling();
-    void update();
-    void render();
+    virtual void event_handling() = 0;
+    virtual void update() = 0;
+    virtual void render() = 0;
     virtual ~IWindowKeeper() = default;
 protected:
     sf::RenderWindow m_window{ sf::VideoMode(800, 800), "SFML" };
@@ -57,6 +43,9 @@ public:
 class SelectState : public IState, public IWindowKeeper {
 public:
 //    SelectState(type state_manager, type window_title);
+    void event_handling(){};
+    void update(){};
+    void render(){};
 private:
     Menu m_menu;
 };
