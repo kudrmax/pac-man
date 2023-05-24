@@ -95,10 +95,31 @@ class SelectState : public IState, public IWindowKeeper {
 public:
     SelectState(IStateManager* state_manager, std::string window_title) :
             IWindowKeeper({800, 600}, window_title), m_menu(state_manager) {};
-    void event_handling() override {};
+    void event_handling() override {
+        sf::Event event;
+        while (m_window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                m_window.close();
+                return;
+            }
+        }
+    };
     void update() override {};
-    void render() override {};
-    bool do_step() override { return true; };
+    void render() override {
+        m_window.clear(sf::Color(0x222222FF));
+        auto circle = sf::CircleShape();
+        circle.setRadius(60);
+        circle.setFillColor(sf::Color::Red);
+        m_window.draw(circle);
+        m_window.display();
+    };
+    bool do_step() override {
+        std::cout << "SelectState\n";
+        event_handling();
+        update();
+        render();
+        return true;
+    };
 private:
     Menu m_menu;
 };

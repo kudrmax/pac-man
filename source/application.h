@@ -19,6 +19,6 @@ private:
     void update() {};
     void render() {};
 private:
-    std::unique_ptr<IState> m_ptr_state_current = nullptr;
-    std::unique_ptr<IState> m_ptr_state_next = nullptr;
+    std::unique_ptr<IState> m_ptr_state_current;
+    std::unique_ptr<IState> m_ptr_state_next ;
 };
