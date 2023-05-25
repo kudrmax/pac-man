@@ -70,6 +70,7 @@ struct Button : public IMyDrawable, public sf::RectangleShape {
 public:
     using RectangleShape::RectangleShape;
     void draw_into(sf::RenderWindow& window) override;
+    Button() = default;
     Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
            ISelectCommand* ptr_command);
 //    void select() {};

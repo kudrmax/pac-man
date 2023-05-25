@@ -1,12 +1,12 @@
 #include "state.h"
+#include "config.h"
 #include <iostream>
 
 void Button::draw_into(sf::RenderWindow& window) {
-    window.clear();
     window.draw(m_rectangle);
     window.draw(m_text);
-    window.display();
-    std::cout << "draw_into() in Button\n";
+//    window.display();
+//    std::cout << "draw_into() in Button\n";
 };
 
 Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
@@ -26,7 +26,20 @@ Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::st
 };
 
 Menu::Menu(IStateManager* state_manager) {
-    m_buttons.push_back(std::make_unique<Button>(Button({ 1000, 200 }, { 400, 200 }, "Exit", 100, nullptr)));
+    sf::Vector2f position(config::SELECT_LEVEL_VIDEO_MODE.width, config::SELECT_LEVEL_VIDEO_MODE.height);
+    std::cout << "position: " << position.x << " " << position.y << std::endl;
+    auto start_position = 100;
+    auto height_button = config::BUTTON_SIZE.y;
+    auto delta_position = 20;
+    position.x /= 2;
+    position.y = start_position;
+    size_t n = 4;
+    for (size_t i = 0; i < n; ++i) {
+        position.y = start_position + i * (delta_position + height_button);
+        m_buttons.push_back(std::make_unique<Button>(
+                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE, nullptr)));
+    }
+    std::cout << "in Menu()\n";
 };
 
 void Menu::draw_into(sf::RenderWindow& window) {
@@ -54,4 +67,4 @@ bool SelectState::do_step() {
 
 SelectState::SelectState(IStateManager* state_manager, const std::string& window_title) :
         m_menu(state_manager),
-        IWindowKeeper({ 2000, 1000 }, window_title) {};
+        IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title) {};
