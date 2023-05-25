@@ -11,15 +11,15 @@ class IStateManager;
 
 class IState {
 public:
-    IState(std::shared_ptr<IStateManager> state_manager) : m_state_manager(std::move(state_manager)) {};
+    IState(IStateManager* state_manager) : m_state_manager(state_manager) {};
     virtual bool do_step() = 0;
     virtual ~IState() = default;
 protected:
-    std::shared_ptr<IStateManager> m_state_manager = nullptr;
+    IStateManager* m_state_manager = nullptr;
 };
 
 struct IStateManager {
-    virtual void set_next_state(std::shared_ptr<IState> state) = 0;
+    virtual void set_next_state(std::unique_ptr<IState> state) = 0;
     virtual ~IStateManager() = default;
 };
 
@@ -37,6 +37,7 @@ protected:
 
 class ExitState : public IState {
 public:
+    ExitState() = delete;
     using IState::IState;
     bool do_step() override { return false; };
 };
@@ -49,22 +50,26 @@ struct ISelectCommand {
 };
 
 struct IChangeStateCommand : public ISelectCommand {
-    IChangeStateCommand(std::shared_ptr<IStateManager> state_manager) : m_state_manager(state_manager) {};
+    IChangeStateCommand(IStateManager& state_manager) : m_state_manager(&state_manager) {}; // СПОРНО
+    IChangeStateCommand(IStateManager* state_manager) : m_state_manager(state_manager) {}; // СПОРНО
 protected:
-    std::shared_ptr<IStateManager> m_state_manager = nullptr;
+    IStateManager* m_state_manager;
 };
 
 struct ExitCommand : public IChangeStateCommand {
     using IChangeStateCommand::IChangeStateCommand;
+//    ExitCommand(IStateManager* state_manager) : IChangeStateCommand(state_manager) {}; // СПОРНО
     void execute() {
         std::cout << "in execute() in ExitCommand()\n";
-        m_state_manager->set_next_state(std::make_shared<ExitState>(m_state_manager));
+//        ExitCommand state = ExitCommand(m_state_manager);
+        auto state = std::make_unique<ExitState>(m_state_manager);
+        m_state_manager->set_next_state(std::move(state));
     };
 };
 
-struct GameCommand : public IChangeStateCommand {
-    void execute() {};
-};
+//struct GameCommand : public IChangeStateCommand {
+//    void execute() {};
+//};
 
 //////////
 
@@ -79,7 +84,7 @@ public:
     void draw_into(sf::RenderWindow& window) override;
     Button() = default;
     Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
-           std::shared_ptr<ISelectCommand> ptr_command);
+           std::unique_ptr<ISelectCommand> ptr_command);
 //    void select() {};
 //    void unselect() {};
 //    bool is_selected() { return true; };
@@ -95,12 +100,12 @@ private:
     sf::Font m_font;
     sf::Text m_text;
     RectangleShape m_rectangle;
-    std::shared_ptr<ISelectCommand> m_ptr_command = nullptr;
+    std::unique_ptr<ISelectCommand> m_ptr_command = nullptr;
 };
 
 struct Menu : public IMyDrawable {
 public:
-    Menu(std::shared_ptr<IStateManager> state_manager);
+    Menu(IStateManager& state_manager);
     void draw_into(sf::RenderWindow& window) override;
     void process_mouse(sf::Vector2f pos, bool is_pressed) {
         if (is_pressed) {
@@ -115,11 +120,9 @@ private:
 
 class SelectState : public IState, public IWindowKeeper {
 public:
-    SelectState(std::shared_ptr<IStateManager> state_manager, const std::string& window_title);
+    SelectState(IStateManager& state_manager, const std::string& window_title);
     void event_handling() override;
-    void update() override {
-        m_menu.draw_into(m_window);
-    };
+    void update() override { m_menu.draw_into(m_window); };
     void render() override { m_window.display(); };
     bool do_step() override;
 private:
