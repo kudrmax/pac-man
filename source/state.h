@@ -100,8 +100,8 @@ class SelectState : public IState, public IWindowKeeper {
 public:
     SelectState(IStateManager* state_manager, const std::string& window_title);
     void event_handling() override;
-    void update() override {};
-    void render() override { m_menu.draw_into(m_window); };
+    void update() override { m_menu.draw_into(m_window); };
+    void render() override { m_window.display(); };
     bool do_step() override;
 private:
     Menu m_menu;

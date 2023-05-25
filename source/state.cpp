@@ -5,8 +5,6 @@
 void Button::draw_into(sf::RenderWindow& window) {
     window.draw(m_rectangle);
     window.draw(m_text);
-//    window.display();
-//    std::cout << "draw_into() in Button\n";
 };
 
 Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
