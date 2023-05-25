@@ -8,7 +8,7 @@ void Button::draw_into(sf::RenderWindow& window) {
 };
 
 Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
-               ISelectCommand* ptr_command) {
+               std::unique_ptr<ISelectCommand> ptr_command) {
     m_rectangle.setFillColor(sf::Color::Yellow);
     m_rectangle.setSize(button_size);
     m_rectangle.setOrigin(button_size.x / 2, button_size.y / 2);
@@ -20,7 +20,8 @@ Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::st
 //    m_text.setPosition(1000, 500);
 //    m_text.setFillColor(sf::Color::Blue);
 //    m_text.setCharacterSize(font_size);
-    std::cout << "I'm here\n";
+    m_ptr_command = std::move(ptr_command);
+    std::cout << "in Button(...)\n";
 };
 
 Menu::Menu(IStateManager* state_manager) {
@@ -34,10 +35,11 @@ Menu::Menu(IStateManager* state_manager) {
     size_t n = 4;
     for (size_t i = 0; i < n; ++i) {
         position.y = start_position + i * (delta_position + height_button);
+        std::cout << "in Menu(...)\t i = " << i <<"\n";
         m_buttons.push_back(std::make_unique<Button>(
-                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE, nullptr)));
+                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE, std::make_unique<ExitCommand>(state_manager))));
+//                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE, nullptr)));
     }
-    std::cout << "in Menu()\n";
 };
 
 void Menu::draw_into(sf::RenderWindow& window) {

@@ -45,12 +45,13 @@ struct ISelectCommand {
 };
 
 struct IChangeStateCommand : public ISelectCommand {
-    IChangeStateCommand(IStateManager state_manager);
+    IChangeStateCommand(IStateManager* state_manager) :m_state_manager(state_manager) {};
 protected:
     std::unique_ptr<IStateManager> m_state_manager;
 };
 
 struct ExitCommand : public IChangeStateCommand {
+    using IChangeStateCommand::IChangeStateCommand;
     void execute() {};
 };
 
@@ -72,7 +73,7 @@ public:
     void draw_into(sf::RenderWindow& window) override;
     Button() = default;
     Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
-           ISelectCommand* ptr_command);
+           std::unique_ptr<ISelectCommand> ptr_command);
 //    void select() {};
 //    void unselect() {};
 //    bool is_selected() { return true; };
@@ -83,7 +84,8 @@ private:
     sf::Font m_font;
     sf::Text m_text;
     RectangleShape m_rectangle;
-    ISelectCommand* m_ptr_command;
+//    ISelectCommand* m_ptr_command;
+    std::unique_ptr<ISelectCommand> m_ptr_command;
 };
 
 struct Menu : public IMyDrawable {
