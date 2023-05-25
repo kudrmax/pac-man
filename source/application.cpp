@@ -6,7 +6,7 @@ int Application::run() {
             apply_deffer_state_change();
 //            std::cout << "Game is worknig\n";
         }
-        std::cout << "do_step returns FALSE";
+        std::cout << "do_step returns FALSE\n";
     }
     catch (std::exception& ex) {
         std::cout << ex.what() << '\n';

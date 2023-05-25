@@ -11,11 +11,11 @@ class IStateManager;
 
 class IState {
 public:
-    IState(std::shared_ptr<IStateManager> state_manager) : m_state_manager(state_manager) {};
+    IState(std::shared_ptr<IStateManager> state_manager) : m_state_manager(std::move(state_manager)) {};
     virtual bool do_step() = 0;
     virtual ~IState() = default;
 protected:
-    std::shared_ptr<IStateManager> m_state_manager;
+    std::shared_ptr<IStateManager> m_state_manager = nullptr;
 };
 
 struct IStateManager {
@@ -51,7 +51,7 @@ struct ISelectCommand {
 struct IChangeStateCommand : public ISelectCommand {
     IChangeStateCommand(std::shared_ptr<IStateManager> state_manager) : m_state_manager(state_manager) {};
 protected:
-    std::shared_ptr<IStateManager> m_state_manager;
+    std::shared_ptr<IStateManager> m_state_manager = nullptr;
 };
 
 struct ExitCommand : public IChangeStateCommand {
@@ -95,7 +95,7 @@ private:
     sf::Font m_font;
     sf::Text m_text;
     RectangleShape m_rectangle;
-    std::shared_ptr<ISelectCommand> m_ptr_command;
+    std::shared_ptr<ISelectCommand> m_ptr_command = nullptr;
 };
 
 struct Menu : public IMyDrawable {

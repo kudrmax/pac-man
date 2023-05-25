@@ -2,5 +2,8 @@
 
 int main() {
     Application app;
-    return app.run();
+    std::cout << "app = " << &app << std::endl;
+    app.run();
+    std::cout << "END\n";
+    return 0;
 }
