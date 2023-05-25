@@ -8,13 +8,9 @@
 #include <memory>
 
 class IStateManager;
-//class Menu;
-
-
 
 class IState {
 public:
-//    IState() = default;
     IState(std::shared_ptr<IStateManager> state_manager) : m_state_manager(state_manager) {};
     virtual bool do_step() = 0;
     virtual ~IState() = default;
@@ -67,7 +63,6 @@ struct ExitCommand : public IChangeStateCommand {
 };
 
 struct GameCommand : public IChangeStateCommand {
-//    GameCommand(IStateManager state_manager, GameBuilderDirector* ptr_director);
     void execute() {};
 };
 
@@ -100,7 +95,6 @@ private:
     sf::Font m_font;
     sf::Text m_text;
     RectangleShape m_rectangle;
-//    ISelectCommand* m_ptr_command;
     std::shared_ptr<ISelectCommand> m_ptr_command;
 };
 

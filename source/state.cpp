@@ -40,7 +40,6 @@ Menu::Menu(std::shared_ptr<IStateManager> state_manager) {
         m_buttons.push_back(std::make_unique<Button>(
                 Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE,
                        std::make_shared<ExitCommand>(state_manager))));
-//                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE, nullptr)));
     }
 };
 
@@ -60,10 +59,7 @@ void SelectState::event_handling() {
         }
         auto position_int = sf::Mouse::getPosition(m_window);
         auto position_float = m_window.mapPixelToCoords(position_int);
-//        std::cout << (event.type == sf::Event::MouseButtonPressed);
         m_menu.process_mouse(position_float, event.type == sf::Event::MouseButtonPressed);
-
-//        m_menu.process_mouse({1,1}, );
     }
 };
 
@@ -77,6 +73,4 @@ bool SelectState::do_step() {
 SelectState::SelectState(std::shared_ptr<IStateManager> state_manager, const std::string& window_title) :
         m_menu(state_manager),
         IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
-        IState(state_manager) {
-    std::cout << "in SelectState(std::shared_ptr<IStateManager> state_manager, const std::string& window_title)\n";
-}
+        IState(state_manager) {}
