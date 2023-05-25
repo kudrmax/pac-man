@@ -1,5 +1,5 @@
 CMakeLists.txt
-library
+resources
 cmake-*
 .idea/
 .DS_Store
