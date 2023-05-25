@@ -2,6 +2,7 @@
 #include <iostream>
 
 void Button::draw_into(sf::RenderWindow& window) {
+    window.clear();
     window.draw(m_rectangle);
     window.draw(m_text);
     window.display();
@@ -10,19 +11,22 @@ void Button::draw_into(sf::RenderWindow& window) {
 
 Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
                ISelectCommand* ptr_command) {
+    m_rectangle.setFillColor(sf::Color::Yellow);
     m_rectangle.setSize(button_size);
     m_rectangle.setOrigin(button_size.x / 2, button_size.y / 2);
     m_rectangle.setPosition(button_center_pos);
-    m_rectangle.setFillColor(sf::Color::Yellow);
-    m_text.setString(text);
-    m_text.setOrigin(button_size.x / 2, button_size.y / 2);
-    m_text.setPosition(button_center_pos);
-    m_text.setFillColor(sf::Color::Blue);
+//    if (!m_font.loadFromFile("Cyrilik.TTF"))
+//        throw std::runtime_error("No such file in directory");
+//    m_text.setString(text);
+//    m_text.setFont(m_font);
+//    m_text.setPosition(1000, 500);
+//    m_text.setFillColor(sf::Color::Blue);
+//    m_text.setCharacterSize(font_size);
     std::cout << "I'm here\n";
 };
 
 Menu::Menu(IStateManager* state_manager) {
-    m_buttons.push_back(std::make_unique<Button>(Button({ 50, 50 }, { 100, 50 }, "Exit", 100, nullptr)));
+    m_buttons.push_back(std::make_unique<Button>(Button({ 1000, 200 }, { 400, 200 }, "Exit", 100, nullptr)));
 };
 
 void Menu::draw_into(sf::RenderWindow& window) {
