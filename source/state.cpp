@@ -47,3 +47,7 @@ bool SelectState::do_step() {
     render();
     return true;
 };
+
+SelectState::SelectState(IStateManager* state_manager, const std::string& window_title) :
+        m_menu(state_manager),
+        IWindowKeeper({ 2000, 1000 }, window_title) {};
