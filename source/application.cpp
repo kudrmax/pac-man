@@ -17,3 +17,7 @@ int Application::run() {
     }
     return 0;
 }
+
+void Application::set_next_state(std::unique_ptr<IState> state) {
+    m_ptr_state_next = std::move(state);
+};

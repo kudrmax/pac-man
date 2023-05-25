@@ -1,3 +1,4 @@
+#include "state_manager.h"
 #include "state.h"
 #include "config.h"
 #include <iostream>
@@ -55,6 +56,7 @@ void SelectState::event_handling() {
             auto exit_ptr = std::make_unique<ExitState>();;
             return;
         }
+//        m_menu.process_mouse({1,1}, );
     }
 };
 
