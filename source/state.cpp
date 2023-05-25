@@ -9,7 +9,7 @@ void Button::draw_into(sf::RenderWindow& window) {
 };
 
 Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
-               std::unique_ptr<ISelectCommand> ptr_command) {
+               std::shared_ptr<ISelectCommand> ptr_command) {
     m_rectangle.setFillColor(sf::Color::Yellow);
     m_rectangle.setSize(button_size);
     m_rectangle.setOrigin(button_size.x / 2, button_size.y / 2);
@@ -21,11 +21,11 @@ Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::st
 //    m_text.setPosition(1000, 500);
 //    m_text.setFillColor(sf::Color::Blue);
 //    m_text.setCharacterSize(font_size);
-    m_ptr_command = std::move(ptr_command);
+    m_ptr_command = ptr_command;
     std::cout << "in Button(...)\n";
 };
 
-Menu::Menu(IStateManager* state_manager) {
+Menu::Menu(std::shared_ptr<IStateManager> state_manager) {
     sf::Vector2f position(config::SELECT_LEVEL_VIDEO_MODE.width, config::SELECT_LEVEL_VIDEO_MODE.height);
     std::cout << "position: " << position.x << " " << position.y << std::endl;
     auto start_position = 100;
@@ -39,7 +39,7 @@ Menu::Menu(IStateManager* state_manager) {
         std::cout << "in Menu(...)\t i = " << i << "\n";
         m_buttons.push_back(std::make_unique<Button>(
                 Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE,
-                       std::make_unique<ExitCommand>(state_manager))));
+                       std::make_shared<ExitCommand>(state_manager))));
 //                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE, nullptr)));
     }
 };
@@ -54,8 +54,8 @@ void SelectState::event_handling() {
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_window.close();
-            auto exit_ptr = std::make_unique<ExitState>();
-            m_state_manager->set_next_state(std::move(exit_ptr));
+            auto exit_ptr = std::make_shared<ExitState>(m_state_manager);
+            m_state_manager->set_next_state(exit_ptr);
             break;
         }
         auto position_int = sf::Mouse::getPosition(m_window);
@@ -74,6 +74,9 @@ bool SelectState::do_step() {
     return true;
 };
 
-SelectState::SelectState(IStateManager* state_manager, const std::string& window_title) :
+SelectState::SelectState(std::shared_ptr<IStateManager> state_manager, const std::string& window_title) :
         m_menu(state_manager),
-        IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title) {};
+        IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
+        IState(state_manager) {
+    std::cout << "in SelectState(std::shared_ptr<IStateManager> state_manager, const std::string& window_title)\n";
+}

@@ -14,16 +14,16 @@ class IStateManager;
 
 class IState {
 public:
-    IState() = default;
-    IState(std::unique_ptr<IStateManager> state_manager) {};
+//    IState() = default;
+    IState(std::shared_ptr<IStateManager> state_manager) : m_state_manager(state_manager) {};
     virtual bool do_step() = 0;
     virtual ~IState() = default;
 protected:
-    std::unique_ptr<IStateManager> m_state_manager;
+    std::shared_ptr<IStateManager> m_state_manager;
 };
 
 struct IStateManager {
-    virtual void set_next_state(std::unique_ptr<IState> state) = 0;
+    virtual void set_next_state(std::shared_ptr<IState> state) = 0;
     virtual ~IStateManager() = default;
 };
 
@@ -41,6 +41,7 @@ protected:
 
 class ExitState : public IState {
 public:
+    using IState::IState;
     bool do_step() override { return false; };
 };
 
@@ -52,16 +53,16 @@ struct ISelectCommand {
 };
 
 struct IChangeStateCommand : public ISelectCommand {
-    IChangeStateCommand(IStateManager* state_manager) : m_state_manager(state_manager) {};
+    IChangeStateCommand(std::shared_ptr<IStateManager> state_manager) : m_state_manager(state_manager) {};
 protected:
-    std::unique_ptr<IStateManager> m_state_manager;
+    std::shared_ptr<IStateManager> m_state_manager;
 };
 
 struct ExitCommand : public IChangeStateCommand {
     using IChangeStateCommand::IChangeStateCommand;
     void execute() {
         std::cout << "in execute() in ExitCommand()\n";
-        m_state_manager->set_next_state(std::unique_ptr<ExitState>());
+        m_state_manager->set_next_state(std::make_shared<ExitState>(m_state_manager));
     };
 };
 
@@ -83,7 +84,7 @@ public:
     void draw_into(sf::RenderWindow& window) override;
     Button() = default;
     Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
-           std::unique_ptr<ISelectCommand> ptr_command);
+           std::shared_ptr<ISelectCommand> ptr_command);
 //    void select() {};
 //    void unselect() {};
 //    bool is_selected() { return true; };
@@ -100,12 +101,12 @@ private:
     sf::Text m_text;
     RectangleShape m_rectangle;
 //    ISelectCommand* m_ptr_command;
-    std::unique_ptr<ISelectCommand> m_ptr_command;
+    std::shared_ptr<ISelectCommand> m_ptr_command;
 };
 
 struct Menu : public IMyDrawable {
 public:
-    Menu(IStateManager* state_manager);
+    Menu(std::shared_ptr<IStateManager> state_manager);
     void draw_into(sf::RenderWindow& window) override;
     void process_mouse(sf::Vector2f pos, bool is_pressed) {
         if (is_pressed) {
@@ -120,7 +121,7 @@ private:
 
 class SelectState : public IState, public IWindowKeeper {
 public:
-    SelectState(IStateManager* state_manager, const std::string& window_title);
+    SelectState(std::shared_ptr<IStateManager> state_manager, const std::string& window_title);
     void event_handling() override;
     void update() override {
         m_menu.draw_into(m_window);
