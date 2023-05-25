@@ -60,6 +60,7 @@ protected:
 struct ExitCommand : public IChangeStateCommand {
     using IChangeStateCommand::IChangeStateCommand;
     void execute() {
+        std::cout << "in execute() in ExitCommand()\n";
         m_state_manager->set_next_state(std::unique_ptr<ExitState>());
     };
 };
@@ -122,14 +123,7 @@ public:
     SelectState(IStateManager* state_manager, const std::string& window_title);
     void event_handling() override;
     void update() override {
-        sf::Event event;
-        while (m_window.pollEvent(event)) {
-            auto position_int = sf::Mouse::getPosition(m_window);
-            auto position_float = m_window.mapPixelToCoords(position_int);
-            std::cout << (event.type == sf::Event::MouseButtonPressed);
-            m_menu.process_mouse(position_float, event.type == sf::Event::MouseButtonPressed);
-            m_menu.draw_into(m_window);
-        }
+        m_menu.draw_into(m_window);
     };
     void render() override { m_window.display(); };
     bool do_step() override;

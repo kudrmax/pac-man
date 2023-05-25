@@ -36,9 +36,10 @@ Menu::Menu(IStateManager* state_manager) {
     size_t n = 4;
     for (size_t i = 0; i < n; ++i) {
         position.y = start_position + i * (delta_position + height_button);
-        std::cout << "in Menu(...)\t i = " << i <<"\n";
+        std::cout << "in Menu(...)\t i = " << i << "\n";
         m_buttons.push_back(std::make_unique<Button>(
-                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE, std::make_unique<ExitCommand>(state_manager))));
+                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE,
+                       std::make_unique<ExitCommand>(state_manager))));
 //                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE, nullptr)));
     }
 };
@@ -53,9 +54,15 @@ void SelectState::event_handling() {
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_window.close();
-            auto exit_ptr = std::make_unique<ExitState>();;
-            return;
+            auto exit_ptr = std::make_unique<ExitState>();
+            m_state_manager->set_next_state(std::move(exit_ptr));
+            break;
         }
+        auto position_int = sf::Mouse::getPosition(m_window);
+        auto position_float = m_window.mapPixelToCoords(position_int);
+//        std::cout << (event.type == sf::Event::MouseButtonPressed);
+        m_menu.process_mouse(position_float, event.type == sf::Event::MouseButtonPressed);
+
 //        m_menu.process_mouse({1,1}, );
     }
 };
