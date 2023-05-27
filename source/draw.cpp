@@ -1,15 +1,17 @@
 #include "draw.h"
 #include "config.h"
 #include "state.h"
+#include <thread>
 
 void Button::draw_into(sf::RenderWindow& window) {
+//    process_button();
     window.draw(m_rectangle);
     window.draw(m_text);
 }
 
 Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
                std::unique_ptr<ISelectCommand> ptr_command) {
-    m_rectangle.setFillColor(sf::Color::Yellow);
+    m_rectangle.setFillColor(config::BUTTON_COLOR_FILL);
     m_rectangle.setSize(button_size);
     m_rectangle.setOrigin(button_size.x / 2, button_size.y / 2);
     m_rectangle.setPosition(button_center_pos);
@@ -41,12 +43,14 @@ Menu::Menu(IStateManager& state_manager) {
     position.y = start_position;
     for (size_t i = 0; i < buttons_vector.size(); ++i) {
         position.y = start_position + i * (delta_position + height_button);
-        m_buttons.push_back(std::make_unique<Button>(Button(
-                position,
-                config::BUTTON_SIZE,
-                std::move(buttons_vector[i].first),
-                config::BUTTON_FONT_SIZE,
-                std::move(buttons_vector[i].second))));
+        m_buttons.push_back(std::make_unique<Button>(
+                Button(
+                        position,
+                        config::BUTTON_SIZE,
+                        std::move(buttons_vector[i].first),
+                        config::BUTTON_FONT_SIZE,
+                        std::move(buttons_vector[i].second)))
+        );
     }
 }
 
@@ -58,10 +62,15 @@ void Menu::draw_into(sf::RenderWindow& window) {
 void Button::push() { m_ptr_command->execute(); };
 
 void Menu::process_mouse(sf::Vector2f pos, bool is_pressed) {
-    for (auto& button: m_buttons)
-        if (is_pressed)
-            if (button->is_position_in(pos))
+    for (auto& button: m_buttons) {
+        if (button->is_position_in(pos)) {
+            button->select();
+            if (is_pressed)
                 button->push();
+        } else {
+            button->unselect();
+        }
+    }
 }
 
 bool Button::is_position_in(sf::Vector2f pos) {
@@ -69,3 +78,19 @@ bool Button::is_position_in(sf::Vector2f pos) {
     return (std::abs(delta.x) < m_rectangle.getSize().x / 2) &&
            (std::abs(delta.y) < m_rectangle.getSize().y / 2);
 }
+
+void Button::select() {
+    m_is_selected = true;
+    m_rectangle.setFillColor(config::BUTTON_COLOR_SELECTION);
+};
+void Button::unselect() {
+    m_is_selected = false;
+    m_rectangle.setFillColor(config::BUTTON_COLOR_FILL);
+};
+
+//void Button::process_button() {
+//    if (m_is_selected)
+//        setFillColor(config::BUTTON_COLOR_SELECTION);
+//    else
+//        setFillColor(config::BUTTON_COLOR_FILL);
+//}

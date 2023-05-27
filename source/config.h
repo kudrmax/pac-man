@@ -33,8 +33,9 @@ namespace config {
 //    const sf::Keyboard::Key KEY_DOWN = sf::Keyboard::S;
 // Цвета:
     const sf::Color BUTTON_COLOR_TEXT = sf::Color::White;
-    const sf::Color BUTTON_COLOR_FILL = sf::Color::Black;
-    const sf::Color BUTTON_COLOR_SELECTION = sf::Color{ 50, 50, 100 };
+    const sf::Color BUTTON_COLOR_FILL = sf::Color::Yellow;
+    const sf::Color BUTTON_COLOR_SELECTION = sf::Color::Blue;
+//    const sf::Color BUTTON_COLOR_SELECTION = sf::Color{ 50, 50, 100 };
     const sf::Color BUTTON_COLOR_FRAME = sf::Color::Blue;
     const sf::Color SELECT_LEVEL_BACKGROUND_COLOR{ 25, 25, 25 };
     const sf::Color GAME_COLOR_BACKGROUND_INGAME{ 50,50,50 };

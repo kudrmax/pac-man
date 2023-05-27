@@ -8,12 +8,10 @@ void SelectState::event_handling() {
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_window.close();
-            auto exit_ptr = std::make_unique<ExitState>(m_state_manager);
-            m_state_manager->set_next_state(std::move(exit_ptr));
+            m_state_manager->set_next_state(std::make_unique<ExitState>(m_state_manager));
             break;
         }
-        auto position_int = sf::Mouse::getPosition(m_window);
-        auto position_float = m_window.mapPixelToCoords(position_int);
+        auto position_float = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
         m_menu.process_mouse(position_float, event.type == sf::Event::MouseButtonPressed);
     }
 };
@@ -30,7 +28,9 @@ SelectState::SelectState(IStateManager& state_manager, const std::string& window
         IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
         IState(&state_manager) {}
 
-void SelectState::update() { m_menu.draw_into(m_window); };
+void SelectState::update() {
+    m_menu.draw_into(m_window);
+};
 
 void SelectState::render() { m_window.display(); };
 
