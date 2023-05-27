@@ -1,7 +1,7 @@
 #pragma once
 
-#include "state.h"
-#include "state_manager.h"
+#include "i_state.h"
+#include "i_state_manager.h"
 #include <SFML/Graphics.hpp>
 #include <memory>
 

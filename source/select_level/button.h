@@ -1,7 +1,7 @@
 #pragma once
 
-#include "draw.h"
-#include "../select_level/button_command.h"
+#include "../draw.h"
+#include "button_command.h"
 
 struct Button : public IMyDrawable, public sf::RectangleShape {
 public:

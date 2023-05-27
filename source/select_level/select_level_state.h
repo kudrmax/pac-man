@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../state/state.h"
-#include "../state/window.h"
-#include "../draw/menu.h"
+#include "../i_state.h"
+#include "../i_window.h"
+#include "menu.h"
 
 
 class IState;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../draw/draw.h"
+#include "draw.h"
 
 class IState {
 public:

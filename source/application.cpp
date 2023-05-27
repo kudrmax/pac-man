@@ -1,7 +1,7 @@
 #include "application.h"
-#include "state.h"
-#include "../select_level/button_command.h"
-#include "../select_level/select_level.h"
+#include "i_state.h"
+#include "select_level/button_command.h"
+#include "select_level/select_level_state.h"
 
 int Application::run() {
     try {

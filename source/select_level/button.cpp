@@ -1,6 +1,6 @@
 #include "button.h"
 #include "../config.h"
-#include "../select_level/button_command.h"
+#include "button_command.h"
 
 bool Button::is_position_in(sf::Vector2f pos) {
     auto delta = m_rectangle.getPosition() - pos;

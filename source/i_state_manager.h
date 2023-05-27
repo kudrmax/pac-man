@@ -1,6 +1,6 @@
 #pragma once
 
-#include "state.h"
+#include "i_state.h"
 #include <memory>
 
 struct IStateManager {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "draw.h"
+#include "../draw.h"
 
 class IRoomSide;
 

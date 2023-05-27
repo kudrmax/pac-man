@@ -1,7 +1,7 @@
 #include "button_command.h"
 #include "../game/game_state.h"
 #include "../exit/exite_state.h"
-#include "../state/state_manager.h"
+#include "../i_state_manager.h"
 
 
 void ExitCommand::execute() {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../state/state.h"
-#include "../state/window.h"
+#include "../i_state.h"
+#include "../i_window.h"
 
 class GameState : public IState, public IWindowKeeper {
 public:

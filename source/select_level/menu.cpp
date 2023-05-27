@@ -1,6 +1,6 @@
 #include "menu.h"
 #include "../config.h"
-#include "../select_level/button_command.h"
+#include "button_command.h"
 
 
 void Menu::process_mouse(sf::Vector2f pos, bool is_pressed) {

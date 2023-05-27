@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../state/state.h"
+#include "../i_state.h"
 
 struct ISelectCommand {
     virtual void execute() = 0;
