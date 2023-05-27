@@ -1,5 +1,3 @@
-#include "state_manager.h"
-#include "draw.h"
 #include "state.h"
 #include "config.h"
 #include <iostream>
@@ -27,15 +25,15 @@ bool SelectState::do_step() {
     return true;
 };
 
-//SelectState::SelectState(IStateManager* state_manager, const std::string& window_title) :
-//        m_menu(std::make_shared<IStateManager>(state_manager)),
-//        IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
-//        IState(state_manager) {}
-
 SelectState::SelectState(IStateManager& state_manager, const std::string& window_title) :
         m_menu(state_manager),
         IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
         IState(&state_manager) {}
 
 void SelectState::update() { m_menu.draw_into(m_window); };
+
 void SelectState::render() { m_window.display(); };
+
+void ExitCommand::execute() {
+    m_state_manager->set_next_state(std::make_unique<ExitState>(m_state_manager));
+};

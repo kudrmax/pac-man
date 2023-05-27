@@ -3,10 +3,8 @@
 int Application::run() {
     try {
         while (m_ptr_state_current->do_step()) {
-//            std::cout << "do_step returns TRUE\n";
             apply_deffer_state_change();
         }
-        std::cout << "do_step returns FALSE\n";
     }
     catch (std::exception& ex) {
         std::cout << ex.what() << '\n';

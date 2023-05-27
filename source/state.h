@@ -33,7 +33,6 @@ protected:
 
 class ExitState : public IState {
 public:
-    ExitState() = delete;
     using IState::IState;
     bool do_step() override { return false; };
 };
@@ -47,25 +46,19 @@ struct ISelectCommand {
 
 struct IChangeStateCommand : public ISelectCommand {
     IChangeStateCommand(IStateManager& state_manager) : m_state_manager(&state_manager) {}; // СПОРНО
-    IChangeStateCommand(IStateManager* state_manager) : m_state_manager(state_manager) {}; // СПОРНО
 protected:
     IStateManager* m_state_manager;
 };
 
 struct ExitCommand : public IChangeStateCommand {
     using IChangeStateCommand::IChangeStateCommand;
-//    ExitCommand(IStateManager* state_manager) : IChangeStateCommand(state_manager) {}; // СПОРНО
-    void execute() {
-        std::cout << "in execute() in ExitCommand()\n";
-//        ExitCommand state = ExitCommand(m_state_manager);
-        auto state = std::make_unique<ExitState>(m_state_manager);
-        m_state_manager->set_next_state(std::move(state));
-    };
+    void execute();
 };
 
-//struct GameCommand : public IChangeStateCommand {
-//    void execute() {};
-//};
+struct GameCommand : public IChangeStateCommand {
+    using IChangeStateCommand::IChangeStateCommand;
+    void execute() {};
+};
 
 //////////
 

@@ -5,7 +5,7 @@
 void Button::draw_into(sf::RenderWindow& window) {
     window.draw(m_rectangle);
     window.draw(m_text);
-};
+}
 
 Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
                std::unique_ptr<ISelectCommand> ptr_command) {
@@ -22,7 +22,7 @@ Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::st
 //    m_text.setCharacterSize(font_size);
     m_ptr_command = std::move(ptr_command);
     std::cout << "in Button(...)\n";
-};
+}
 
 Menu::Menu(IStateManager& state_manager) {
     sf::Vector2f position(config::SELECT_LEVEL_VIDEO_MODE.width, config::SELECT_LEVEL_VIDEO_MODE.height);
@@ -40,11 +40,24 @@ Menu::Menu(IStateManager& state_manager) {
                 Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE,
                        std::make_unique<ExitCommand>(state_manager))));
     }
-};
+}
 
 void Menu::draw_into(sf::RenderWindow& window) {
     for (auto& ptr_button: m_buttons)
         ptr_button->draw_into(window);
-};
+}
 
 void Button::push() { m_ptr_command->execute(); };
+
+void Menu::process_mouse(sf::Vector2f pos, bool is_pressed) {
+    for (auto& button: m_buttons)
+        if (is_pressed)
+            if (button->is_position_in(pos))
+                button->push();
+}
+
+bool Button::is_position_in(sf::Vector2f pos) {
+    auto delta = m_rectangle.getPosition() - pos;
+    return (std::abs(delta.x) < m_rectangle.getSize().x / 2) &&
+           (std::abs(delta.y) < m_rectangle.getSize().y / 2);
+}
