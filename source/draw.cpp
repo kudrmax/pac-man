@@ -21,24 +21,32 @@ Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::st
 //    m_text.setFillColor(sf::Color::Blue);
 //    m_text.setCharacterSize(font_size);
     m_ptr_command = std::move(ptr_command);
-    std::cout << "in Button(...)\n";
 }
 
 Menu::Menu(IStateManager& state_manager) {
+
+    std::vector<std::pair<std::string, std::unique_ptr<IChangeStateCommand>>> buttons_vector;
+
+    // Create buttons here
+    buttons_vector.emplace_back("Exit", std::make_unique<ExitCommand>(state_manager));
+    buttons_vector.emplace_back("Exit", std::make_unique<ExitCommand>(state_manager));
+    buttons_vector.emplace_back("Exit", std::make_unique<ExitCommand>(state_manager));
+    buttons_vector.emplace_back("Exit", std::make_unique<ExitCommand>(state_manager));
+
     sf::Vector2f position(config::SELECT_LEVEL_VIDEO_MODE.width, config::SELECT_LEVEL_VIDEO_MODE.height);
-    std::cout << "position: " << position.x << " " << position.y << std::endl;
-    auto start_position = 100;
-    auto height_button = config::BUTTON_SIZE.y;
-    auto delta_position = 20;
+    float start_position = 100;
+    float delta_position = 20;
+    float height_button = config::BUTTON_SIZE.y;
     position.x /= 2;
     position.y = start_position;
-    size_t n = 4;
-    for (size_t i = 0; i < n; ++i) {
+    for (size_t i = 0; i < buttons_vector.size(); ++i) {
         position.y = start_position + i * (delta_position + height_button);
-        std::cout << "in Menu(...)\t i = " << i << "\n";
-        m_buttons.push_back(std::make_unique<Button>(
-                Button(position, config::BUTTON_SIZE, "Exit", config::BUTTON_FONT_SIZE,
-                       std::make_unique<ExitCommand>(state_manager))));
+        m_buttons.push_back(std::make_unique<Button>(Button(
+                position,
+                config::BUTTON_SIZE,
+                std::move(buttons_vector[i].first),
+                config::BUTTON_FONT_SIZE,
+                std::move(buttons_vector[i].second))));
     }
 }
 
