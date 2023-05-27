@@ -1,7 +1,7 @@
 #pragma once
 
 #include <array>
-#include "../../draw.h"
+#include "../draw.h"
 
 class IRoomSide;
 class Pass;

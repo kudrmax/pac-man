@@ -1,6 +1,6 @@
 #include "maze.h"
 
-#include "../../config.h"
+#include "../config.h"
 
 Room::Direction Room::get_direction(IRoomSide* ptr_room_side) {
     if (m_sides[LEFT].get() == ptr_room_side)
