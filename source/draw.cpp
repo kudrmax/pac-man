@@ -30,8 +30,8 @@ Menu::Menu(IStateManager& state_manager) {
     std::vector<std::pair<std::string, std::unique_ptr<IChangeStateCommand>>> buttons_vector;
 
     // Create buttons here
-//    buttons_vector.emplace_back("Easy", std::make_unique<GameState>(state_manager));
-    buttons_vector.emplace_back("Easy", std::make_unique<ExitCommand>(state_manager));
+    buttons_vector.emplace_back("Easy", std::make_unique<GameCommand>(state_manager));
+//    buttons_vector.emplace_back("Easy", std::make_unique<ExitCommand>(state_manager));
     buttons_vector.emplace_back("Medium", std::make_unique<ExitCommand>(state_manager));
     buttons_vector.emplace_back("Hard", std::make_unique<ExitCommand>(state_manager));
     buttons_vector.emplace_back("Exit", std::make_unique<ExitCommand>(state_manager));

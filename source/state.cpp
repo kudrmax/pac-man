@@ -38,7 +38,10 @@ void ExitCommand::execute() {
     m_state_manager->set_next_state(std::make_unique<ExitState>(m_state_manager));
 };
 
-//GameState::GameState(IStateManager& state_manager, const std::string& window_title) :
-//        m_menu(state_manager),
-//        IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
-//        IState(&state_manager) {}
+void GameCommand::execute() {
+    m_state_manager->set_next_state(std::make_unique<ExitState>(m_state_manager));
+};
+
+GameState::GameState(IStateManager& state_manager, const std::string& window_title) :
+        IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
+        IState(&state_manager) {}
