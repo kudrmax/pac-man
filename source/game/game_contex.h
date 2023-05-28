@@ -14,3 +14,13 @@ struct GameContext {
     PacMan pacman();
     GameContext clone();
 };
+
+class ContextManager{
+public:
+    void save_current_context();
+    void restore_previous_context();
+    void set_context(GameContext contex);
+    GameContext get_context();
+private:
+    GameContext m_context;
+};
