@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../draw.h"
+#include "../i_draw.h"
 #include "maze.h"
 
 class IEntity : public IMyDrawable {

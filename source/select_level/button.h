@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../draw.h"
+#include "../i_draw.h"
 #include "button_command.h"
 
 struct Button : public IMyDrawable, public sf::RectangleShape {

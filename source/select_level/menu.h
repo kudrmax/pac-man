@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../draw.h"
+#include "../i_draw.h"
 #include "button.h"
 
 class Menu : public IMyDrawable {
