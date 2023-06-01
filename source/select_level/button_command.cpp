@@ -9,7 +9,5 @@ void ExitCommand::execute() {
 };
 
 void GameCommand::execute() {
-    std::string str = "Game";
-    auto test2 = GameState(*m_state_manager, str);
-    m_state_manager->set_next_state(std::make_unique<GameState>(*m_state_manager, "Game"));
+    m_state_manager->set_next_state(std::make_unique<GameState>(m_state_manager, "Game"));
 };

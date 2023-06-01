@@ -11,7 +11,7 @@
 class GameState : public IState, public IWindowKeeper {
 public:
 //    using IState::IState;
-    GameState(IStateManager& state_manager, const std::string& window_title);
+    GameState(IStateManager* state_manager, const std::string& window_title);
 //    void set_maze(Maze maze);
     void set_context(GameContext&& context);
     bool do_step() override { return true; };
