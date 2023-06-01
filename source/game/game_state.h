@@ -14,10 +14,11 @@ public:
     GameState(IStateManager* state_manager, const std::string& window_title);
 //    void set_maze(Maze maze);
     void set_context(GameContext&& context);
-    bool do_step() override { return true; };
-    void event_handling() override {};
-    void update() override {};
-    void render() override {};
+    bool do_step() override;
+    void event_handling() override;
+    void update() override;
+    void render() override;
+    void call() override { std::cout << "GameState\n"; }
 private:
 //    void process_key_pressed(sf::Keyboard::Key key);
 //    void process_event(std::unique_ptr<IGameEvent> ptr_event);

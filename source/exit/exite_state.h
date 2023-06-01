@@ -6,4 +6,5 @@ class ExitState : public IState {
 public:
     using IState::IState;
     bool do_step() override;
+    void call() override { std::cout << "SelectState\n"; }
 };
