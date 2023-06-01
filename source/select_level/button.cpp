@@ -25,18 +25,23 @@ void Button::draw_into(sf::RenderWindow& window) {
     window.draw(m_text);
 }
 
+
 Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
                std::unique_ptr<ISelectCommand> ptr_command) {
     m_rectangle.setFillColor(config::BUTTON_COLOR_FILL);
     m_rectangle.setSize(button_size);
     m_rectangle.setOrigin(button_size.x / 2, button_size.y / 2);
     m_rectangle.setPosition(button_center_pos);
-//    if (!m_font.loadFromFile("Cyrilik.TTF"))
-//        throw std::runtime_error("No such file in directory");
-//    m_text.setString(text);
+    if (!m_font.loadFromFile("fonts/Cyrilik.TTF"))
+        throw std::runtime_error("No such file in directory");
+    sf::Font m_font2;
+    if (!m_font2.loadFromFile("fonts/Cyrilik.TTF"))
+        throw std::runtime_error("No such file in directory");
 //    m_text.setFont(m_font);
-//    m_text.setPosition(1000, 500);
-//    m_text.setFillColor(sf::Color::Blue);
-//    m_text.setCharacterSize(font_size);
+//    m_text.setFont(m_font2);
+    m_text.setString(text);
+    m_text.setPosition(1000, 500);
+    m_text.setFillColor(sf::Color::Blue);
+    m_text.setCharacterSize(font_size);
     m_ptr_command = std::move(ptr_command);
 }

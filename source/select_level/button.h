@@ -3,6 +3,8 @@
 #include "../i_draw.h"
 #include "button_command.h"
 
+static sf::Font f;
+
 struct Button : public IMyDrawable, public sf::RectangleShape {
 public:
     using RectangleShape::RectangleShape;
@@ -19,7 +21,7 @@ public:
 private:
     bool m_is_selected = false;
     sf::Font m_font;
-    sf::Text m_text;
+    sf::Text m_text{"", f};
     RectangleShape m_rectangle;
     std::unique_ptr<ISelectCommand> m_ptr_command;
 };
