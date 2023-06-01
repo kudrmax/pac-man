@@ -8,7 +8,7 @@ struct ISelectCommand {
 };
 
 struct IChangeStateCommand : public ISelectCommand {
-    IChangeStateCommand(IStateManager& state_manager) : m_state_manager(&state_manager) {}; // СПОРНО
+    IChangeStateCommand(IStateManager* state_manager) : m_state_manager(state_manager) {}; // СПОРНО
 protected:
     IStateManager* m_state_manager;
 };

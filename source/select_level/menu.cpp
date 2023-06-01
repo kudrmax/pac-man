@@ -15,7 +15,7 @@ void Menu::process_mouse(sf::Vector2f pos, bool is_pressed) {
     }
 }
 
-Menu::Menu(IStateManager& state_manager) {
+Menu::Menu(IStateManager* state_manager) {
 
     std::vector<std::pair<std::string, std::unique_ptr<IChangeStateCommand>>> buttons_vector;
 

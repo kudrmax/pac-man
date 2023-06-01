@@ -5,7 +5,7 @@
 
 class Menu : public IMyDrawable {
 public:
-    Menu(IStateManager& state_manager);
+    Menu(IStateManager* state_manager);
     void draw_into(sf::RenderWindow& window) override;
     void process_mouse(sf::Vector2f pos, bool is_pressed);
 private:

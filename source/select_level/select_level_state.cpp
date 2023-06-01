@@ -26,10 +26,10 @@ bool SelectState::do_step() {
     return true;
 };
 
-SelectState::SelectState(IStateManager& state_manager, const std::string& window_title) :
+SelectState::SelectState(IStateManager* state_manager, const std::string& window_title) :
         m_menu(state_manager),
         IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
-        IState(&state_manager) {}
+        IState(state_manager) {}
 
 void SelectState::update() {
     m_menu.draw_into(m_window);
