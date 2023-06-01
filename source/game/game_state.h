@@ -24,5 +24,5 @@ private:
 //    void process_event(std::unique_ptr<IGameEvent> ptr_event);
 private:
     ContextManager m_context_manager;
-//    Maze m_maze;
+    Maze m_maze;
 };

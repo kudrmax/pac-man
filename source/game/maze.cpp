@@ -13,6 +13,10 @@ Room::Direction Room::get_direction(IRoomSide* ptr_room_side) {
         return DOWN;
     return INVALID;
     // как это у других реализовано
+}
+void Room::draw_into(sf::RenderWindow& window) {
+    for (auto& ptr_side: m_sides)
+        ptr_side->draw_into(window);
 };
 
 Wall::Wall(Room room) : m_room(std::move(room)) {
@@ -38,4 +42,15 @@ Wall::Wall(Room room) : m_room(std::move(room)) {
         m_line[0] = sf::Vertex(arr[2]);
         m_line[1] = sf::Vertex(arr[3]);
     }
+}
+void Wall::draw_into(sf::RenderWindow& window) {
+    auto pos1 = m_line[0].position;
+    auto pos2 = m_line[1].position;
+    sf::RectangleShape rec = sf::RectangleShape({100,100});
+    rec.setFillColor(sf::Color::Red);
+    window.draw(rec);
 };
+void Maze::draw_into(sf::RenderWindow& window) {
+    for (auto& ptr_room: m_rooms)
+        ptr_room->draw_into(window);
+}

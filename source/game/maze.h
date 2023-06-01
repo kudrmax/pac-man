@@ -21,7 +21,7 @@ public:
     sf::Vector2f get_position() { return m_rectangle.getPosition(); }
     std::shared_ptr<IRoomSide> get_side(Direction side) { return m_sides[side]; };
     Direction get_direction(IRoomSide* ptr_room_side);
-    void draw_into(sf::RenderWindow& window) override {};
+    void draw_into(sf::RenderWindow& window) override;
 private:
     sf::RectangleShape m_rectangle;
     std::array<std::shared_ptr<IRoomSide>, 4> m_sides;
@@ -37,8 +37,9 @@ private:
 
 class Maze : public IMyDrawable {
 public:
+    Maze() = default;
     explicit Maze(std::vector<std::shared_ptr<Room>> rooms) : m_rooms(std::move(rooms)) {};
-    void draw_into(sf::RenderWindow& window) override {};
+    void draw_into(sf::RenderWindow& window) override;
 private:
     std::vector<std::shared_ptr<Room>> m_rooms;
 };
@@ -61,7 +62,7 @@ private:
 class Wall : public IRoomSide {
 public:
     explicit Wall(Room room);
-    void draw_into(sf::RenderWindow& window) override {};
+    void draw_into(sf::RenderWindow& window) override;
 //    void enter(IEntity* entity) override;
 private:
     Room m_room;
