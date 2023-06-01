@@ -2,6 +2,8 @@
 
 #include "i_draw.h"
 
+class IStateManager;
+
 class IState {
 public:
     IState(IStateManager* state_manager) : m_state_manager(state_manager) {};

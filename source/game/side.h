@@ -19,7 +19,6 @@ private:
 
 class Wall : public IRoomSide {
 public:
-    Wall() : m_room(100) {};
     Wall(Room room);
     void draw_into(sf::RenderWindow& window) override;
 //    void enter(IEntity* entity) override;
