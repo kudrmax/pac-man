@@ -94,11 +94,14 @@ public:
             m_dynamic_objects_ratio(dynamic_objects_ratio) {};
 
     std::unique_ptr<GameState> build(IStateManager* state_manager) {
+        state_manager->call();
         m_ptr_builder->create_rooms();
+        std::cout << "GameBuilderDirector::build is started" << std::endl;
         m_ptr_builder->set_rooms_sides();
 //        m_ptr_builder->create_context();
         m_ptr_builder->create_state(state_manager, m_window_title);
         m_ptr_builder->set_all_to_state();
+        std::cout << "GameBuilderDirector::build is ended" << std::endl;
         return m_ptr_builder->get_game();
     };
 private:

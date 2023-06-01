@@ -20,11 +20,12 @@ Menu::Menu(IStateManager* state_manager) {
     std::vector<std::pair<std::string, std::unique_ptr<IChangeStateCommand>>> buttons_vector;
 
     // Create buttons here
-    buttons_vector.emplace_back("Easy", std::make_unique<GameCommand>(state_manager));
-//    buttons_vector.emplace_back("Easy", std::make_unique<ExitCommand>(state_manager));
-    buttons_vector.emplace_back("Medium", std::make_unique<ExitCommand>(state_manager));
-    buttons_vector.emplace_back("Hard", std::make_unique<ExitCommand>(state_manager));
-    buttons_vector.emplace_back("Exit", std::make_unique<ExitCommand>(state_manager));
+    buttons_vector.emplace_back("Easy Button",
+                                std::make_unique<GameCommand>(state_manager, std::make_unique<GameBuilderDirector>(
+                                        std::make_unique<SimpleGameBuilder>(100, 100, 100), "Easy Game", 100)));
+    buttons_vector.emplace_back("Medium Button", std::make_unique<ExitCommand>(state_manager));
+    buttons_vector.emplace_back("Hard Button", std::make_unique<ExitCommand>(state_manager));
+    buttons_vector.emplace_back("Exit Button", std::make_unique<ExitCommand>(state_manager));
 
     sf::Vector2f position(config::SELECT_LEVEL_VIDEO_MODE.width, config::SELECT_LEVEL_VIDEO_MODE.height);
     float start_position = 100;
