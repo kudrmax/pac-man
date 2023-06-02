@@ -28,6 +28,9 @@ void SimpleGameBuilder::set_rooms_sides() {
                 auto side = room->get_side(dir);
                 side = std::make_shared<Wall>(*room);
                 room->set_side(dir, side);
+                std::cout << "Callung\n:";
+                room->get_side(dir)->call();
+//                std::cout << "Stop\n:";
 //                room->set_position({static_cast<float>(i*50), static_cast<float>(i*50)});
             }
 //            std::cout << "get_size = " << room->get_size() << std::endl;

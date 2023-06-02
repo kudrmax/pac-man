@@ -57,3 +57,12 @@ void Wall::draw_into(sf::RenderWindow& window) {
 //    std::cout << m_line[1].position.x << "\t" << m_line[1].position.y << std::endl;
 //    std::this_thread::sleep_for(3s);
 //}
+
+sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle){
+    sf::Transform translation;
+    translation.translate(vec);
+    sf::Transform rotation;
+    rotation.rotate(90);
+    sf::Transform transform = translation * rotation;
+    return transform.transformPoint(vec);
+}
