@@ -13,9 +13,10 @@ public:
         INVALID = -1, LEFT, RIGHT, UP, DOWN
     };
     explicit Room(float size) : m_rectangle({ size, size }) {
-        std::cout << m_sides.empty() << std::endl;
-        std::cout << m_sides.size() << std::endl;
-        std::cout << m_sides.max_size() << std::endl;
+        std::cout << "Room()" << std::endl;
+//        std::cout << m_sides.empty() << std::endl;
+//        std::cout << m_sides.size() << std::endl;
+//        std::cout << m_sides.max_size() << std::endl;
     }
     void set_side(Direction side, std::shared_ptr<IRoomSide> ptr_room_side) {
         if (side > -1)
@@ -43,7 +44,9 @@ private:
 class Maze : public IMyDrawable {
 public:
 //    Maze() = default;
-    explicit Maze(std::vector<std::shared_ptr<Room>> rooms) : m_rooms(std::move(rooms)) {};
+    explicit Maze(std::vector<std::shared_ptr<Room>> rooms) : m_rooms(std::move(rooms)) {
+        std::cout << "Maze(room)" << std::endl;
+    };
     void draw_into(sf::RenderWindow& window) override;
 private:
     std::vector<std::shared_ptr<Room>> m_rooms;

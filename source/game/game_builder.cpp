@@ -12,6 +12,8 @@ void SimpleGameBuilder::create_rooms() {
 //            std::cout << "get_size = " << room->get_size();
 //            std::cout << "m_room_size = " << m_room_size;
             vec.emplace_back(std::make_shared<Room>(m_room_size));
+            std::cout << "SimpleGameBuilder::create_rooms" << std::endl;
+
         }
         m_rooms.push_back(vec);
     }
@@ -21,7 +23,11 @@ void SimpleGameBuilder::set_rooms_sides() {
     for (auto& row: m_rooms) {
         for (auto& room: row) {
             for (size_t i = 0; i < 4; ++i) {
-                room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(*room));
+//                auto side = std::make_shared<Wall>(*room);
+                auto dir = static_cast<Room::Direction>(i);
+                auto side = room->get_side(dir);
+                side = std::make_shared<Wall>(*room);
+                room->set_side(dir, side);
 //                room->set_position({static_cast<float>(i*50), static_cast<float>(i*50)});
             }
 //            std::cout << "get_size = " << room->get_size() << std::endl;
@@ -54,9 +60,13 @@ GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_build
 std::unique_ptr<GameState> GameBuilderDirector::build(IStateManager* state_manager) {
     std::cout << "GameBuilderDirector::build is started" << std::endl;
     m_ptr_builder->create_rooms();
+    std::cout << "SimpleGameBuilder::set_rooms_sides is started" << std::endl;
     m_ptr_builder->set_rooms_sides();
+    std::cout << "SimpleGameBuilder::set_rooms_sides is done" << std::endl;
 //        m_ptr_builder->create_context();
+    std::cout << "SimpleGameBuilder::create_state is started" << std::endl;
     m_ptr_builder->create_state(state_manager, m_window_title);
+    std::cout << "SimpleGameBuilder::create_state is done" << std::endl;
     m_ptr_builder->set_all_to_state();
     std::cout << "GameBuilderDirector::build is done" << std::endl;
     return m_ptr_builder->get_game();
