@@ -9,10 +9,9 @@ void SimpleGameBuilder::create_rooms() {
     std::vector<std::shared_ptr<Room>> vec;
     for (size_t i_x = 0; i_x < count_of_room_x; ++i_x) {
         for (size_t i_y = 0; i_y < count_of_room_y; ++i_y) {
-            auto room = std::make_shared<Room>(m_room_size);
 //            std::cout << "get_size = " << room->get_size();
 //            std::cout << "m_room_size = " << m_room_size;
-            vec.emplace_back(std::move(room));
+            vec.emplace_back(std::make_shared<Room>(m_room_size));
         }
         m_rooms.push_back(vec);
     }
@@ -25,7 +24,7 @@ void SimpleGameBuilder::set_rooms_sides() {
                 room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(*room));
 //                room->set_position({static_cast<float>(i*50), static_cast<float>(i*50)});
             }
-            std::cout << "get_size = " << room->get_size() << std::endl;
+//            std::cout << "get_size = " << room->get_size() << std::endl;
         }
     }
 }
@@ -39,7 +38,7 @@ void SimpleGameBuilder::set_all_to_state() {
     std::vector<std::shared_ptr<Room>> new_vec;
     for (auto&& v: m_rooms) {
         new_vec.insert(new_vec.end(), v.begin(), v.end());
-        std::cout << "get_size = " << (*new_vec.begin())->get_size() << std::endl;
+//        std::cout << "get_size = " << (*new_vec.begin())->get_size() << std::endl;
     }
     m_game_state->set_maze(Maze{ new_vec });
 }
@@ -53,10 +52,12 @@ GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_build
         m_dynamic_objects_ratio(dynamic_objects_ratio) {}
 
 std::unique_ptr<GameState> GameBuilderDirector::build(IStateManager* state_manager) {
+    std::cout << "GameBuilderDirector::build is started" << std::endl;
     m_ptr_builder->create_rooms();
     m_ptr_builder->set_rooms_sides();
 //        m_ptr_builder->create_context();
     m_ptr_builder->create_state(state_manager, m_window_title);
     m_ptr_builder->set_all_to_state();
+    std::cout << "GameBuilderDirector::build is done" << std::endl;
     return m_ptr_builder->get_game();
 };

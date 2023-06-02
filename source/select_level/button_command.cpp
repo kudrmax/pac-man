@@ -12,4 +12,5 @@ void GameCommand::execute() {
 //    m_state_manager->set_next_state(std::make_unique<GameState>(m_state_manager, "Game"));
     auto state = m_ptr_director->build(m_state_manager);
     m_state_manager->set_next_state(std::move(state));
+    std::cout << "GameCommand::execute is done" << std::endl;
 }

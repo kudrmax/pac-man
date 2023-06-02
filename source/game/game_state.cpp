@@ -30,6 +30,7 @@ void GameState::event_handling() {
             m_state_manager->set_next_state(std::make_unique<ExitState>(m_state_manager));
             break;
         }
+        std::cout << "GameState::event_handling is done" << std::endl;
 //        auto position_float = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
 //        m_menu.process_mouse(position_float, event.type == sf::Event::MouseButtonPressed);
     }
@@ -38,7 +39,9 @@ void GameState::event_handling() {
 
 void GameState::update() {
 //    m_context_manager.draw_into(m_window);
+    std::cout << "GameState::update is stated" << std::endl;
     m_maze.draw_into(m_window);
+    std::cout << "GameState::update is done" << std::endl;
 };
 
 void GameState::render() { m_window.display(); };

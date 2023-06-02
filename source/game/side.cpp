@@ -6,18 +6,26 @@ using namespace std::chrono_literals;
 
 void Wall::draw_into(sf::RenderWindow& window) {
 //    std::cout << "Wall::draw_into\n";
-    auto pos1 = m_line[0].position;
-    auto pos2 = m_line[1].position;
+//    auto pos1 = m_line[0].position;
+//    auto pos2 = m_line[1].position;
+
+//    sf::RectangleShape rec = sf::RectangleShape({ 100, 100 });
+//    rec.setFillColor(sf::Color::Red);
+//    window.draw(rec);
+//    sf::VertexArray m_line_arr(sf::Lines, 2);
+//    m_line_arr[0] = m_line[0];
+//    m_line_arr[1] = m_line[1];
+//    std::cout << m_line[0].position.x << "\t" << m_line[0].position.y << std::endl;
+//    std::cout << m_line[1].position.x << "\t" << m_line[1].position.y << std::endl;
+//    window.draw(m_line_arr);
+
+
 
     sf::RectangleShape rec = sf::RectangleShape({ 100, 100 });
     rec.setFillColor(sf::Color::Red);
-//    window.draw(rec);
-    sf::VertexArray m_line_arr(sf::Lines, 2);
-    m_line_arr[0] = m_line[0];
-    m_line_arr[1] = m_line[1];
-    std::cout << m_line[0].position.x << "\t" << m_line[0].position.y << std::endl;
-    std::cout << m_line[1].position.x << "\t" << m_line[1].position.y << std::endl;
-    window.draw(m_line_arr);
+    window.draw(rec);
+
+//    window.draw(m_line, 2, sf::Lines);
 };
 
 Wall::Wall(Room room) : m_room(std::move(room)) {

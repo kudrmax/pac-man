@@ -3,6 +3,7 @@
 #include <array>
 #include "../i_draw.h"
 //#include "side.h"
+//#include "side.h"
 
 class IRoomSide;
 
@@ -11,7 +12,11 @@ public:
     enum Direction {
         INVALID = -1, LEFT, RIGHT, UP, DOWN
     };
-    explicit Room(float size) : m_rectangle({ size, size }) {}
+    explicit Room(float size) : m_rectangle({ size, size }) {
+        std::cout << m_sides.empty() << std::endl;
+        std::cout << m_sides.size() << std::endl;
+        std::cout << m_sides.max_size() << std::endl;
+    }
     void set_side(Direction side, std::shared_ptr<IRoomSide> ptr_room_side) {
         if (side > -1)
             m_sides[side] = std::move(ptr_room_side);
