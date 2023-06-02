@@ -21,14 +21,14 @@ void Wall::draw_into(sf::RenderWindow& window) {
 
 
 
-    sf::RectangleShape rec = sf::RectangleShape({ 100, 100 });
-    rec.setFillColor(sf::Color::Red);
-    window.draw(rec);
-
-//    window.draw(m_line, 2, sf::Lines);
+//    sf::RectangleShape rec = sf::RectangleShape({ 100, 100 });
+//    rec.setFillColor(sf::Color::Red);
+//    window.draw(rec);
+    this->call();
+    window.draw(m_line, 2, sf::Lines);
 };
 
-Wall::Wall(Room room) : m_room(std::move(room)) {
+//Wall::Wall(Room room) : m_room(std::move(room)) {
 //    auto dir = m_room.get_direction(this);
 //    auto pos = m_room.get_position();
 //    auto radius = m_room.get_size() / 2;
@@ -56,4 +56,4 @@ Wall::Wall(Room room) : m_room(std::move(room)) {
 //    std::cout << m_line[0].position.x << "\t" << m_line[0].position.y << std::endl;
 //    std::cout << m_line[1].position.x << "\t" << m_line[1].position.y << std::endl;
 //    std::this_thread::sleep_for(3s);
-}
+//}
