@@ -1,4 +1,5 @@
 #include "game_builder.h"
+#include "../config.h"
 
 
 void SimpleGameBuilder::create_rooms() {
@@ -11,7 +12,9 @@ void SimpleGameBuilder::create_rooms() {
         for (size_t i_y = 0; i_y < count_of_room_y; ++i_y) {
 //            std::cout << "get_size = " << room->get_size();
 //            std::cout << "m_room_size = " << m_room_size;
-            vec.emplace_back(std::make_shared<Room>(m_room_size));
+            auto room = std::make_shared<Room>(m_room_size);
+            room->set_position({500,500});
+            vec.emplace_back(room);
             std::cout << "SimpleGameBuilder::create_rooms" << std::endl;
 
         }
@@ -25,7 +28,7 @@ void SimpleGameBuilder::set_rooms_sides() {
             for (size_t i = 0; i < 4; ++i) {
 //                auto side = std::make_shared<Wall>(*room);
 //                auto dir = static_cast<Room::Direction>(i);
-                room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(*room));
+                room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
 //                room->set_side(dir, std::make_shared<Wall>(*room));
 //                std::cout << "Calling\n:";
 //                room->get_side(dir)->call();

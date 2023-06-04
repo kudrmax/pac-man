@@ -23,11 +23,19 @@ sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle);
 
 class Wall : public IRoomSide {
 public:
-    Wall(Room& room) : m_room(room) {};
-    void draw_into(sf::RenderWindow& window) override{
-//        this->call();
-        prepare_to_draw(this->m_room);
+    Wall(Room* room) : m_room(room) {};
+    void draw_into(sf::RenderWindow& window) override {
         this->call();
+        prepare_to_draw(m_room);
+//        this->call();
+
+//        sf::Vertex line[2];
+////        line[0] = sf::Vertex(sf::Vector2f(10, 10));
+//        line[0] = sf::Vector2f(10, 10);
+//        line[1] = sf::Vector2f(150, 150);
+////        line[1] = sf::Vertex(sf::Vector2f(150, 150));
+//
+//        window.draw(line, 2, sf::Lines);
         window.draw(m_line, 2, sf::Lines);
     };
     void call() override {
@@ -37,26 +45,33 @@ public:
         std::cout << std::endl;
     };
 //    void enter(IEntity* entity) override;
-    void prepare_to_draw(Room& room){
-        auto dir = room.get_direction(this);
-//        std::cout << dir << std::endl;
-        auto size = room.get_size() / 2;
-        auto pos = room.get_position();
-//        std::cout << "dir = { " << dir << " }\n";
-        auto vec = pos + sf::Vector2f{ -size, 0 };
+    void prepare_to_draw(Room* room) {
+        auto dir = room->get_direction(this);
+        auto size = room->get_size() / 2;
+        auto pos = room->get_position();
+        auto vec = sf::Vector2f{ -size, 0 };
+        auto rotate_vec = rotate_vector2f(vec, 90 * static_cast<int>(dir));
+        auto rotate_vec2 = rotate_vector2f(rotate_vec, 90);
+        auto pos0 = pos + rotate_vec + rotate_vec2;
+        auto pos1 = pos + rotate_vec - rotate_vec2;
 
-//        std::cout << "vec_old = { " << vec.x << ", " << vec.y << " }\n";
-        auto pos1 = rotate_vector2f(vec, 90 * static_cast<int>(dir));
-        auto pos2 = rotate_vector2f(pos1, 90);
-        auto pos3 = rotate_vector2f(pos2, -90);
-        pos2 = pos1 + pos2;
-        pos3 = pos1 + pos3;
-//        std::cout << "pos2 = { " << pos2.x << ", " << pos2.y << " }\n";
-//        std::cout << "pos3 = { " << pos3.x << ", " << pos3.y << " }\n";
-        m_line[0] = pos2;
-        m_line[1] = pos3;
+        std::cout << "dir = " << dir << std::endl;
+        std::cout << "size = " << size << std::endl;
+        std::cout << "pos = { " << pos.x << ", " << pos.y << " }\n";
+        std::cout << "vec = { " << vec.x << ", " << vec.y << " }\n";
+        std::cout << "rotate_vec = { " << rotate_vec.x << ", " << rotate_vec.y << " }\n";
+        std::cout << "rotate_ve2 = { " << rotate_vec2.x << ", " << rotate_vec2.y << " }\n";
+        std::cout << "pos0 = { " << pos0.x << ", " << pos0.y << " }\n";
+        std::cout << "pos1 = { " << pos1.x << ", " << pos1.y << " }\n";
+
+
+        m_line[0] = pos0;
+        m_line[1] = pos1;
+
+//        m_line[0] = sf::Vector2f(10, 10);
+//        m_line[1] = sf::Vector2f(150, 150);
     }
 private:
-    Room m_room;
+    Room* m_room;
     sf::Vertex m_line[2];
 };

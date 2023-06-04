@@ -58,10 +58,7 @@ using namespace std::chrono_literals;
 //}
 
 sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle){
-    sf::Transform translation;
-    translation.translate(vec);
     sf::Transform rotation;
-    rotation.rotate(90);
-    sf::Transform transform = translation * rotation;
-    return transform.transformPoint(vec);
+    rotation.rotate(-angle);
+    return rotation.transformPoint(vec);
 }

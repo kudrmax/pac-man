@@ -4,7 +4,7 @@
 #include "../config.h"
 
 GameState::GameState(IStateManager* state_manager, const std::string& window_title) :
-        IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
+        IWindowKeeper(config::GAME_VIDEO_MODE, window_title),
         IState(state_manager), m_maze({ std::make_shared<Room>(1)}) {
 //    std::vector<std::shared_ptr<Room>> vec_rooms(1);
 //    m_maze = Maze(vec_rooms);
