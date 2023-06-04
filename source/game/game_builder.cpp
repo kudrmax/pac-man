@@ -67,12 +67,10 @@ void SimpleGameBuilder::set_rooms_sides() {
 //    }
 
 
-//    auto row_count = m_rooms.size();
-//    auto column_count = m_rooms[0].size();
+
     for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
-        auto& row = m_rooms[row_n];
         for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
-            auto& room = row[col_n];
+            auto room = m_rooms[row_n][col_n];
             if (col_n == 0 || col_n == m_rooms[row_n].size() - 1) {
                 for (size_t i = 0; i < 4; ++i)
                     room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
@@ -80,12 +78,13 @@ void SimpleGameBuilder::set_rooms_sides() {
                 // тут генерить проходы
                 for (size_t i = 0; i < 4; ++i)
                     room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
-
 //                for (size_t i = 0; i < 4; ++i)
 //                    room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
             }
         }
     }
+
+
 
 //    for (auto& row: m_rooms) {
 //        for (auto& room: row) {
