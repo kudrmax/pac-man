@@ -3,16 +3,20 @@
 
 
 void SimpleGameBuilder::create_rooms() {
-    size_t count_of_rooms_x = m_width / m_room_size + 1;
-    size_t count_of_rooms_y = m_height / m_room_size + 1;
+    size_t count_of_rooms_x = m_width / m_room_size - 4;
+    size_t count_of_rooms_y = m_height / m_room_size - 4;
+    auto room_size = m_room_size;
+    auto start = m_room_size * 2;
+
     std::vector<std::shared_ptr<Room>> vec;
     for (size_t i_x = 0; i_x <= count_of_rooms_x; ++i_x) {
         for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
-            auto room = std::make_shared<Room>(m_room_size);
-            room->set_position({ static_cast<float>(i_x) * m_room_size, static_cast<float>(i_y) * m_room_size });
+            auto room = std::make_shared<Room>(room_size);
+            room->set_position({ start + static_cast<float>(i_x) * room_size, start + static_cast<float>(i_y) * room_size });
             vec.emplace_back(room);
         }
         m_rooms.push_back(vec);
+        vec.clear();
     }
 
 
@@ -67,22 +71,33 @@ void SimpleGameBuilder::set_rooms_sides() {
 //    }
 
 
-
+    int wall_k = 0;
+    int pass_k = 0;
     for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
         for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
+            std::cout << "{ " << row_n << ", " << col_n << " }" << std::endl;
             auto room = m_rooms[row_n][col_n];
-            if (col_n == 0 || col_n == m_rooms[row_n].size() - 1) {
+            if (col_n == 0 || col_n == m_rooms[row_n].size() - 1 ||
+                row_n == 0 || row_n == m_rooms.size() - 1) {
                 for (size_t i = 0; i < 4; ++i)
                     room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
+                ++wall_k;
             } else {
-                // тут генерить проходы
+//                std::cout << "PASS\n";
                 for (size_t i = 0; i < 4; ++i)
-                    room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
-//                for (size_t i = 0; i < 4; ++i)
-//                    room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
+                    room->set_side(static_cast<Room::Direction>(i), std::make_shared<Pass>(&*room, &*room));
+//                room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(&*m_rooms[--row_n][col_n], &*room));
+//                room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(&*room, &*m_rooms[++row_n][col_n]));
+//                room->set_side(Room::Direction::UP, std::make_shared<Pass>(&*m_rooms[row_n][--col_n], &*room));
+//                room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(&*room, &*m_rooms[row_n][++col_n]));
+                ++pass_k;
             }
         }
     }
+    std::cout << "wall_k = " << wall_k << std::endl;
+    std::cout << "pass_k = " << pass_k << std::endl;
+    std::cout << "m_rooms.size() = " << m_rooms.size() << std::endl;
+    std::cout << "m_rooms[0].size() = " << m_rooms[0].size() << std::endl;
 
 
 
@@ -105,7 +120,8 @@ void SimpleGameBuilder::set_all_to_state() {
     for (auto&& v: m_rooms) {
         new_vec.insert(new_vec.end(), v.begin(), v.end());
     }
-    m_game_state->set_maze(Maze{ new_vec });
+    std::cout << "here\n";
+    m_game_state->set_maze(std::make_unique<Maze>(new_vec));
 }
 
 SimpleGameBuilder::SimpleGameBuilder(float

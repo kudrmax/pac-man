@@ -5,7 +5,7 @@
 
 GameState::GameState(IStateManager* state_manager, const std::string& window_title) :
         IWindowKeeper(config::GAME_VIDEO_MODE, window_title),
-        IState(state_manager), m_maze({ std::make_shared<Room>(1)}) {
+        IState(state_manager) {
 //    std::vector<std::shared_ptr<Room>> vec_rooms(1);
 //    m_maze = Maze(vec_rooms);
 }
@@ -40,7 +40,7 @@ void GameState::event_handling() {
 void GameState::update() {
 //    m_context_manager.draw_into(m_window);
 //    std::cout << "GameState::update is stated" << std::endl;
-    m_maze.draw_into(m_window);
+    m_maze->draw_into(m_window);
 //    std::cout << "GameState::update is done" << std::endl;
 };
 

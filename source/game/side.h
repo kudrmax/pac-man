@@ -13,7 +13,9 @@ sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle);
 class Pass : public IRoomSide {
 public:
     Pass(Room* room1, Room* room2) : m_room1(room1), m_room2(room2) {}
-    void draw_into(sf::RenderWindow& window) override { /* empty */ }
+    void draw_into(sf::RenderWindow& window) override { /* empty */
+        std::cout << "draw_into in Pass\n";
+    }
     void call() override {};
 //    void enter(IEntity* entity) override;
 private:
@@ -28,6 +30,7 @@ public:
 //        this->call();
         prepare_to_draw(m_room);
         window.draw(m_line, 2, sf::Lines);
+//        std::cout << "draw_into in Wall\n";
     };
     void call() override {
         std::cout << std::endl;
