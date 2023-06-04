@@ -26,6 +26,7 @@ public:
     };
     void set_position(sf::Vector2f position) { m_rectangle.setPosition(position); }
     float get_size() { return m_rectangle.getSize().x; }
+    float get_size_sides() { return m_sides.size(); } // DELETE
     sf::Vector2f get_position() { return m_rectangle.getPosition(); }
     std::shared_ptr<IRoomSide> get_side(Direction side) { return m_sides[side]; };
     Direction get_direction(IRoomSide* ptr_room_side);

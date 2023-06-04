@@ -12,7 +12,7 @@ class Pass : public IRoomSide {
 public:
     Pass(Room room1, Room room2) : m_room1(std::move(room1)), m_room2(std::move(room2)) {}
     void draw_into(sf::RenderWindow& window) override { /* empty */ }
-    void call(){};
+    void call() override {};
 //    void enter(IEntity* entity) override;
 private:
     Room m_room1;
@@ -26,17 +26,20 @@ public:
     Wall(Room& room) : m_room(room) {};
     void draw_into(sf::RenderWindow& window) override{
 //        this->call();
-        prepare_to_draw(this->m_room, this->m_room.get_direction(this));
+        prepare_to_draw(this->m_room);
+        this->call();
         window.draw(m_line, 2, sf::Lines);
     };
-    void call() {
+    void call() override {
         std::cout << std::endl;
         std::cout << "m_line[0] = { " << m_line[0].position.x << ", " << m_line[0].position.y << " }\n";
         std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n";
         std::cout << std::endl;
     };
 //    void enter(IEntity* entity) override;
-    void prepare_to_draw(Room& room, Room::Direction dir){
+    void prepare_to_draw(Room& room){
+        auto dir = room.get_direction(this);
+//        std::cout << dir << std::endl;
         auto size = room.get_size() / 2;
         auto pos = room.get_position();
 //        std::cout << "dir = { " << dir << " }\n";

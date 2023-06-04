@@ -31,8 +31,10 @@ void SimpleGameBuilder::set_rooms_sides() {
 //                room->get_side(dir)->call();
 //                std::cout << "Stop\n:";
 //                room->set_position({static_cast<float>(i*50), static_cast<float>(i*50)});
+                auto side = room->get_side(static_cast<Room::Direction>(i));
+                side->call();
             }
-//            std::cout << "get_size = " << room->get_size() << std::endl;
+            std::cout << "get_size_sides = " << room->get_size_sides() << std::endl;
         }
     }
 }
