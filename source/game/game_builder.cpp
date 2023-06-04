@@ -3,20 +3,15 @@
 
 
 void SimpleGameBuilder::create_rooms() {
-//    int size_room_x = 50;
-//    int size_room_y = 100;
-    size_t count_of_room_x = 1;
-    size_t count_of_room_y = 1;
+    size_t count_of_room_x = 5;
+    size_t count_of_room_y = 5;
     std::vector<std::shared_ptr<Room>> vec;
     for (size_t i_x = 0; i_x < count_of_room_x; ++i_x) {
         for (size_t i_y = 0; i_y < count_of_room_y; ++i_y) {
-//            std::cout << "get_size = " << room->get_size();
-//            std::cout << "m_room_size = " << m_room_size;
             auto room = std::make_shared<Room>(m_room_size);
-            room->set_position({500,500});
+            room->set_position({ static_cast<float>(i_x) * 200, static_cast<float>(i_y) * 200 });
             vec.emplace_back(room);
             std::cout << "SimpleGameBuilder::create_rooms" << std::endl;
-
         }
         m_rooms.push_back(vec);
     }
@@ -26,18 +21,8 @@ void SimpleGameBuilder::set_rooms_sides() {
     for (auto& row: m_rooms) {
         for (auto& room: row) {
             for (size_t i = 0; i < 4; ++i) {
-//                auto side = std::make_shared<Wall>(*room);
-//                auto dir = static_cast<Room::Direction>(i);
                 room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
-//                room->set_side(dir, std::make_shared<Wall>(*room));
-//                std::cout << "Calling\n:";
-//                room->get_side(dir)->call();
-//                std::cout << "Stop\n:";
-//                room->set_position({static_cast<float>(i*50), static_cast<float>(i*50)});
-                auto side = room->get_side(static_cast<Room::Direction>(i));
-                side->call();
             }
-            std::cout << "get_size_sides = " << room->get_size_sides() << std::endl;
         }
     }
 }
@@ -47,11 +32,9 @@ void SimpleGameBuilder::create_state(IStateManager* state_manager, std::string w
 }
 
 void SimpleGameBuilder::set_all_to_state() {
-//        m_game_state->set_context(m_context);
     std::vector<std::shared_ptr<Room>> new_vec;
     for (auto&& v: m_rooms) {
         new_vec.insert(new_vec.end(), v.begin(), v.end());
-//        std::cout << "get_size = " << (*new_vec.begin())->get_size() << std::endl;
     }
     m_game_state->set_maze(Maze{ new_vec });
 }

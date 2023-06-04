@@ -8,6 +8,8 @@ struct IRoomSide : public IMyDrawable {
     virtual ~IRoomSide() = default;
 };
 
+sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle);
+
 class Pass : public IRoomSide {
 public:
     Pass(Room room1, Room room2) : m_room1(std::move(room1)), m_room2(std::move(room2)) {}
@@ -19,23 +21,12 @@ private:
     Room m_room2;
 };
 
-sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle);
-
 class Wall : public IRoomSide {
 public:
     Wall(Room* room) : m_room(room) {};
     void draw_into(sf::RenderWindow& window) override {
-        this->call();
-        prepare_to_draw(m_room);
 //        this->call();
-
-//        sf::Vertex line[2];
-////        line[0] = sf::Vertex(sf::Vector2f(10, 10));
-//        line[0] = sf::Vector2f(10, 10);
-//        line[1] = sf::Vector2f(150, 150);
-////        line[1] = sf::Vertex(sf::Vector2f(150, 150));
-//
-//        window.draw(line, 2, sf::Lines);
+        prepare_to_draw(m_room);
         window.draw(m_line, 2, sf::Lines);
     };
     void call() override {
@@ -55,21 +46,17 @@ public:
         auto pos0 = pos + rotate_vec + rotate_vec2;
         auto pos1 = pos + rotate_vec - rotate_vec2;
 
-        std::cout << "dir = " << dir << std::endl;
-        std::cout << "size = " << size << std::endl;
-        std::cout << "pos = { " << pos.x << ", " << pos.y << " }\n";
-        std::cout << "vec = { " << vec.x << ", " << vec.y << " }\n";
-        std::cout << "rotate_vec = { " << rotate_vec.x << ", " << rotate_vec.y << " }\n";
-        std::cout << "rotate_ve2 = { " << rotate_vec2.x << ", " << rotate_vec2.y << " }\n";
-        std::cout << "pos0 = { " << pos0.x << ", " << pos0.y << " }\n";
-        std::cout << "pos1 = { " << pos1.x << ", " << pos1.y << " }\n";
-
+//        std::cout << "dir = " << dir << std::endl;
+//        std::cout << "size = " << size << std::endl;
+//        std::cout << "pos = { " << pos.x << ", " << pos.y << " }\n";
+//        std::cout << "vec = { " << vec.x << ", " << vec.y << " }\n";
+//        std::cout << "rotate_vec = { " << rotate_vec.x << ", " << rotate_vec.y << " }\n";
+//        std::cout << "rotate_ve2 = { " << rotate_vec2.x << ", " << rotate_vec2.y << " }\n";
+//        std::cout << "pos0 = { " << pos0.x << ", " << pos0.y << " }\n";
+//        std::cout << "pos1 = { " << pos1.x << ", " << pos1.y << " }\n";
 
         m_line[0] = pos0;
         m_line[1] = pos1;
-
-//        m_line[0] = sf::Vector2f(10, 10);
-//        m_line[1] = sf::Vector2f(150, 150);
     }
 private:
     Room* m_room;

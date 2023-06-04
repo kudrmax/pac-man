@@ -7,7 +7,7 @@ int Application::run() {
     try {
         while (m_ptr_state_current->do_step()) {
             apply_deffer_state_change();
-            std::cout << "Next step\n";
+//            std::cout << "Next step\n";
         }
     }
     catch (std::exception& ex) {
