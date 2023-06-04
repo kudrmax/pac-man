@@ -24,12 +24,11 @@ void SimpleGameBuilder::set_rooms_sides() {
         for (auto& room: row) {
             for (size_t i = 0; i < 4; ++i) {
 //                auto side = std::make_shared<Wall>(*room);
-                auto dir = static_cast<Room::Direction>(i);
-                auto side = room->get_side(dir);
-                side = std::make_shared<Wall>(*room);
-                room->set_side(dir, side);
-                std::cout << "Callung\n:";
-                room->get_side(dir)->call();
+//                auto dir = static_cast<Room::Direction>(i);
+                room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(*room));
+//                room->set_side(dir, std::make_shared<Wall>(*room));
+//                std::cout << "Calling\n:";
+//                room->get_side(dir)->call();
 //                std::cout << "Stop\n:";
 //                room->set_position({static_cast<float>(i*50), static_cast<float>(i*50)});
             }

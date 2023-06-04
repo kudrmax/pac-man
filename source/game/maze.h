@@ -19,8 +19,10 @@ public:
 //        std::cout << m_sides.max_size() << std::endl;
     }
     void set_side(Direction side, std::shared_ptr<IRoomSide> ptr_room_side) {
-        if (side > -1)
-            m_sides[side] = std::move(ptr_room_side);
+        if (side > -1) {
+            m_sides[side] = ptr_room_side;
+//            m_sides[side] = std::move(ptr_room_side);
+        }
     };
     void set_position(sf::Vector2f position) { m_rectangle.setPosition(position); }
     float get_size() { return m_rectangle.getSize().x; }

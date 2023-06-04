@@ -17,17 +17,17 @@ Room::Direction Room::get_direction(IRoomSide* ptr_room_side) {
 }
 void Room::draw_into(sf::RenderWindow& window) {
     for (auto& ptr_side: m_sides) {
-        std::cout << "Room::draw_into is stated" << std::endl;
+//        std::cout << "Room::draw_into is stated" << std::endl;
         ptr_side->draw_into(window);
-        std::cout << "Room::draw_into is done" << std::endl;
+//        std::cout << "Room::draw_into is done" << std::endl;
     }
 };
 
 
 void Maze::draw_into(sf::RenderWindow& window) {
     for (auto& ptr_room: m_rooms) {
-        std::cout << "Maze::draw_into is stated" << std::endl;
+//        std::cout << "Maze::draw_into is stated" << std::endl;
         ptr_room->draw_into(window);
-        std::cout << "Maze::draw_into is done" << std::endl;
+//        std::cout << "Maze::draw_into is done" << std::endl;
     }
 }
