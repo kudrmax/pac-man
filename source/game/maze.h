@@ -13,7 +13,7 @@ public:
         INVALID = -1, LEFT, RIGHT, UP, DOWN
     };
     explicit Room(float size) : m_rectangle({ size, size }) {
-        std::cout << "Room()" << std::endl;
+//        std::cout << "Room()" << std::endl;
 //        std::cout << m_sides.empty() << std::endl;
 //        std::cout << m_sides.size() << std::endl;
 //        std::cout << m_sides.max_size() << std::endl;

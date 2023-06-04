@@ -15,7 +15,7 @@ namespace config {
     const char BUTTON_TEXT_HARD[] = "Hard";
     const char BUTTON_TEXT_EXIT[] = "Exit";
 // Игра:
-    const sf::VideoMode GAME_VIDEO_MODE{ 1080, 720 };
+    const sf::VideoMode GAME_VIDEO_MODE{ 1920, 1080 };
     const char EASY_GAME_TITLE[] = "Level: Easy";
     const char MEDIUM_GAME_TITLE[] = "Level: Medium";
     const char HARD_GAME_TITLE[] = "Level: Hard";
