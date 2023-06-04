@@ -14,7 +14,7 @@ class Pass : public IRoomSide {
 public:
     Pass(Room* room1, Room* room2) : m_room1(room1), m_room2(room2) {}
     void draw_into(sf::RenderWindow& window) override { /* empty */
-        std::cout << "draw_into in Pass\n";
+//        std::cout << "draw_into in Pass\n";
     }
     void call() override {};
 //    void enter(IEntity* entity) override;

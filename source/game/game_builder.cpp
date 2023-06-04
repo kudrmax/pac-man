@@ -12,7 +12,8 @@ void SimpleGameBuilder::create_rooms() {
     for (size_t i_x = 0; i_x <= count_of_rooms_x; ++i_x) {
         for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
             auto room = std::make_shared<Room>(room_size);
-            room->set_position({ start + static_cast<float>(i_x) * room_size, start + static_cast<float>(i_y) * room_size });
+            room->set_position(
+                    { start + static_cast<float>(i_x) * room_size, start + static_cast<float>(i_y) * room_size });
             vec.emplace_back(room);
         }
         m_rooms.push_back(vec);
@@ -75,7 +76,7 @@ void SimpleGameBuilder::set_rooms_sides() {
     int pass_k = 0;
     for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
         for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
-            std::cout << "{ " << row_n << ", " << col_n << " }" << std::endl;
+//            std::cout << "{ " << row_n << ", " << col_n << " }" << std::endl;
             auto room = m_rooms[row_n][col_n];
             if (col_n == 0 || col_n == m_rooms[row_n].size() - 1 ||
                 row_n == 0 || row_n == m_rooms.size() - 1) {
@@ -83,14 +84,62 @@ void SimpleGameBuilder::set_rooms_sides() {
                     room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
                 ++wall_k;
             } else {
-//                std::cout << "PASS\n";
-                for (size_t i = 0; i < 4; ++i)
-                    room->set_side(static_cast<Room::Direction>(i), std::make_shared<Pass>(&*room, &*room));
-//                room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(&*m_rooms[--row_n][col_n], &*room));
-//                room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(&*room, &*m_rooms[++row_n][col_n]));
-//                room->set_side(Room::Direction::UP, std::make_shared<Pass>(&*m_rooms[row_n][--col_n], &*room));
-//                room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(&*room, &*m_rooms[row_n][++col_n]));
-                ++pass_k;
+                if (col_n == 2 && row_n == 2) {
+//                    room->set_side(Room::Direction::LEFT, std::make_shared<Wall>(&*room));
+//                    room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(&*room, &*m_rooms[++row_n][col_n]));
+//                    room->set_side(Room::Direction::UP, std::make_shared<Wall>(&*room));
+//                    room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(&*room, &*m_rooms[row_n][++col_n]));
+                    std::cout << "(col_n == 1 && row_n == 1)\n";
+                    room->set_side(Room::Direction::LEFT, std::make_shared<Wall>(&*room));
+                    room->set_side(Room::Direction::RIGHT, std::make_shared<Wall>(&*room));
+                    room->set_side(Room::Direction::UP, std::make_shared<Wall>(&*room));
+                    room->set_side(Room::Direction::DOWN, std::make_shared<Wall>(&*room));
+
+//                    for (size_t i = 0; i < 4; ++i)
+//                        room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(&*room));
+
+//                    room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(&*m_rooms[--row_n][col_n], &*room));
+//                    room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(&*room, &*m_rooms[++row_n][col_n]));
+//                    room->set_side(Room::Direction::UP, std::make_shared<Pass>(&*m_rooms[row_n][--col_n], &*room));
+//                    room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(&*room, &*m_rooms[row_n][++col_n]));
+                }
+                else if (col_n == 1 && row_n == m_rooms.size() - 2) {
+//                    room->set_side(Room::Direction::LEFT, std::make_shared<Wall>(&*room));
+//                    room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(&*room, &*m_rooms[++row_n][col_n]));
+//                    room->set_side(Room::Direction::UP, std::make_shared<Pass>(&*m_rooms[row_n][--col_n], &*room));
+//                    room->set_side(Room::Direction::DOWN, std::make_shared<Wall>(&*room));
+                    room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(&*m_rooms[--row_n][col_n], &*room));
+                    room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(&*room, &*m_rooms[++row_n][col_n]));
+                    room->set_side(Room::Direction::UP, std::make_shared<Pass>(&*m_rooms[row_n][--col_n], &*room));
+                    room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(&*room, &*m_rooms[row_n][++col_n]));
+                }
+                else if (col_n == m_rooms[row_n].size() - 2 && row_n == m_rooms.size() - 2) {
+//                    room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(&*m_rooms[--row_n][col_n], &*room));
+//                    room->set_side(Room::Direction::RIGHT, std::make_shared<Wall>(&*room));
+//                    room->set_side(Room::Direction::UP, std::make_shared<Pass>(&*m_rooms[row_n][--col_n], &*room));
+//                    room->set_side(Room::Direction::DOWN, std::make_shared<Wall>(&*room));
+                    room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(&*m_rooms[--row_n][col_n], &*room));
+                    room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(&*room, &*m_rooms[++row_n][col_n]));
+                    room->set_side(Room::Direction::UP, std::make_shared<Pass>(&*m_rooms[row_n][--col_n], &*room));
+                    room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(&*room, &*m_rooms[row_n][++col_n]));
+                }
+                else if (col_n == m_rooms[row_n].size() - 2 && row_n == 1) {
+//                    room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(&*m_rooms[--row_n][col_n], &*room));
+//                    room->set_side(Room::Direction::RIGHT, std::make_shared<Wall>(&*room));
+//                    room->set_side(Room::Direction::UP, std::make_shared<Wall>(&*room));
+//                    room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(&*room, &*m_rooms[row_n][++col_n]));
+                    room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(&*m_rooms[--row_n][col_n], &*room));
+                    room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(&*room, &*m_rooms[++row_n][col_n]));
+                    room->set_side(Room::Direction::UP, std::make_shared<Pass>(&*m_rooms[row_n][--col_n], &*room));
+                    room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(&*room, &*m_rooms[row_n][++col_n]));
+                }
+                else {
+                    room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(&*m_rooms[--row_n][col_n], &*room));
+                    room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(&*room, &*m_rooms[++row_n][col_n]));
+                    room->set_side(Room::Direction::UP, std::make_shared<Pass>(&*m_rooms[row_n][--col_n], &*room));
+                    room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(&*room, &*m_rooms[row_n][++col_n]));
+                    ++pass_k;
+                }
             }
         }
     }
