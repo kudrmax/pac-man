@@ -4,6 +4,7 @@
 #include "maze.h"
 #include "visitor.h"
 //#include "game_event.h"
+//#include "game_event.h"
 //#include "side.h"
 //#include "../config.h"
 
@@ -46,7 +47,8 @@ struct Enemy : public IDynamicEntity {
 struct PacMan : public IEntity, public IVisitor {
     void draw_into(sf::RenderWindow& window) override;
     void move(Room::Direction direction);
-    std::unique_ptr<IGameEvent> visit(Food* ptr_food) override {
-//        return std::make_unique<DeleteStaticEntity>(ptr_food);
-    };
+    std::unique_ptr<IGameEvent> visit(Food* ptr_food) override;
+//    std::unique_ptr<IGameEvent> visit(Food* ptr_food) override {
+////        return std::make_unique<DeleteStaticEntity>(ptr_food);
+//    };
 };

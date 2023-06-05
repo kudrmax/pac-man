@@ -34,12 +34,25 @@ void GameState::event_handling() {
 
 
 void GameState::update() {
+    // очиста окна
     m_window.clear();
+
+    // строим лабиринт
     m_maze->draw_into(m_window);
     auto context = m_context_manager.get_context();
     context.pacman.draw_into(m_window);
-    for (auto el : context.static_objects)
+
+    // добавляем еду
+    auto pacman = context.pacman;
+    for (auto el: context.static_objects) {
         el->draw_into(m_window);
+        // взаимодействие с едой
+        if (pacman.get_location() == el->get_location()) {
+//            auto delete_food = std::make_unique<DeleteStaticEntity>(&*el);
+//            std::shared_ptr<Food> ptr = el;
+//            pacman.visit(&*el);
+        }
+    }
     m_context_manager.set_context(std::move(context));
 };
 
