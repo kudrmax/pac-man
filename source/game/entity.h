@@ -52,6 +52,9 @@ struct PacMan : public IEntity {
         std::cout << " m_location->get_position() = { " << m_location->get_position().x << ", "
                   << m_location->get_position().x << " }\n";
     }
-//    void move(Room::Direction direction) { m_location->get_side(direction)->enter(this); };
+    void move(Room::Direction direction) {
+        auto side = m_location->get_side(direction);
+        side->enter(this);
+    };
 //    std::unique_ptr<IEntity> clone();
 };

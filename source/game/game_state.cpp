@@ -33,6 +33,11 @@ void GameState::event_handling() {
             m_state_manager->set_next_state(std::make_unique<ExitState>(m_state_manager));
             break;
         }
+        if(event.type == sf::Event::KeyPressed){
+            if (event.key.code == sf::Keyboard::D){
+                std::cout << "D was pressed DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD\n";
+            }
+        }
 //        std::cout << "GameState::event_handling is done" << std::endl;
 //        auto position_float = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
 //        m_menu.process_mouse(position_float, event.type == sf::Event::MouseButtonPressed);
