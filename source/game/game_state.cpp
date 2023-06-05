@@ -17,11 +17,11 @@ void GameState::set_context(GameContext&& context) {
 
 bool GameState::do_step() {
     event_handling();
-    std::cout << "GameState::do_step event_handling is done\n";
+//    std::cout << "GameState::do_step event_handling is done\n";
     update();
-    std::cout << "GameState::do_step event_handling is update\n";
+//    std::cout << "GameState::do_step event_handling is update\n";
     render();
-    std::cout << "GameState::do_step event_handling is render\n";
+//    std::cout << "GameState::do_step event_handling is render\n";
     return true;
 }
 
@@ -33,9 +33,26 @@ void GameState::event_handling() {
             m_state_manager->set_next_state(std::make_unique<ExitState>(m_state_manager));
             break;
         }
-        if(event.type == sf::Event::KeyPressed){
-            if (event.key.code == sf::Keyboard::D){
-                std::cout << "D was pressed DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD\n";
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::A) {
+                auto new_pacman = m_context_manager.get_context();
+                new_pacman.pacman.move(Room::Direction::LEFT);
+                m_context_manager.set_context(std::move(new_pacman));
+            }
+            if (event.key.code == sf::Keyboard::W) {
+                auto new_pacman = m_context_manager.get_context();
+                new_pacman.pacman.move(Room::Direction::UP);
+                m_context_manager.set_context(std::move(new_pacman));
+            }
+            if (event.key.code == sf::Keyboard::D) {
+                auto new_pacman = m_context_manager.get_context();
+                new_pacman.pacman.move(Room::Direction::RIGHT);
+                m_context_manager.set_context(std::move(new_pacman));
+            }
+            if (event.key.code == sf::Keyboard::S) {
+                auto new_pacman = m_context_manager.get_context();
+                new_pacman.pacman.move(Room::Direction::DOWN);
+                m_context_manager.set_context(std::move(new_pacman));
             }
         }
 //        std::cout << "GameState::event_handling is done" << std::endl;
@@ -48,13 +65,17 @@ void GameState::event_handling() {
 void GameState::update() {
 //    m_context_manager.draw_into(m_window);
 //    std::cout << "GameState::update is stated" << std::endl;
+    m_window.clear();
     m_maze->draw_into(m_window);
-    std::cout << "here 1" << std::endl;
+//    std::cout << "here 1" << std::endl;
     auto context = m_context_manager.get_context();
-    std::cout << "here 2" << std::endl;
+//    std::cout << "here 2" << std::endl;
     context.pacman.draw_into(m_window);
-    std::cout << "here 3" << std::endl;
+//    std::cout << "here 3" << std::endl;
 //    std::cout << "GameState::update is done" << std::endl;
 };
 
-void GameState::render() { m_window.display(); };
+void GameState::render() {
+//    m_window.clear();
+    m_window.display();
+};

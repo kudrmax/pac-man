@@ -7,7 +7,7 @@ int Application::run() {
     try {
         while (m_ptr_state_current->do_step()) {
             apply_deffer_state_change();
-            std::cout << "Next step\n";
+//            std::cout << "Next step\n";
         }
     }
     catch (std::exception& ex) {
@@ -26,7 +26,7 @@ void Application::set_next_state(std::unique_ptr<IState> state) {
 };
 
 void Application::apply_deffer_state_change() {
-    std::cout << "apply_deffer_state_change is started\n";
+//    std::cout << "apply_deffer_state_change is started\n";
     if (m_ptr_state_next) {
 //        m_ptr_state_current->call();
 //        m_ptr_state_next->call();
@@ -34,7 +34,7 @@ void Application::apply_deffer_state_change() {
         m_ptr_state_current = std::move(m_ptr_state_next);
         m_ptr_state_next = nullptr;
     }
-    std::cout << "apply_deffer_state_change is ended\n";
+//    std::cout << "apply_deffer_state_change is ended\n";
 };
 
 Application::Application() {

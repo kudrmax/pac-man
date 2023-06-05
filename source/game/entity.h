@@ -2,8 +2,10 @@
 
 #include "../i_draw.h"
 #include "maze.h"
-#include "side.h"
+//#include "side.h"
 //#include "../config.h"
+
+//class IRoomSide;
 
 class IEntity : public IMyDrawable {
 public:
@@ -39,8 +41,8 @@ struct PacMan : public IEntity {
         auto circle = sf::CircleShape(20);
         circle.setFillColor(sf::Color::Magenta);
         circle.setPosition(m_location->get_position());
-        std::cout << "draw_into in PacMan\n";
-        this->call();
+//        std::cout << "draw_into in PacMan\n";
+//        this->call();
         window.draw(circle);
     }
     void set_location(std::shared_ptr<Room> ptr_room) override { m_location = ptr_room; };
@@ -52,9 +54,6 @@ struct PacMan : public IEntity {
         std::cout << " m_location->get_position() = { " << m_location->get_position().x << ", "
                   << m_location->get_position().x << " }\n";
     }
-    void move(Room::Direction direction) {
-        auto side = m_location->get_side(direction);
-        side->enter(this);
-    };
+    void move(Room::Direction direction);
 //    std::unique_ptr<IEntity> clone();
 };

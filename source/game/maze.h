@@ -52,7 +52,7 @@ class Maze : public IMyDrawable {
 public:
 //    Maze() = default;
     explicit Maze(std::vector<std::shared_ptr<Room>> rooms) : m_rooms(std::move(rooms)) {
-        std::cout << "Maze(room)" << std::endl;
+//        std::cout << "Maze(room)" << std::endl;
     };
     void draw_into(sf::RenderWindow& window) override;
 private:

@@ -36,9 +36,9 @@ void Room::draw_into(sf::RenderWindow& window) {
 
 
 void Maze::draw_into(sf::RenderWindow& window) {
-    std::cout << "Maze::draw_into is stated" << std::endl;
+//    std::cout << "Maze::draw_into is stated" << std::endl;
     for (auto& ptr_room: m_rooms) {
         ptr_room->draw_into(window);
     }
-    std::cout << "Maze::draw_into is done" << std::endl;
+//    std::cout << "Maze::draw_into is done" << std::endl;
 }

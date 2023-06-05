@@ -1,7 +1,7 @@
 #pragma once
 
 #include "maze.h"
-//#include "entity.h"
+#include "entity.h"
 
 class IEntity;
 
@@ -20,7 +20,10 @@ public:
 //        std::cout << "draw_into in Pass\n";
     }
     void call() override {};
-    void enter(IEntity* entity) override {};
+    void enter(IEntity* entity) override {
+        entity->set_location(m_room2);
+        std::cout << "LOCATION SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT\n";
+    };
 private:
     std::shared_ptr<Room> m_room1;
     std::shared_ptr<Room> m_room2;
@@ -42,7 +45,9 @@ public:
         std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n";
         std::cout << std::endl;
     };
-    void enter(IEntity* entity) override {};
+    void enter(IEntity* entity) override {
+
+    };
     void prepare_to_draw(std::shared_ptr<Room> room) {
 //        std::cout << "prepare_to_draw\n";
         auto dir = room->get_direction(this);
