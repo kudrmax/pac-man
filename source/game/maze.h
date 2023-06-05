@@ -37,14 +37,6 @@ private:
     std::array<std::shared_ptr<IRoomSide>, 4> m_sides;
 };
 
-//struct IEntity : public IMyDrawable {
-//public:
-//    virtual void set_location(std::shared_ptr<Room> ptr_room) = 0;
-//    virtual std::shared_ptr<Room> get_location() = 0;
-//protected:
-//    Room* m_location;
-//};
-
 class Maze : public IMyDrawable {
 public:
 //    Maze() = default;
