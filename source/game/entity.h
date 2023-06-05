@@ -38,8 +38,10 @@ struct Enemy : public IDynamicEntity {
 
 struct PacMan : public IEntity {
     void draw_into(sf::RenderWindow& window) {
-        auto circle = sf::CircleShape(20);
+        float r = 20;
+        auto circle = sf::CircleShape(r);
         circle.setFillColor(sf::Color::Magenta);
+        circle.setOrigin(r, r);
         circle.setPosition(m_location->get_position());
 //        std::cout << "draw_into in PacMan\n";
 //        this->call();
@@ -47,7 +49,7 @@ struct PacMan : public IEntity {
     }
     void set_location(std::shared_ptr<Room> ptr_room) override { m_location = ptr_room; };
     std::shared_ptr<Room> get_location() override {
-        this->call();
+//        this->call();
         return m_location;
     };
     void call() {

@@ -14,10 +14,7 @@ public:
         INVALID = -1, LEFT, UP, RIGHT, DOWN
     };
     explicit Room(float size) : m_rectangle({ size, size }) {
-//        std::cout << "Room()" << std::endl;
-//        std::cout << m_sides.empty() << std::endl;
-//        std::cout << m_sides.size() << std::endl;
-//        std::cout << m_sides.max_size() << std::endl;
+        m_rectangle.setOrigin(size / 2, size / 2);
     }
     void set_side(Direction side, std::shared_ptr<IRoomSide> ptr_room_side) {
         if (side > -1) {
