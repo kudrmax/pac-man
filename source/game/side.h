@@ -14,7 +14,7 @@ class Pass : public IRoomSide {
 public:
     Pass(Room* room1, Room* room2) : m_room1(room1), m_room2(room2) {}
     void draw_into(sf::RenderWindow& window) override { /* empty */
-//        std::cout << "draw_into in Pass\n";
+        std::cout << "draw_into in Pass\n";
     }
     void call() override {};
 //    void enter(IEntity* entity) override;
@@ -27,19 +27,22 @@ class Wall : public IRoomSide {
 public:
     Wall(Room* room) : m_room(room) {};
     void draw_into(sf::RenderWindow& window) override {
-//        this->call();
+        std::cout << "draw_into in Wall\n";
+        this->call();
         prepare_to_draw(m_room);
         window.draw(m_line, 2, sf::Lines);
 //        std::cout << "draw_into in Wall\n";
     };
     void call() override {
         std::cout << std::endl;
-        std::cout << "m_line[0] = { " << m_line[0].position.x << ", " << m_line[0].position.y << " }\n";
-        std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n";
+//        std::cout << "m_line[0] = { " << m_line[0].position.x << ", " << m_line[0].position.y << " }\n";
+//        std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n";
+        std::cout << "without m_lines";
         std::cout << std::endl;
     };
 //    void enter(IEntity* entity) override;
     void prepare_to_draw(Room* room) {
+        std::cout << "prepare_to_draw\n";
         auto dir = room->get_direction(this);
         auto size = room->get_size() / 2;
         auto pos = room->get_position();
@@ -55,11 +58,12 @@ public:
 //        std::cout << "vec = { " << vec.x << ", " << vec.y << " }\n";
 //        std::cout << "rotate_vec = { " << rotate_vec.x << ", " << rotate_vec.y << " }\n";
 //        std::cout << "rotate_ve2 = { " << rotate_vec2.x << ", " << rotate_vec2.y << " }\n";
-//        std::cout << "pos0 = { " << pos0.x << ", " << pos0.y << " }\n";
+//        std::cout << "\npos0 = { " << pos0.x << ", " << pos0.y << " }\n";
 //        std::cout << "pos1 = { " << pos1.x << ", " << pos1.y << " }\n";
-
         m_line[0] = pos0;
         m_line[1] = pos1;
+        std::cout << "\nm_line[0] = { " << m_line[0].position.x << ", " << m_line[0].position.y << " }\n";
+        std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n\n";
     }
 private:
     Room* m_room;

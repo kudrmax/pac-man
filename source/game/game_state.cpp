@@ -17,8 +17,11 @@ void GameState::set_context(GameContext&& context) {
 
 bool GameState::do_step() {
     event_handling();
+    std::cout << "GameState::do_step event_handling is done\n";
     update();
+    std::cout << "GameState::do_step event_handling is update\n";
     render();
+    std::cout << "GameState::do_step event_handling is render\n";
     return true;
 }
 
