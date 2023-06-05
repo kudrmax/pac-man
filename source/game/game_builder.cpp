@@ -91,7 +91,6 @@ void SimpleGameBuilder::set_all_to_state() {
     for (auto&& v: m_rooms) {
         new_vec.insert(new_vec.end(), v.begin(), v.end());
     }
-//    std::cout << "here\n";
     m_game_state->set_maze(std::make_unique<Maze>(new_vec));
     m_game_state->set_context(std::move(m_context));
 }
@@ -103,13 +102,27 @@ SimpleGameBuilder::SimpleGameBuilder(float
         m_width(width), m_height(height), m_room_size(room_size) {}
 
 void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
+    // PacMan
     PacMan pacman;
     auto room = m_rooms[3][3];
     pacman.set_location(room);
-    pacman.call();
-    pacman.get_location();
     m_context.pacman = std::move(pacman);
-    m_context.pacman.get_location();
+
+//    auto room_for_food = m_rooms[4][4];
+//    auto food = std::make_shared<Food>();
+//    food->set_location(room_for_food);
+//    m_context.static_objects.emplace_back(food);
+
+    // Food
+    for (size_t row_n = 1; row_n < m_rooms.size() - 1; ++row_n) {
+        for (size_t col_n = 1; col_n < m_rooms[row_n].size() - 1; ++col_n) {
+            auto room_food = m_rooms[row_n][col_n];
+            auto food = std::make_shared<Food>();
+            food->set_location(room_food);
+            m_context.static_objects.push_back(food);
+        }
+    }
+
 };
 
 GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder>

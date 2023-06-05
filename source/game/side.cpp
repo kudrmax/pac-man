@@ -29,9 +29,9 @@ void Wall::prepare_to_draw(std::shared_ptr<Room> room) {
     auto rotate_vec2 = rotate_vector2f(rotate_vec, 90);
     auto pos0 = pos + rotate_vec + rotate_vec2;
     auto pos1 = pos + rotate_vec - rotate_vec2;
-        std::cout << "dir = " << dir << std::endl;
-        std::cout << "size = " << size << std::endl;
-        std::cout << "pos = { " << pos.x << ", " << pos.y << " }\n";
+//        std::cout << "dir = " << dir << std::endl;
+//        std::cout << "size = " << size << std::endl;
+//        std::cout << "pos = { " << pos.x << ", " << pos.y << " }\n";
 //        std::cout << "vec = { " << vec.x << ", " << vec.y << " }\n";
 //        std::cout << "rotate_vec = { " << rotate_vec.x << ", " << rotate_vec.y << " }\n";
 //        std::cout << "rotate_ve2 = { " << rotate_vec2.x << ", " << rotate_vec2.y << " }\n";

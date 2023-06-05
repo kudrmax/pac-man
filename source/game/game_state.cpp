@@ -1,4 +1,5 @@
 #include "game_state.h"
+#include "entity.h"
 #include "../exit/exite_state.h"
 #include "../config.h"
 
@@ -37,6 +38,9 @@ void GameState::update() {
     m_maze->draw_into(m_window);
     auto context = m_context_manager.get_context();
     context.pacman.draw_into(m_window);
+    for (auto el : context.static_objects)
+        el->draw_into(m_window);
+    m_context_manager.set_context(std::move(context));
 };
 
 void GameState::render() {

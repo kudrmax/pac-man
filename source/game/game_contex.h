@@ -13,8 +13,8 @@ struct GameContext {
     PacMan pacman;
 //    GameContext clone();
     State state = INGAME;
-    std::vector<std::unique_ptr<IDynamicEntity>> dynamic_objects;
-    std::vector<std::unique_ptr<IStaticEntity>> static_objects;
+    std::vector<std::shared_ptr<IDynamicEntity>> dynamic_objects;
+    std::vector<std::shared_ptr<IStaticEntity>> static_objects;
 };
 
 class ContextManager {
