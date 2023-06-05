@@ -8,7 +8,6 @@ void SimpleGameBuilder::create_rooms() {
     size_t count_of_rooms_y = m_height / m_room_size - 4;
     auto room_size = m_room_size;
     auto start = m_room_size * 2;
-
     std::vector<std::shared_ptr<Room>> vec;
     for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
         for (size_t i_x = 0; i_x <= count_of_rooms_x; ++i_x) {
@@ -20,15 +19,9 @@ void SimpleGameBuilder::create_rooms() {
         m_rooms.push_back(vec);
         vec.clear();
     }
-    std::cout << "count_of_rooms_x = " << count_of_rooms_x << std::endl;
-    std::cout << "count_of_rooms_y = " << count_of_rooms_y << std::endl;
-    using namespace std::chrono_literals;
-//    std::this_thread::sleep_for(5s);
 }
 
 void SimpleGameBuilder::set_rooms_sides() {
-    size_t row_n_2 = 0;
-    size_t col_n_2 = 0;
     for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
         for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
             auto room = m_rooms[row_n][col_n];
@@ -84,15 +77,8 @@ void SimpleGameBuilder::set_rooms_sides() {
                 room->set_side(Room::Direction::RIGHT, std::make_shared<Pass>(room, m_rooms[row_n][col_n + 1]));
                 room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(room, m_rooms[row_n + 1][col_n]));
             }
-
-            col_n_2 = col_n;
         }
-        row_n_2 = row_n;
     }
-    std::cout << "row_n = " << row_n_2 << std::endl;
-    std::cout << "col_n = " << col_n_2 << std::endl;
-    using namespace std::chrono_literals;
-//    std::this_thread::sleep_for(5s);
 }
 
 void SimpleGameBuilder::create_state(IStateManager* state_manager, std::string window_title) {
