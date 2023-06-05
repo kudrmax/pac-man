@@ -21,17 +21,17 @@ void Room::draw_into(sf::RenderWindow& window) {
 //        ptr_side->draw_into(window);
 //        std::cout << "Room::draw_into is done" << std::endl;
 //    }
-    std::cout << "Room::draw_into start\n";
-    std::cout << m_sides.empty();
-    m_sides[0]->call();
+//    std::cout << "Room::draw_into start\n";
+//    std::cout << m_sides.empty();
+//    m_sides[0]->call();
     m_sides[0]->draw_into(window);
-    std::cout << "Room::draw_into 0\n";
+//    std::cout << "Room::draw_into 0\n";
     m_sides[1]->draw_into(window);
-    std::cout << "Room::draw_into 1\n";
+//    std::cout << "Room::draw_into 1\n";
     m_sides[2]->draw_into(window);
-    std::cout << "Room::draw_into 2\n";
+//    std::cout << "Room::draw_into 2\n";
     m_sides[3]->draw_into(window);
-    std::cout << "Room::draw_into 3 (end)\n";
+//    std::cout << "Room::draw_into 3 (end)\n";
 };
 
 

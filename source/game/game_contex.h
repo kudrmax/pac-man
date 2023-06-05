@@ -10,7 +10,7 @@ struct GameContext {
     enum State {
         INGAME, WIN, LOST
     };
-//    PacMan pacman();
+    PacMan pacman;
 //    GameContext clone();
     State state = INGAME;
     std::vector<std::unique_ptr<IDynamicEntity>> dynamic_objects;

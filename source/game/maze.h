@@ -27,7 +27,7 @@ public:
             std::cout << "error= -1\n";
             throw std::runtime_error("error");
         }
-        std::cout << "DONE\n";
+//        std::cout << "DONE\n";
     };
     void set_position(sf::Vector2f position) { m_rectangle.setPosition(position); }
     float get_size() { return m_rectangle.getSize().x; }

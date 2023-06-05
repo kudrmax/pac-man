@@ -92,13 +92,24 @@ void SimpleGameBuilder::set_all_to_state() {
     }
     std::cout << "here\n";
     m_game_state->set_maze(std::make_unique<Maze>(new_vec));
+    m_game_state->set_context(std::move(m_context));
 }
 
 SimpleGameBuilder::SimpleGameBuilder(float
                                      width, float
                                      height, float
                                      room_size) :
-        m_width(width), m_height(height), m_room_size(room_size) {};
+        m_width(width), m_height(height), m_room_size(room_size) {}
+
+void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
+    PacMan pacman;
+    auto room = m_rooms[3][3];
+    pacman.set_location(room);
+    pacman.call();
+    pacman.get_location();
+    m_context.pacman = std::move(pacman);
+    m_context.pacman.get_location();
+};
 
 GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder>
                                          ptr_builder, std::string
@@ -114,7 +125,7 @@ std::unique_ptr<GameState> GameBuilderDirector::build(IStateManager* state_manag
     std::cout << "SimpleGameBuilder::set_rooms_sides is started" << std::endl;
     m_ptr_builder->set_rooms_sides();
     std::cout << "SimpleGameBuilder::set_rooms_sides is done" << std::endl;
-//        m_ptr_builder->create_context();
+    m_ptr_builder->create_context(m_dynamic_objects_ratio);
     std::cout << "SimpleGameBuilder::create_state is started" << std::endl;
     m_ptr_builder->create_state(state_manager, m_window_title);
     std::cout << "SimpleGameBuilder::create_state is done" << std::endl;

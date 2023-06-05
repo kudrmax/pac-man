@@ -2,6 +2,8 @@
 
 #include "../i_draw.h"
 #include "maze.h"
+#include "side.h"
+//#include "../config.h"
 
 class IEntity : public IMyDrawable {
 public:
@@ -33,8 +35,23 @@ struct Enemy : public IDynamicEntity {
 };
 
 struct PacMan : public IEntity {
-    void set_location(std::shared_ptr<Room> ptr_room) override {};
-    std::shared_ptr<Room> get_location() override {};
+    void draw_into(sf::RenderWindow& window) {
+        auto circle = sf::CircleShape(20);
+        circle.setFillColor(sf::Color::Magenta);
+        circle.setPosition(m_location->get_position());
+        std::cout << "draw_into in PacMan\n";
+        this->call();
+        window.draw(circle);
+    }
+    void set_location(std::shared_ptr<Room> ptr_room) override { m_location = ptr_room; };
+    std::shared_ptr<Room> get_location() override {
+        this->call();
+        return m_location;
+    };
+    void call() {
+        std::cout << " m_location->get_position() = { " << m_location->get_position().x << ", "
+                  << m_location->get_position().x << " }\n";
+    }
 //    void move(Room::Direction direction) { m_location->get_side(direction)->enter(this); };
 //    std::unique_ptr<IEntity> clone();
 };

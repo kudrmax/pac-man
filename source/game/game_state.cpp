@@ -11,7 +11,7 @@ GameState::GameState(IStateManager* state_manager, const std::string& window_tit
 }
 
 void GameState::set_context(GameContext&& context) {
-//    m_context_manager.set_context(std::move(context));
+    m_context_manager.set_context(std::move(context));
 //    m_context_manager.save_current_context();
 }
 
@@ -44,6 +44,11 @@ void GameState::update() {
 //    m_context_manager.draw_into(m_window);
 //    std::cout << "GameState::update is stated" << std::endl;
     m_maze->draw_into(m_window);
+    std::cout << "here 1" << std::endl;
+    auto context = m_context_manager.get_context();
+    std::cout << "here 2" << std::endl;
+    context.pacman.draw_into(m_window);
+    std::cout << "here 3" << std::endl;
 //    std::cout << "GameState::update is done" << std::endl;
 };
 

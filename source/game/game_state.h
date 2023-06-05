@@ -5,7 +5,6 @@
 #include "maze.h"
 #include "game_contex.h"
 #include "game_event.h"
-#include "game_contex.h"
 
 
 class GameState : public IState, public IWindowKeeper {

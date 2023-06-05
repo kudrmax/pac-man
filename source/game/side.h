@@ -1,9 +1,10 @@
 #pragma once
 
 #include "maze.h"
+#include "entity.h"
 
 struct IRoomSide : public IMyDrawable {
-//    virtual void enter(IEntity* entity) = 0;
+//    virtual void enter(std::shared_ptr<IEntity> entity) = 0;
     virtual void call() = 0;
     virtual ~IRoomSide() = default;
 };
@@ -14,10 +15,10 @@ class Pass : public IRoomSide {
 public:
     Pass(std::shared_ptr<Room> room1, std::shared_ptr<Room> room2) : m_room1(room1), m_room2(room2) {}
     void draw_into(sf::RenderWindow& window) override { /* empty */
-        std::cout << "draw_into in Pass\n";
+//        std::cout << "draw_into in Pass\n";
     }
     void call() override {};
-//    void enter(IEntity* entity) override;
+//    void enter(std::shared_ptr<IEntity> entity) override {};
 private:
     std::shared_ptr<Room> m_room1;
     std::shared_ptr<Room> m_room2;
@@ -27,22 +28,21 @@ class Wall : public IRoomSide {
 public:
     Wall(std::shared_ptr<Room> room) : m_room(room) {};
     void draw_into(sf::RenderWindow& window) override {
-        std::cout << "draw_into in Wall\n";
-        this->call();
+//        std::cout << "draw_into in Wall\n";
+//        this->call();
         prepare_to_draw(m_room);
         window.draw(m_line, 2, sf::Lines);
 //        std::cout << "draw_into in Wall\n";
     };
     void call() override {
         std::cout << std::endl;
-//        std::cout << "m_line[0] = { " << m_line[0].position.x << ", " << m_line[0].position.y << " }\n";
-//        std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n";
-        std::cout << "without m_lines";
+        std::cout << "m_line[0] = { " << m_line[0].position.x << ", " << m_line[0].position.y << " }\n";
+        std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n";
         std::cout << std::endl;
     };
-//    void enter(IEntity* entity) override;
+//    void enter(std::shared_ptr<IEntity> entity) override {};
     void prepare_to_draw(std::shared_ptr<Room> room) {
-        std::cout << "prepare_to_draw\n";
+//        std::cout << "prepare_to_draw\n";
         auto dir = room->get_direction(this);
         auto size = room->get_size() / 2;
         auto pos = room->get_position();
@@ -51,7 +51,6 @@ public:
         auto rotate_vec2 = rotate_vector2f(rotate_vec, 90);
         auto pos0 = pos + rotate_vec + rotate_vec2;
         auto pos1 = pos + rotate_vec - rotate_vec2;
-
 //        std::cout << "dir = " << dir << std::endl;
 //        std::cout << "size = " << size << std::endl;
 //        std::cout << "pos = { " << pos.x << ", " << pos.y << " }\n";
@@ -62,8 +61,8 @@ public:
 //        std::cout << "pos1 = { " << pos1.x << ", " << pos1.y << " }\n";
         m_line[0] = pos0;
         m_line[1] = pos1;
-        std::cout << "\nm_line[0] = { " << m_line[0].position.x << ", " << m_line[0].position.y << " }\n";
-        std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n\n";
+//        std::cout << "\nm_line[0] = { " << m_line[0].position.x << ", " << m_line[0].position.y << " }\n";
+//        std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n\n";
     }
 private:
     std::shared_ptr<Room> m_room;
