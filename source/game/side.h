@@ -12,20 +12,20 @@ sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle);
 
 class Pass : public IRoomSide {
 public:
-    Pass(Room* room1, Room* room2) : m_room1(room1), m_room2(room2) {}
+    Pass(std::shared_ptr<Room> room1, std::shared_ptr<Room> room2) : m_room1(room1), m_room2(room2) {}
     void draw_into(sf::RenderWindow& window) override { /* empty */
         std::cout << "draw_into in Pass\n";
     }
     void call() override {};
 //    void enter(IEntity* entity) override;
 private:
-    Room* m_room1;
-    Room* m_room2;
+    std::shared_ptr<Room> m_room1;
+    std::shared_ptr<Room> m_room2;
 };
 
 class Wall : public IRoomSide {
 public:
-    Wall(Room* room) : m_room(room) {};
+    Wall(std::shared_ptr<Room> room) : m_room(room) {};
     void draw_into(sf::RenderWindow& window) override {
         std::cout << "draw_into in Wall\n";
         this->call();
@@ -41,7 +41,7 @@ public:
         std::cout << std::endl;
     };
 //    void enter(IEntity* entity) override;
-    void prepare_to_draw(Room* room) {
+    void prepare_to_draw(std::shared_ptr<Room> room) {
         std::cout << "prepare_to_draw\n";
         auto dir = room->get_direction(this);
         auto size = room->get_size() / 2;
@@ -66,6 +66,6 @@ public:
         std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n\n";
     }
 private:
-    Room* m_room;
+    std::shared_ptr<Room> m_room;
     sf::Vertex m_line[2];
 };

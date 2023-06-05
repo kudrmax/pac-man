@@ -11,7 +11,7 @@ class IRoomSide;
 class Room : public IMyDrawable {
 public:
     enum Direction {
-        INVALID = -1, LEFT, RIGHT, UP, DOWN
+        INVALID = -1, LEFT, UP, RIGHT, DOWN
     };
     explicit Room(float size) : m_rectangle({ size, size }) {
 //        std::cout << "Room()" << std::endl;
@@ -25,7 +25,8 @@ public:
 //            m_sides[side] = std::move(ptr_room_side);
         } else {
             std::cout << "error= -1\n";
-            throw std::runtime_error("error"); }
+            throw std::runtime_error("error");
+        }
         std::cout << "DONE\n";
     };
     void set_position(sf::Vector2f position) { m_rectangle.setPosition(position); }
