@@ -21,9 +21,11 @@ public:
     std::shared_ptr<IRoomSide> get_side(Direction side) { return m_sides[side]; };
     Direction get_direction(IRoomSide* ptr_room_side);
     void draw_into(sf::RenderWindow& window) override;
+    bool is_fillable() { return m_is_fillable; }
 private:
     sf::RectangleShape m_rectangle;
     std::array<std::shared_ptr<IRoomSide>, 4> m_sides;
+    bool m_is_fillable = true;
 };
 
 class Maze : public IMyDrawable {

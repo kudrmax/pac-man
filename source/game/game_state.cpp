@@ -1,4 +1,5 @@
 #include "game_state.h"
+#include "../select_level/select_level_state.h"
 #include "entity.h"
 #include "../exit/exite_state.h"
 #include "../config.h"
@@ -26,7 +27,7 @@ void GameState::event_handling() {
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_window.close();
-            m_state_manager->set_next_state(std::make_unique<ExitState>(m_state_manager));
+            m_state_manager->set_next_state(std::make_unique<SelectState>(m_state_manager, config::SELECT_LEVEL_TITLE));
             break;
         }
 
@@ -60,16 +61,22 @@ void GameState::update() {
 
 void GameState::render() {
     m_window.clear();
+
+    m_context_manager.get_context().pacman.draw_into(m_window);
+
+    for (auto& el: m_context_manager.get_context().static_objects)
+        el->draw_into(m_window);
+
+    m_maze->draw_into(m_window);
+
     if (m_context_manager.get_context().state == GameContext::WIN)
         m_window.clear(sf::Color::Green);
     else if (m_context_manager.get_context().state == GameContext::LOST)
         m_window.clear(sf::Color::Red);
-    m_maze->draw_into(m_window);
-    m_context_manager.get_context().pacman.draw_into(m_window);
-    for (auto& el: m_context_manager.get_context().static_objects)
-        el->draw_into(m_window);
+
     m_window.display();
 }
+
 void GameState::process_key_pressed(sf::Keyboard::Key key) {
     auto new_pacman = m_context_manager.get_context();
     if (key == sf::Keyboard::A) {
