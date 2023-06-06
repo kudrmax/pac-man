@@ -48,7 +48,7 @@ void SimpleGameBuilder::set_rooms_sides() {
                 room->set_side(Room::Direction::RIGHT, std::make_shared<Wall>(room));
                 room->set_side(Room::Direction::DOWN, std::make_shared<Wall>(room));
             } else if (col_n == cal_max - 2 && row_n == 1) {
-                room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(room, m_rooms[row_n - 1][col_n]));
+                room->set_side(Room::Direction::LEFT, std::make_shared<Pass>(room, m_rooms[row_n][col_n - 1]));
                 room->set_side(Room::Direction::UP, std::make_shared<Wall>(room));
                 room->set_side(Room::Direction::RIGHT, std::make_shared<Wall>(room));
                 room->set_side(Room::Direction::DOWN, std::make_shared<Pass>(room, m_rooms[row_n + 1][col_n]));

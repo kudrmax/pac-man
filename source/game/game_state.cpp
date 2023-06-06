@@ -35,38 +35,17 @@ void GameState::event_handling() {
 
 
 void GameState::update() {
-
     using namespace std::chrono_literals;
     auto& static_objects = m_context_manager.get_context().static_objects;
-    std::cout << "vec (static_objects) in update = " << &static_objects << std::endl;
     auto* pacman = &m_context_manager.get_context().pacman;
-//    for (auto& el: static_objects) {
-//        std::cout << "step\n";
-//        auto temp = el->accept(pacman);
-//        temp->handle(&m_context_manager.get_context());
-//        std::this_thread::sleep_for(1s);
-//    }
-    auto food = std::find_if(static_objects.begin(), static_objects.end(), [&](auto el) {
-        return pacman->get_location() == el->get_location();
-    });
-//    auto food = static_objects[0];
-//    std::cout << "food = " << food << std::endl;
+    auto food = std::find_if(static_objects.begin(), static_objects.end(),
+                             [&](auto el) {
+                                 return pacman->get_location() == el->get_location();
+                             });
     if (food != static_objects.end()) {
         auto food_to_delete = (*food)->accept(pacman);
-        std::cout << "food_to_delete = " << food_to_delete << std::endl;
         food_to_delete->handle(&m_context_manager.get_context());
     }
-
-    std::cout << std::endl;
-//    std::this_thread::sleep_for(1s);
-    // взаимодействие с едой
-//    for (auto& el: static_objects) {
-//        if (pacman.get_location() == el->get_location()) {
-//            auto food = &*el;
-//            auto temp = pacman.visit(food);
-//        }
-//    }
-//    m_context_manager.set_context(std::move(context));
 };
 
 void GameState::render() {
