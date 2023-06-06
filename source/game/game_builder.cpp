@@ -7,7 +7,6 @@ void SimpleGameBuilder::create_rooms() {
     size_t count_of_rooms_x = m_width / m_room_size - 4;
     size_t count_of_rooms_y = m_height / m_room_size - 4;
     auto room_size = m_room_size;
-//    auto start = 0;
     auto start = m_room_size * 2;
     std::vector<std::shared_ptr<Room>> vec;
     for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
@@ -108,12 +107,6 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     pacman.set_location(room);
     m_context.pacman = std::move(pacman);
 
-//    auto room_for_food = m_rooms[4][4];
-//    auto food = std::make_shared<Food>();
-//    food->set_location(room_for_food);
-//    m_context.static_objects.emplace_back(food);
-
-    // Food
     for (size_t row_n = 1; row_n < m_rooms.size() - 1; ++row_n) {
         for (size_t col_n = 1; col_n < m_rooms[row_n].size() - 1; ++col_n) {
             auto room_food = m_rooms[row_n][col_n];
@@ -122,7 +115,7 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
             m_context.static_objects.push_back(food);
         }
     }
-
+//    m_game_state->set_context(m_context);
 };
 
 GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_builder,

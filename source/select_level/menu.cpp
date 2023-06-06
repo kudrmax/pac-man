@@ -21,10 +21,12 @@ Menu::Menu(IStateManager* state_manager) {
 
     // Create buttons here
     buttons_vector.emplace_back("Easy Button",
-                                std::make_unique<GameCommand>(state_manager, std::make_unique<GameBuilderDirector>(
-                                        std::make_unique<SimpleGameBuilder>(config::GAME_VIDEO_MODE.width,
-                                                                            config::GAME_VIDEO_MODE.height,
-                                                                            config::ROOM_SIZE), "Easy Game", 0)));
+                                std::make_unique<GameCommand>(state_manager,
+                                                              std::make_unique<GameBuilderDirector>(
+                                                                      std::make_unique<SimpleGameBuilder>(
+                                                                              config::GAME_VIDEO_MODE.width /2,
+                                                                              config::GAME_VIDEO_MODE.height /2,
+                                                                              config::ROOM_SIZE), "Easy Game", 0)));
     buttons_vector.emplace_back("Medium Button", std::make_unique<ExitCommand>(state_manager));
     buttons_vector.emplace_back("Hard Button", std::make_unique<ExitCommand>(state_manager));
     buttons_vector.emplace_back("Exit Button", std::make_unique<ExitCommand>(state_manager));

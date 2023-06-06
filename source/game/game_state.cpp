@@ -11,6 +11,7 @@ GameState::GameState(IStateManager* state_manager, const std::string& window_tit
 
 void GameState::set_context(GameContext&& context) {
     m_context_manager.set_context(std::move(context));
+    m_context_manager.save_current_context();
 }
 
 bool GameState::do_step() {
@@ -28,8 +29,13 @@ void GameState::event_handling() {
             m_state_manager->set_next_state(std::make_unique<ExitState>(m_state_manager));
             break;
         }
-        if (event.type == sf::Event::KeyPressed)
-            process_key_pressed(event.key.code);
+
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Escape)
+                m_context_manager.restore_previous_context();
+            else
+                process_key_pressed(event.key.code);
+        }
     }
 }
 
@@ -58,13 +64,21 @@ void GameState::render() {
 }
 void GameState::process_key_pressed(sf::Keyboard::Key key) {
     auto new_pacman = m_context_manager.get_context();
-    if (key == sf::Keyboard::A)
+    if (key == sf::Keyboard::A) {
+        m_context_manager.save_current_context();
         new_pacman.pacman.move(Room::Direction::LEFT);
-    if (key == sf::Keyboard::W)
+    }
+    if (key == sf::Keyboard::W) {
+        m_context_manager.save_current_context();
         new_pacman.pacman.move(Room::Direction::UP);
-    if (key == sf::Keyboard::D)
+    }
+    if (key == sf::Keyboard::D) {
+        m_context_manager.save_current_context();
         new_pacman.pacman.move(Room::Direction::RIGHT);
-    if (key == sf::Keyboard::S)
+    }
+    if (key == sf::Keyboard::S) {
+        m_context_manager.save_current_context();
         new_pacman.pacman.move(Room::Direction::DOWN);
+    }
     m_context_manager.set_context(std::move(new_pacman));
 };

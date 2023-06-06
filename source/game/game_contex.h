@@ -7,11 +7,9 @@
 
 
 struct GameContext {
-    enum State {
-        INGAME, WIN, LOST
-    };
+    GameContext clone() { return *this; };
+    enum State { INGAME, WIN, LOST };
     PacMan pacman;
-//    GameContext clone();
     State state = INGAME;
     std::vector<std::shared_ptr<IDynamicEntity>> dynamic_objects;
     std::vector<std::shared_ptr<IStaticEntity>> static_objects;
