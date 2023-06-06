@@ -15,9 +15,12 @@ void PacMan::draw_into(sf::RenderWindow& window) {
     window.draw(circle);
 }
 std::shared_ptr<IGameEvent> PacMan::visit(Food* ptr_food) {
+    std::cout << "ptr_food (food) = " << ptr_food << std::endl;
     return std::make_shared<DeleteStaticEntity>(ptr_food);
 //    return std::make_shared<DeleteStaticEntity>();
 }
 std::shared_ptr<IGameEvent> Food::accept(IVisitor* ptr_visitor) {
+    std::cout << "this = " << this << std::endl;
+    std::cout << "ptr_visitor (pacman) = " << ptr_visitor << std::endl;
     return ptr_visitor->visit(this);
 }
