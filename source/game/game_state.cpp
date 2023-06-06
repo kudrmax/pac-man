@@ -52,10 +52,18 @@ void GameState::update() {
         auto food_to_delete = (*food)->accept(pacman);
         food_to_delete->handle(&m_context_manager.get_context());
     }
+    if (static_objects.empty()) {
+        m_context_manager.get_context().state = GameContext::WIN;
+        std::cout << "YOU WIN\n";
+    }
 };
 
 void GameState::render() {
     m_window.clear();
+    if (m_context_manager.get_context().state == GameContext::WIN)
+        m_window.clear(sf::Color::Green);
+    else if (m_context_manager.get_context().state == GameContext::LOST)
+        m_window.clear(sf::Color::Red);
     m_maze->draw_into(m_window);
     m_context_manager.get_context().pacman.draw_into(m_window);
     for (auto& el: m_context_manager.get_context().static_objects)
