@@ -34,29 +34,28 @@ void GameState::event_handling() {
 
 
 void GameState::update() {
-    // очиста окна
-    m_window.clear();
 
-    // строим лабиринт
-    m_maze->draw_into(m_window);
-    auto context = m_context_manager.get_context();
-    context.pacman.draw_into(m_window);
-
-    // добавляем еду
-    auto pacman = context.pacman;
-    for (auto el: context.static_objects) {
-        el->draw_into(m_window);
-        // взаимодействие с едой
-        if (pacman.get_location() == el->get_location()) {
-//            auto delete_food = std::make_unique<DeleteStaticEntity>(&*el);
-//            std::shared_ptr<Food> ptr = el;
-//            pacman.visit(&*el);
-        }
+    auto& static_objects = m_context_manager.get_context().static_objects;
+    auto& pacman = m_context_manager.get_context().pacman;
+    for (auto& el: static_objects) {
+        el->accept(&pacman)->handle(&m_context_manager.get_context());
     }
-    m_context_manager.set_context(std::move(context));
+    // взаимодействие с едой
+//    for (auto& el: static_objects) {
+//        if (pacman.get_location() == el->get_location()) {
+//            auto food = &*el;
+//            auto temp = pacman.visit(food);
+//        }
+//    }
+//    m_context_manager.set_context(std::move(context));
 };
 
 void GameState::render() {
+    m_window.clear();
+    m_maze->draw_into(m_window);
+    m_context_manager.get_context().pacman.draw_into(m_window);
+    for (auto& el: m_context_manager.get_context().static_objects)
+        el->draw_into(m_window);
     m_window.display();
 }
 void GameState::process_key_pressed(sf::Keyboard::Key key) {

@@ -37,18 +37,18 @@ struct Food : public IStaticEntity {
         window.draw(food);
     };
     std::unique_ptr<IStaticEntity> clone() override {};
-    std::unique_ptr<IGameEvent> accept(IVisitor* ptr_visitor) override {};
+    std::shared_ptr<IGameEvent> accept(IVisitor* ptr_visitor) override;
 };
 
 struct Enemy : public IDynamicEntity {
     std::unique_ptr<IDynamicEntity> clone() override {};
+    std::shared_ptr<IGameEvent> accept(IVisitor* ptr_visitor) override {
+        return nullptr;
+    };
 };
 
 struct PacMan : public IEntity, public IVisitor {
     void draw_into(sf::RenderWindow& window) override;
     void move(Room::Direction direction);
-    std::unique_ptr<IGameEvent> visit(Food* ptr_food) override;
-//    std::unique_ptr<IGameEvent> visit(Food* ptr_food) override {
-////        return std::make_unique<DeleteStaticEntity>(ptr_food);
-//    };
+    std::shared_ptr<IGameEvent> visit(Food* ptr_food) override;
 };

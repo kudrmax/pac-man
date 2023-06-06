@@ -125,11 +125,9 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
 
 };
 
-GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder>
-                                         ptr_builder, std::string
-                                         window_title,
-                                         float
-                                         dynamic_objects_ratio) :
+GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_builder,
+                                         const std::string& window_title,
+                                         float dynamic_objects_ratio) :
         m_ptr_builder(std::move(ptr_builder)), m_window_title(window_title),
         m_dynamic_objects_ratio(dynamic_objects_ratio) {}
 

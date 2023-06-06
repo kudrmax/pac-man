@@ -20,6 +20,12 @@ void Room::draw_into(sf::RenderWindow& window) {
     m_sides[1]->draw_into(window);
     m_sides[2]->draw_into(window);
     m_sides[3]->draw_into(window);
+}
+void Room::set_side(Room::Direction side, std::shared_ptr<IRoomSide> ptr_room_side) {
+    if (side > -1)
+        m_sides[side] = ptr_room_side;
+    else
+        throw std::runtime_error("Error: side <= -1");
 };
 
 

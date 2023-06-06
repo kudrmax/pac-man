@@ -3,8 +3,7 @@
 #include "game_event.h"
 
 void PacMan::move(Room::Direction direction) {
-    auto side = m_location->get_side(direction);
-    side->enter(this);
+    m_location->get_side(direction)->enter(this);
 }
 
 void PacMan::draw_into(sf::RenderWindow& window) {
@@ -15,7 +14,10 @@ void PacMan::draw_into(sf::RenderWindow& window) {
     circle.setPosition(m_location->get_position());
     window.draw(circle);
 }
-std::unique_ptr<IGameEvent> PacMan::visit(Food* ptr_food) {
-//    return std::unique_ptr<IGameEvent>();
-    return std::make_unique<DeleteStaticEntity>(ptr_food);
+std::shared_ptr<IGameEvent> PacMan::visit(Food* ptr_food) {
+    return std::make_shared<DeleteStaticEntity>(ptr_food);
+//    return std::make_shared<DeleteStaticEntity>();
+}
+std::shared_ptr<IGameEvent> Food::accept(IVisitor* ptr_visitor) {
+    return ptr_visitor->visit(this);
 }
