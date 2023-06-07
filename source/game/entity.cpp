@@ -17,6 +17,9 @@ void PacMan::draw_into(sf::RenderWindow& window) {
 std::shared_ptr<IGameEvent> PacMan::visit(Food* ptr_food) {
     return std::make_shared<DeleteStaticEntity>(ptr_food);
 }
+std::shared_ptr<IGameEvent> PacMan::visit(Enemy* ptr_enemy) {
+    return std::make_shared<LostGame>();
+}
 std::shared_ptr<IGameEvent> Food::accept(IVisitor* ptr_visitor) {
     return ptr_visitor->visit(this);
 }

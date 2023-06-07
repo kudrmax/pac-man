@@ -44,6 +44,7 @@ void GameState::event_handling() {
 void GameState::update() {
     using namespace std::chrono_literals;
     auto& static_objects = m_context_manager.get_context().static_objects;
+    auto& dynamic_objects = m_context_manager.get_context().dynamic_objects;
     auto* pacman = &m_context_manager.get_context().pacman;
     auto food = std::find_if(static_objects.begin(), static_objects.end(),
                              [&](auto el) {
@@ -57,6 +58,23 @@ void GameState::update() {
         m_context_manager.get_context().state = GameContext::WIN;
         std::cout << "YOU WIN\n";
     }
+
+    auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(),
+                              [&](auto el) {
+                                  std::cout << "el = " << el->get_location() << std::endl;
+                                  std::cout << "pacman = " << pacman->get_location() << std::endl;
+                                  return pacman->get_location() == el->get_location();
+                              });
+    if (enemy != dynamic_objects.end()) {
+        auto enemy_to_delete = (*enemy)->accept(pacman);
+        enemy_to_delete->handle(&m_context_manager.get_context());
+        std::cout << "YOU LOST here\n";
+    }
+    if (m_context_manager.get_context().state == GameContext::LOST) {
+        std::cout << "YOU LOST\n";
+    }
+
+
 };
 
 void GameState::render() {
@@ -65,6 +83,9 @@ void GameState::render() {
     m_context_manager.get_context().pacman.draw_into(m_window);
 
     for (auto& el: m_context_manager.get_context().static_objects)
+        el->draw_into(m_window);
+
+    for (auto& el: m_context_manager.get_context().dynamic_objects)
         el->draw_into(m_window);
 
     m_maze->draw_into(m_window);

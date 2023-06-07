@@ -41,9 +41,17 @@ struct Food : public IStaticEntity {
 };
 
 struct Enemy : public IDynamicEntity {
+    void draw_into(sf::RenderWindow& window) override {
+        float r = 10;
+        auto enemy = sf::CircleShape(r);
+        enemy.setFillColor(sf::Color::Red);
+        enemy.setOrigin(r, r);
+        enemy.setPosition(m_location->get_position());
+        window.draw(enemy);
+    };
     std::unique_ptr<IDynamicEntity> clone() override {};
     std::shared_ptr<IGameEvent> accept(IVisitor* ptr_visitor) override {
-        return nullptr;
+        return ptr_visitor->visit(this);
     };
 };
 
@@ -51,4 +59,5 @@ struct PacMan : public IEntity, public IVisitor {
     void draw_into(sf::RenderWindow& window) override;
     void move(Room::Direction direction);
     std::shared_ptr<IGameEvent> visit(Food* ptr_food) override;
+    std::shared_ptr<IGameEvent> visit(Enemy* ptr_food) override;
 };

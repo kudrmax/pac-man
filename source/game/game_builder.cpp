@@ -114,8 +114,7 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
 
     // PacMan
     PacMan pacman;
-    auto room_for_pacman = m_rooms[3][3];
-    pacman.set_location(room_for_pacman);
+    pacman.set_location(m_rooms[3][3]);
     m_context.pacman = std::move(pacman);
 
     // Food
@@ -124,6 +123,11 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
         food->set_location(room_food);
         m_context.static_objects.push_back(food);
     }
+
+    // Enemy
+    auto enemy = std::make_shared<Enemy>();
+    enemy->set_location(m_rooms[2][2]);
+    m_context.dynamic_objects.emplace_back(enemy);
 };
 
 GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_builder,

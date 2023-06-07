@@ -5,10 +5,12 @@
 
 class IGameEvent;
 class Food;
+class Enemy;
 #include <iostream>
 
 struct IVisitor{
     virtual std::shared_ptr<IGameEvent> visit(Food* ptr_food) = 0;
+    virtual std::shared_ptr<IGameEvent> visit(Enemy* ptr_food) = 0;
     virtual ~IVisitor() = default;
 //    IGameEvent* visit(Enemy* ptr_enemy);
 };
