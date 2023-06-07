@@ -1,4 +1,5 @@
 #include "game_state.h"
+#include "../i_state_manager.h"
 #include "../select_level/select_level_state.h"
 #include "entity.h"
 #include "../exit/exite_state.h"
@@ -46,6 +47,8 @@ void GameState::update() {
     auto& static_objects = m_context_manager.get_context().static_objects;
     auto& dynamic_objects = m_context_manager.get_context().dynamic_objects;
     auto* pacman = &m_context_manager.get_context().pacman;
+
+    // delete food
     auto food = std::find_if(static_objects.begin(), static_objects.end(),
                              [&](auto el) {
                                  return pacman->get_location() == el->get_location();
@@ -59,10 +62,11 @@ void GameState::update() {
         std::cout << "YOU WIN\n";
     }
 
+    // lost game if you're in entity
     auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(),
                               [&](auto el) {
-                                  std::cout << "el = " << el->get_location() << std::endl;
-                                  std::cout << "pacman = " << pacman->get_location() << std::endl;
+//                                  std::cout << "el = " << el->get_location() << std::endl;
+//                                  std::cout << "pacman = " << pacman->get_location() << std::endl;
                                   return pacman->get_location() == el->get_location();
                               });
     if (enemy != dynamic_objects.end()) {
@@ -74,7 +78,10 @@ void GameState::update() {
         std::cout << "YOU LOST\n";
     }
 
-
+    // move enemy
+    for(auto& enemy_for_action : dynamic_objects){
+        enemy_for_action->action();
+    }
 };
 
 void GameState::render() {

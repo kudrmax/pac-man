@@ -17,9 +17,7 @@ struct WinGame : public IGameEvent {
 };
 
 struct LostGame : public IGameEvent {
-    void handle(GameContext* context) override {
-        context->state = GameContext::LOST;
-    }
+    void handle(GameContext* context) override;
 };
 
 struct DeleteStaticEntity : public IGameEvent {

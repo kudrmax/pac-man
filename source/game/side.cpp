@@ -1,4 +1,5 @@
 #include "side.h"
+#include "entity.h"
 #include <thread>
 
 sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle) {
@@ -41,4 +42,8 @@ void Wall::prepare_to_draw(std::shared_ptr<Room> room) {
     m_line[1] = pos1;
 //        std::cout << "\nm_line[0] = { " << m_line[0].position.x << ", " << m_line[0].position.y << " }\n";
 //        std::cout << "m_line[1] = { " << m_line[1].position.x << ", " << m_line[1].position.y << " }\n\n";
+}
+
+void Pass::enter(IEntity* entity) {
+    entity->set_location(m_room2);
 }

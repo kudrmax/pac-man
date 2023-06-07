@@ -1,8 +1,10 @@
 #pragma once
 
-#include "maze.h"
-#include "entity.h"
+//#include "maze.h"
+//#include "entity.h"
+#include "../i_draw.h"
 
+class Room;
 class IEntity;
 
 struct IRoomSide : public IMyDrawable {
@@ -18,7 +20,7 @@ public:
     Pass(std::shared_ptr<Room> room1, std::shared_ptr<Room> room2) : m_room1(room1), m_room2(room2) {}
     void draw_into(sf::RenderWindow& window) override { /* empty */ }
     void call() override {};
-    void enter(IEntity* entity) override { entity->set_location(m_room2); };
+    void enter(IEntity* entity) override;
 private:
     std::shared_ptr<Room> m_room1;
     std::shared_ptr<Room> m_room2;

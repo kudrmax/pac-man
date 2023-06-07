@@ -4,8 +4,8 @@
 
 
 void SimpleGameBuilder::create_rooms() {
-    size_t count_of_rooms_x = 5;
-    size_t count_of_rooms_y = 5;
+    size_t count_of_rooms_x = 10;
+    size_t count_of_rooms_y = 10;
 //    size_t count_of_rooms_x = m_width / m_room_size - 4;
 //    size_t count_of_rooms_y = m_height / m_room_size - 4;
     auto room_size = m_room_size;
@@ -125,9 +125,13 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     }
 
     // Enemy
-    auto enemy = std::make_shared<Enemy>();
-    enemy->set_location(m_rooms[2][2]);
-    m_context.dynamic_objects.emplace_back(enemy);
+    auto enemy1 = std::make_shared<Enemy>();
+    enemy1->set_location(m_rooms[2][2]);
+    m_context.dynamic_objects.emplace_back(enemy1);
+
+    auto enemy2 = std::make_shared<Enemy>();
+    enemy2->set_location(m_rooms[2][2]);
+    m_context.dynamic_objects.emplace_back(enemy2);
 };
 
 GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_builder,

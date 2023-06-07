@@ -25,6 +25,7 @@ struct IStaticEntity : public IEntity, public IVisitable {
 
 struct IDynamicEntity : public IEntity, public IVisitable {
     virtual std::unique_ptr<IDynamicEntity> clone() = 0;
+    virtual void action() = 0;
 };
 
 struct Food : public IStaticEntity {
@@ -52,7 +53,22 @@ struct Enemy : public IDynamicEntity {
     std::unique_ptr<IDynamicEntity> clone() override {};
     std::shared_ptr<IGameEvent> accept(IVisitor* ptr_visitor) override {
         return ptr_visitor->visit(this);
+        m_location->get_side(Room::Direction::LEFT)->enter(this);
     };
+    void action() {
+        int dir = rand() % 4;
+        float delte_time = 0.2;
+//        Room::Direction direction = Room::Direction::LEFT;
+        Room::Direction direction = static_cast<Room::Direction>(dir);
+        if (clock.getElapsedTime() > sf::seconds(delte_time)) {
+            std::cout << delte_time << std::endl;
+            auto side = m_location->get_side(direction);
+            side->enter(this);
+            clock.restart();
+        }
+    }
+private:
+    sf::Clock clock;
 };
 
 struct PacMan : public IEntity, public IVisitor {

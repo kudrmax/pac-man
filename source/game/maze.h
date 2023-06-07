@@ -3,10 +3,10 @@
 #include <array>
 #include <exception>
 #include "../i_draw.h"
-//#include "side.h"
+#include "side.h"
 //#include "side.h"
 
-class IRoomSide;
+//class IRoomSide;
 
 class Room : public IMyDrawable {
 public:
