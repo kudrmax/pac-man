@@ -31,8 +31,10 @@ void SimpleGameBuilder::set_rooms_sides() {
             auto cal_max = m_rooms[row_n].size();
             if (col_n == 0 || col_n == m_rooms[row_n].size() - 1 ||
                 row_n == 0 || row_n == m_rooms.size() - 1) {
-                for (size_t i = 0; i < 4; ++i)
+                for (size_t i = 0; i < 4; ++i) {
                     room->set_side(static_cast<Room::Direction>(i), std::make_shared<Wall>(room));
+                    room->set_fillable(false);
+                }
             } else if (col_n == 1 && row_n == 1) {
                 room->set_side(Room::Direction::LEFT, std::make_shared<Wall>(room));
                 room->set_side(Room::Direction::UP, std::make_shared<Wall>(room));
@@ -100,6 +102,16 @@ SimpleGameBuilder::SimpleGameBuilder(float width, float height, float room_size)
         m_width(width), m_height(height), m_room_size(room_size) {}
 
 void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
+
+    // find fillable rooms
+    std::vector<std::shared_ptr<Room>> fillable_rooms;
+    for (auto& row: m_rooms) {
+        for (const auto& room: row) {
+            if (room->is_fillable())
+                fillable_rooms.push_back(room);
+        }
+    }
+
     // PacMan
     PacMan pacman;
     auto room_for_pacman = m_rooms[3][3];
@@ -107,23 +119,11 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     m_context.pacman = std::move(pacman);
 
     // Food
-    for(auto& row : m_rooms){
-        for(auto room : row){
-//            for(auto side : room->get_side()){
-//
-//            }
-        }
+    for (auto room_food: fillable_rooms) {
+        auto food = std::make_shared<Food>();
+        food->set_location(room_food);
+        m_context.static_objects.push_back(food);
     }
-
-    for (size_t row_n = 1; row_n < m_rooms.size() - 1; ++row_n) {
-        for (size_t col_n = 1; col_n < m_rooms[row_n].size() - 1; ++col_n) {
-            auto room_food = m_rooms[row_n][col_n];
-            auto food = std::make_shared<Food>();
-            food->set_location(room_food);
-            m_context.static_objects.push_back(food);
-        }
-    }
-//    m_game_state->set_context(m_context);
 };
 
 GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_builder,

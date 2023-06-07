@@ -13,7 +13,9 @@ public:
     enum Direction {
         INVALID = -1, LEFT, UP, RIGHT, DOWN
     };
-    explicit Room(float size) : m_rectangle({ size, size }) { m_rectangle.setOrigin(size / 2, size / 2); }
+    explicit Room(float size, bool is_fillable = true) : m_rectangle({ size, size }), m_is_fillable(is_fillable) {
+        m_rectangle.setOrigin(size / 2, size / 2);
+    }
     void set_side(Direction side, std::shared_ptr<IRoomSide> ptr_room_side);
     void set_position(sf::Vector2f position) { m_rectangle.setPosition(position); }
     float get_size() { return m_rectangle.getSize().x; }
@@ -22,10 +24,11 @@ public:
     Direction get_direction(IRoomSide* ptr_room_side);
     void draw_into(sf::RenderWindow& window) override;
     bool is_fillable() { return m_is_fillable; }
+    void set_fillable(bool is_fillable) { m_is_fillable = is_fillable; }
 private:
     sf::RectangleShape m_rectangle;
     std::array<std::shared_ptr<IRoomSide>, 4> m_sides;
-    bool m_is_fillable = true;
+    bool m_is_fillable;
 };
 
 class Maze : public IMyDrawable {
