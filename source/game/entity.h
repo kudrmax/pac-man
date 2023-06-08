@@ -3,6 +3,8 @@
 #include "../i_draw.h"
 #include "maze.h"
 #include "visitor.h"
+#include <time.h>
+#include <stdlib.h>
 //#include "game_event.h"
 //#include "game_event.h"
 //#include "side.h"
@@ -56,6 +58,7 @@ struct Enemy : public IDynamicEntity {
         m_location->get_side(Room::Direction::LEFT)->enter(this);
     };
     void action() {
+//        srand(time(NULL));
         int dir = rand() % 4;
         float delte_time = 0.2;
 //        Room::Direction direction = Room::Direction::LEFT;

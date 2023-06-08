@@ -125,13 +125,21 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     }
 
     // Enemy
+    srand(time(NULL));
+    int x_rand = rand() % (m_rooms.size() - 1) + 1;
+    int y_rand = rand() % (m_rooms.size() - 1) + 1;
+
     auto enemy1 = std::make_shared<Enemy>();
-    enemy1->set_location(m_rooms[2][2]);
+    enemy1->set_location(m_rooms[x_rand][y_rand]);
     m_context.dynamic_objects.emplace_back(enemy1);
 
     auto enemy2 = std::make_shared<Enemy>();
-    enemy2->set_location(m_rooms[2][2]);
+    enemy2->set_location(m_rooms[x_rand][y_rand]);
     m_context.dynamic_objects.emplace_back(enemy2);
+
+    auto enemy3 = std::make_shared<Enemy>();
+    enemy3->set_location(m_rooms[x_rand][y_rand]);
+    m_context.dynamic_objects.emplace_back(enemy3);
 };
 
 GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_builder,

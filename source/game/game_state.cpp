@@ -79,7 +79,7 @@ void GameState::update() {
     }
 
     // move enemy
-    for(auto& enemy_for_action : dynamic_objects){
+    for (auto& enemy_for_action: dynamic_objects) {
         enemy_for_action->action();
     }
 };
@@ -97,10 +97,30 @@ void GameState::render() {
 
     m_maze->draw_into(m_window);
 
-    if (m_context_manager.get_context().state == GameContext::WIN)
-        m_window.clear(sf::Color::Green);
-    else if (m_context_manager.get_context().state == GameContext::LOST)
-        m_window.clear(sf::Color::Red);
+    auto tickness = 25;
+    if (m_context_manager.get_context().state == GameContext::WIN) {
+        sf::RectangleShape rec;
+        rec.setSize({ static_cast<float>(config::GAME_VIDEO_MODE.width) - tickness * 2,
+                      static_cast<float>(config::GAME_VIDEO_MODE.height) - tickness * 2 });
+        rec.setOrigin({ rec.getSize().x / 2, rec.getSize().y / 2 });
+        rec.setPosition({ static_cast<float>(config::GAME_VIDEO_MODE.width) / 2,
+                          static_cast<float>(config::GAME_VIDEO_MODE.height) / 2 });
+        rec.setOutlineThickness(tickness);
+        rec.setOutlineColor(sf::Color::Green);
+        rec.setFillColor(sf::Color::Transparent);
+        m_window.draw(rec);
+    } else if (m_context_manager.get_context().state == GameContext::LOST) {
+        sf::RectangleShape rec;
+        rec.setSize({ static_cast<float>(config::GAME_VIDEO_MODE.width) - tickness * 2,
+                      static_cast<float>(config::GAME_VIDEO_MODE.height) - tickness * 2 });
+        rec.setOrigin({ rec.getSize().x / 2, rec.getSize().y / 2 });
+        rec.setPosition({ static_cast<float>(config::GAME_VIDEO_MODE.width) / 2,
+                          static_cast<float>(config::GAME_VIDEO_MODE.height) / 2 });
+        rec.setOutlineThickness(tickness);
+        rec.setOutlineColor(sf::Color::Red);
+        rec.setFillColor(sf::Color::Transparent);
+        m_window.draw(rec);
+    }
 
     m_window.display();
 }
