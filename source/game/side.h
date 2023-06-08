@@ -11,6 +11,9 @@ struct IRoomSide : public IMyDrawable {
     virtual void enter(IEntity* entity) = 0;
     virtual void call() = 0;
     virtual ~IRoomSide() = default;
+    enum SIDE {
+        WALL, PASS
+    };
 };
 
 sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle);
