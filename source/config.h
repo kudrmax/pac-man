@@ -35,6 +35,7 @@ namespace config {
     const sf::Keyboard::Key KEY_RIGHT = sf::Keyboard::D;
     const sf::Keyboard::Key KEY_UP = sf::Keyboard::W;
     const sf::Keyboard::Key KEY_DOWN = sf::Keyboard::S;
+    const sf::Keyboard::Key KEY_CLOSE = sf::Keyboard::Escape;
 // Цвета:
     const sf::Color BUTTON_COLOR_TEXT = sf::Color::White;
     const sf::Color BUTTON_COLOR_FILL = sf::Color::Yellow;

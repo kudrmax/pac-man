@@ -5,7 +5,6 @@
 #include "../exit/exite_state.h"
 
 
-
 void SelectState::event_handling() {
     sf::Event event;
     while (m_window.pollEvent(event)) {
@@ -14,8 +13,9 @@ void SelectState::event_handling() {
             m_state_manager.set_next_state(std::make_unique<ExitState>(m_state_manager));
             break;
         }
-        auto position_float = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
-        m_menu.process_mouse(position_float, event.type == sf::Event::MouseButtonPressed);
+        auto coord_mouse = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+        auto is_pressed = event.type == sf::Event::MouseButtonPressed;
+        m_menu.process_mouse(coord_mouse, is_pressed);
     }
 };
 
@@ -35,4 +35,6 @@ void SelectState::update() {
     m_menu.draw_into(m_window);
 };
 
-void SelectState::render() { m_window.display(); };
+void SelectState::render() {
+    m_window.display();
+};

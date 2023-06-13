@@ -15,7 +15,6 @@ public:
     void event_handling() override;
     void update() override;
     void render() override;
-    void call() override { std::cout << "SelectState\n"; }
 private:
     Menu m_menu;
 };

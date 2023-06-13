@@ -3,15 +3,14 @@
 #include "button_command.h"
 
 
-void Menu::process_mouse(sf::Vector2f pos, bool is_pressed) {
+void Menu::process_mouse(const sf::Vector2f& position, bool is_pressed) {
     for (auto& button: m_buttons) {
-        if (button->is_position_in(pos)) {
+        if (button->is_position_in(position))
             button->select();
-            if (is_pressed)
-                button->push();
-        } else {
+        else
             button->unselect();
-        }
+        if (is_pressed && button->is_selected())
+            button->push();
     }
 }
 

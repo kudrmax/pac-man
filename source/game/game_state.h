@@ -16,7 +16,6 @@ public:
     void event_handling() override;
     void update() override;
     void render() override;
-    void call() override { std::cout << "GameState\n"; }
 private:
     void process_key_pressed(sf::Keyboard::Key key);
 //    void process_event(std::unique_ptr<IGameEvent> ptr_event);
