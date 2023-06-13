@@ -31,10 +31,10 @@ SelectState::SelectState(IStateManager& state_manager, const std::string& window
         IWindowKeeper(config::SELECT_LEVEL_VIDEO_MODE, window_title),
         IState(state_manager) {}
 
-void SelectState::update() {
-    m_menu.draw_into(m_window);
-};
+void SelectState::update() {};
 
 void SelectState::render() {
+    m_window.clear(config::SELECT_LEVEL_BACKGROUND_COLOR);
+    m_menu.draw_into(m_window);
     m_window.display();
 };
