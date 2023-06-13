@@ -70,9 +70,37 @@ struct Enemy : public IDynamicEntity {
             clock.restart();
         }
     }
-private:
+protected:
     sf::Clock clock;
 };
+
+//struct TeleportEnemy : public Enemy {
+//    void draw_into(sf::RenderWindow& window) override {
+//        float r = 10;
+//        auto enemy = sf::CircleShape(r);
+//        enemy.setFillColor(sf::Color::Red);
+//        enemy.setOrigin(r, r);
+//        enemy.setPosition(m_location->get_position());
+//        window.draw(enemy);
+//    };
+//    std::shared_ptr<IGameEvent> accept(IVisitor* ptr_visitor) override {
+//        return ptr_visitor->visit(this);
+//        m_location->get_side(Room::Direction::LEFT)->enter(this);
+//    };
+//    void action() {
+////        srand(time(NULL));
+//        int dir = rand() % 4;
+//        float delte_time = 0.2;
+////        Room::Direction direction = Room::Direction::LEFT;
+//        Room::Direction direction = static_cast<Room::Direction>(dir);
+//        if (clock.getElapsedTime() > sf::seconds(delte_time)) {
+//            std::cout << delte_time << std::endl;
+//            auto side = m_location->get_side(direction);
+//            side->enter(this);
+//            clock.restart();
+//        }
+//    }
+//};
 
 struct PacMan : public IEntity, public IVisitor {
     void draw_into(sf::RenderWindow& window) override;

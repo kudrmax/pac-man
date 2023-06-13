@@ -6,7 +6,7 @@
 #include "../config.h"
 #include <thread>
 
-GameState::GameState(IStateManager* state_manager, const std::string& window_title) :
+GameState::GameState(IStateManager& state_manager, const std::string& window_title) :
         IWindowKeeper(config::GAME_VIDEO_MODE, window_title),
         IState(state_manager) {
 }
@@ -28,7 +28,7 @@ void GameState::event_handling() {
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_window.close();
-            m_state_manager->set_next_state(std::make_unique<SelectState>(m_state_manager, config::SELECT_LEVEL_TITLE));
+            m_state_manager.set_next_state(std::make_unique<SelectState>(m_state_manager, config::SELECT_LEVEL_TITLE));
             break;
         }
 

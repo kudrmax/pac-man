@@ -7,7 +7,7 @@ struct IGameBuilder {
     virtual void create_rooms() = 0;
     virtual void set_rooms_sides() = 0;
     virtual void create_context(float dynamic_objects_ratio) = 0;
-    virtual void create_state(IStateManager* state_manager, std::string window_title) = 0;
+    virtual void create_state(IStateManager& state_manager, std::string window_title) = 0;
     virtual void set_all_to_state() = 0;
     virtual std::unique_ptr<GameState> get_game() = 0;
     virtual ~IGameBuilder() = default;
@@ -19,7 +19,7 @@ public:
     void create_rooms() override;
     void set_rooms_sides() override;
     void create_context(float dynamic_objects_ratio) override;
-    void create_state(IStateManager* state_manager, std::string window_title) override;
+    void create_state(IStateManager& state_manager, std::string window_title) override;
     void set_all_to_state() override;
     std::unique_ptr<GameState> get_game() override { return std::move(m_game_state); };
 private:
@@ -53,7 +53,7 @@ class GameBuilderDirector {
 public:
     GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_builder, const std::string& window_title,
                         float dynamic_objects_ratio);
-    std::unique_ptr<GameState> build(IStateManager* state_manager);
+    std::unique_ptr<GameState> build(IStateManager& state_manager);
 private:
     float m_dynamic_objects_ratio;
     std::string m_window_title;

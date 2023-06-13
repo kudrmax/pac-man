@@ -38,5 +38,5 @@ void Application::apply_deffer_state_change() {
 };
 
 Application::Application() {
-    m_ptr_state_current = std::make_unique<SelectState>(this, "Title");
+    m_ptr_state_current = std::make_unique<SelectState>(*this, "Title");
 }

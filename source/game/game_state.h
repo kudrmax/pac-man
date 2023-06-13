@@ -9,7 +9,7 @@
 
 class GameState : public IState, public IWindowKeeper {
 public:
-    GameState(IStateManager* state_manager, const std::string& window_title);
+    GameState(IStateManager& state_manager, const std::string& window_title);
     void set_maze(std::unique_ptr<Maze> maze) { m_maze = std::move(maze); };
     void set_context(GameContext&& context);
     bool do_step() override;
