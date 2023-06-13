@@ -189,7 +189,7 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     m_context.dynamic_objects.emplace_back(enemy3);
 };
 
-GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder>
+GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder>&&
                                          ptr_builder,
                                          const std::string& window_title,
                                          float dynamic_objects_ratio) :

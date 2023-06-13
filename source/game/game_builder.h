@@ -51,7 +51,7 @@ private:
 
 class GameBuilderDirector {
 public:
-    GameBuilderDirector(std::unique_ptr<IGameBuilder> ptr_builder, const std::string& window_title,
+    GameBuilderDirector(std::unique_ptr<IGameBuilder>&& ptr_builder, const std::string& window_title,
                         float dynamic_objects_ratio);
     std::unique_ptr<GameState> build(IStateManager& state_manager);
 private:

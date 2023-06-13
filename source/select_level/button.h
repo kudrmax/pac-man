@@ -9,7 +9,6 @@ struct Button : public IMyDrawable, public sf::RectangleShape {
 public:
     using RectangleShape::RectangleShape;
     void draw_into(sf::RenderWindow& window) override;
-//    Button() = default;
     Button(const sf::Vector2f& button_center_pos,
            const sf::Vector2f& button_size,
            const std::string& text,
@@ -20,7 +19,6 @@ public:
     bool is_selected() { return m_is_selected; };
     bool is_position_in(sf::Vector2f position);
     void push();
-//    void process_button();
 private:
     bool m_is_selected = false;
     sf::Font m_font;

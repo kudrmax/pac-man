@@ -16,38 +16,70 @@ void Menu::process_mouse(sf::Vector2f pos, bool is_pressed) {
 }
 
 Menu::Menu(IStateManager& state_manager) {
+    float start_position_buttons = 100;
+    float delta_position_buttons = config::BUTTON_SIZE.y + 25;
 
-    std::vector<std::pair<std::string, std::unique_ptr<IChangeStateCommand>>> buttons_vector;
+    m_buttons.emplace_back(std::make_unique<Button>(
+            sf::Vector2f{ config::SELECT_LEVEL_VIDEO_MODE_WIDTH / 2, start_position_buttons },
+            config::BUTTON_SIZE,
+            config::BUTTON_TEXT_EASY,
+            config::BUTTON_FONT_SIZE,
+            std::move(std::make_unique<GameCommand>(
+                    state_manager, std::make_unique<GameBuilderDirector>(
+                            std::make_unique<SimpleGameBuilder>(
+                                    config::SELECT_LEVEL_VIDEO_MODE_WIDTH,
+                                    config::SELECT_LEVEL_VIDEO_MODE_HEIGHT,
+                                    config::ROOM_SIZE),
+                            config::EASY_GAME_TITLE,
+                            0
+                    )
+            ))
+    ));
 
-    // Create buttons here
-    buttons_vector.emplace_back("Easy Button",
-                                std::make_unique<GameCommand>(state_manager,
-                                                              std::make_unique<GameBuilderDirector>(
-                                                                      std::make_unique<SimpleGameBuilder>(
-                                                                              config::GAME_VIDEO_MODE.width /2,
-                                                                              config::GAME_VIDEO_MODE.height /2,
-                                                                              config::ROOM_SIZE), "Easy Game", 0)));
-    buttons_vector.emplace_back("Medium Button", std::make_unique<ExitCommand>(state_manager));
-    buttons_vector.emplace_back("Hard Button", std::make_unique<ExitCommand>(state_manager));
-    buttons_vector.emplace_back("Exit Button", std::make_unique<ExitCommand>(state_manager));
+    m_buttons.emplace_back(std::make_unique<Button>(
+            sf::Vector2f{ config::SELECT_LEVEL_VIDEO_MODE_WIDTH / 2, start_position_buttons + delta_position_buttons },
+            config::BUTTON_SIZE,
+            config::BUTTON_TEXT_EASY,
+            config::BUTTON_FONT_SIZE,
+            std::move(std::make_unique<GameCommand>(
+                    state_manager, std::make_unique<GameBuilderDirector>(
+                            std::make_unique<SimpleGameBuilder>(
+                                    config::SELECT_LEVEL_VIDEO_MODE_WIDTH,
+                                    config::SELECT_LEVEL_VIDEO_MODE_HEIGHT,
+                                    config::ROOM_SIZE),
+                            config::EASY_GAME_TITLE,
+                            0
+                    )
+            ))
+    ));
 
-    sf::Vector2f position(config::SELECT_LEVEL_VIDEO_MODE.width, config::SELECT_LEVEL_VIDEO_MODE.height);
-    float start_position = 100;
-    float delta_position = 20;
-    float height_button = config::BUTTON_SIZE.y;
-    position.x /= 2;
-    position.y = start_position;
-    for (size_t i = 0; i < buttons_vector.size(); ++i) {
-        position.y = start_position + i * (delta_position + height_button);
-        m_buttons.push_back(std::make_unique<Button>(
-                Button(
-                        position,
-                        config::BUTTON_SIZE,
-                        std::move(buttons_vector[i].first),
-                        config::BUTTON_FONT_SIZE,
-                        std::move(buttons_vector[i].second)))
-        );
-    }
+    m_buttons.emplace_back(std::make_unique<Button>(
+            sf::Vector2f{ config::SELECT_LEVEL_VIDEO_MODE_WIDTH / 2,
+                          start_position_buttons + delta_position_buttons * 2 },
+            config::BUTTON_SIZE,
+            config::BUTTON_TEXT_EASY,
+            config::BUTTON_FONT_SIZE,
+            std::move(std::make_unique<GameCommand>(
+                    state_manager, std::make_unique<GameBuilderDirector>(
+                            std::make_unique<SimpleGameBuilder>(
+                                    config::SELECT_LEVEL_VIDEO_MODE_WIDTH,
+                                    config::SELECT_LEVEL_VIDEO_MODE_HEIGHT,
+                                    config::ROOM_SIZE),
+                            config::EASY_GAME_TITLE,
+                            0
+                    )
+            ))
+    ));
+
+
+    m_buttons.emplace_back(std::make_unique<Button>(
+            sf::Vector2f{ config::SELECT_LEVEL_VIDEO_MODE_WIDTH / 2,
+                          start_position_buttons + delta_position_buttons * 3 },
+            config::BUTTON_SIZE,
+            config::BUTTON_TEXT_EASY,
+            config::BUTTON_FONT_SIZE,
+            std::move(std::make_unique<ExitCommand>(state_manager)))
+    );
 }
 
 void Menu::draw_into(sf::RenderWindow& window) {

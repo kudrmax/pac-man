@@ -10,12 +10,16 @@ namespace config {
     const char FONT_FILE[] = "Calibri-Light.ttf";
     const char SELECT_LEVEL_TITLE[] = "Select Level";
     const sf::VideoMode SELECT_LEVEL_VIDEO_MODE{ 400, 600 };
+    const float SELECT_LEVEL_VIDEO_MODE_WIDTH = static_cast<float>(config::SELECT_LEVEL_VIDEO_MODE.width);
+    const float SELECT_LEVEL_VIDEO_MODE_HEIGHT = static_cast<float>(config::SELECT_LEVEL_VIDEO_MODE.height);
     const char BUTTON_TEXT_EASY[] = "Easy";
     const char BUTTON_TEXT_MEDIUM[] = "Medium";
     const char BUTTON_TEXT_HARD[] = "Hard";
     const char BUTTON_TEXT_EXIT[] = "Exit";
 // Игра:
     const sf::VideoMode GAME_VIDEO_MODE{ 1920, 1080 };
+    const float GAME_VIDEO_MODE_WIDTH = static_cast<float>(config::GAME_VIDEO_MODE.width);
+    const float GAME_VIDEO_MODE_HEIGHT = static_cast<float>(config::GAME_VIDEO_MODE.height);
     const char EASY_GAME_TITLE[] = "Level: Easy";
     const char MEDIUM_GAME_TITLE[] = "Level: Medium";
     const char HARD_GAME_TITLE[] = "Level: Hard";
@@ -27,10 +31,10 @@ namespace config {
     const float GAME_FOOD_SIZE = ROOM_SIZE * 0.2;
 // Пакмэн:
     const float GAME_PACMAN_SIZE = ROOM_SIZE * 0.8;
-//    const sf::Keyboard::Key KEY_LEFT = sf::Keyboard::A;
-//    const sf::Keyboard::Key KEY_RIGHT = sf::Keyboard::D;
-//    const sf::Keyboard::Key KEY_UP = sf::Keyboard::W;
-//    const sf::Keyboard::Key KEY_DOWN = sf::Keyboard::S;
+    const sf::Keyboard::Key KEY_LEFT = sf::Keyboard::A;
+    const sf::Keyboard::Key KEY_RIGHT = sf::Keyboard::D;
+    const sf::Keyboard::Key KEY_UP = sf::Keyboard::W;
+    const sf::Keyboard::Key KEY_DOWN = sf::Keyboard::S;
 // Цвета:
     const sf::Color BUTTON_COLOR_TEXT = sf::Color::White;
     const sf::Color BUTTON_COLOR_FILL = sf::Color::Yellow;
@@ -38,7 +42,7 @@ namespace config {
 //    const sf::Color BUTTON_COLOR_SELECTION = sf::Color{ 50, 50, 100 };
     const sf::Color BUTTON_COLOR_FRAME = sf::Color::Blue;
     const sf::Color SELECT_LEVEL_BACKGROUND_COLOR{ 25, 25, 25 };
-    const sf::Color GAME_COLOR_BACKGROUND_INGAME{ 50,50,50 };
+    const sf::Color GAME_COLOR_BACKGROUND_INGAME{ 50, 50, 50 };
     const sf::Color GAME_COLOR_BACKGROUND_WIN{ 0, 100, 0 };
     const sf::Color GAME_COLOR_BACKGROUND_LOST{ 100, 0, 0 };
     const sf::Color GAME_COLOR_PACMAN{ 250, 250, 0 };
