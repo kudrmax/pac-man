@@ -95,7 +95,7 @@ void GameState::render() {
     for (auto& el: m_context_manager.get_context().dynamic_objects)
         el->draw_into(m_window);
 
-    m_maze->draw_into(m_window);
+    m_maze.draw_into(m_window);
 
     auto tickness = 25;
     if (m_context_manager.get_context().state == GameContext::WIN) {

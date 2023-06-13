@@ -138,7 +138,7 @@ void SimpleGameBuilder::set_all_to_state() {
     for (auto&& v: m_rooms) {
         new_vec.insert(new_vec.end(), v.begin(), v.end());
     }
-    m_game_state->set_maze(std::make_unique<Maze>(new_vec));
+    m_game_state->set_maze(std::move(Maze(new_vec)));
     m_game_state->set_context(std::move(m_context));
 }
 

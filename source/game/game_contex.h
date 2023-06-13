@@ -3,12 +3,15 @@
 #include "entity.h"
 #include <memory>
 #include <vector>
+#include <list>
 #include <stack>
 
 
 struct GameContext {
     GameContext clone() { return *this; };
-    enum State { INGAME, WIN, LOST };
+    enum State {
+        INGAME, WIN, LOST
+    };
     PacMan pacman;
     State state = INGAME;
     std::vector<std::shared_ptr<IDynamicEntity>> dynamic_objects;

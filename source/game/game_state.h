@@ -10,7 +10,7 @@
 class GameState : public IState, public IWindowKeeper {
 public:
     GameState(IStateManager& state_manager, const std::string& window_title);
-    void set_maze(std::unique_ptr<Maze> maze) { m_maze = std::move(maze); };
+    void set_maze(Maze&& maze) { m_maze = std::move(maze); };
     void set_context(GameContext&& context);
     bool do_step() override;
     void event_handling() override;
@@ -22,5 +22,5 @@ private:
 //    void process_event(std::unique_ptr<IGameEvent> ptr_event);
 private:
     ContextManager m_context_manager;
-    std::unique_ptr<Maze> m_maze;
+    Maze m_maze;
 };

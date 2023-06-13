@@ -26,8 +26,9 @@ void Button::draw_into(sf::RenderWindow& window) {
 }
 
 
-Button::Button(sf::Vector2f button_center_pos, sf::Vector2f button_size, std::string text, size_t font_size,
-               std::unique_ptr<ISelectCommand> ptr_command) {
+Button::Button(const sf::Vector2f& button_center_pos, const sf::Vector2f& button_size, const std::string& text,
+               size_t font_size,
+               std::unique_ptr<ISelectCommand>&& ptr_command) {
     m_rectangle.setFillColor(config::BUTTON_COLOR_FILL);
     m_rectangle.setSize(button_size);
     m_rectangle.setOrigin(button_size.x / 2, button_size.y / 2);
