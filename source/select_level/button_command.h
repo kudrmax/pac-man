@@ -9,7 +9,7 @@ struct ISelectCommand {
 };
 
 struct IChangeStateCommand : public ISelectCommand {
-    IChangeStateCommand(IStateManager& state_manager) : m_state_manager(state_manager) {}; // СПОРНО
+    explicit IChangeStateCommand(IStateManager& state_manager) : m_state_manager(state_manager) {};
 protected:
     IStateManager& m_state_manager;
 };
@@ -20,7 +20,6 @@ struct ExitCommand : public IChangeStateCommand {
 };
 
 struct GameCommand : public IChangeStateCommand {
-    using IChangeStateCommand::IChangeStateCommand;
     GameCommand(IStateManager& state_manager, std::unique_ptr<GameBuilderDirector>&& ptr_director)
             : IChangeStateCommand(state_manager), m_ptr_director(std::move(ptr_director)) {};
     void execute() override;

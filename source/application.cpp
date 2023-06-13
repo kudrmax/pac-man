@@ -30,6 +30,4 @@ void Application::apply_deffer_state_change() {
     }
 };
 
-Application::Application() {
-    m_ptr_state_current = std::make_unique<SelectState>(*this, config::SELECT_LEVEL_TITLE);
-}
+Application::Application() : m_ptr_state_current(std::make_unique<SelectState>(*this, config::SELECT_LEVEL_TITLE)) {}

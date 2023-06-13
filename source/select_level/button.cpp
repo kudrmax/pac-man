@@ -2,8 +2,8 @@
 #include "../config.h"
 #include "button_command.h"
 
-bool Button::is_position_in(sf::Vector2f pos) {
-    auto delta = m_rectangle.getPosition() - pos;
+bool Button::is_position_in(const sf::Vector2f& position) {
+    auto delta = m_rectangle.getPosition() - position;
     return (std::abs(delta.x) < m_rectangle.getSize().x / 2) &&
            (std::abs(delta.y) < m_rectangle.getSize().y / 2);
 }
@@ -17,10 +17,11 @@ void Button::unselect() {
     m_rectangle.setFillColor(config::BUTTON_COLOR_FILL);
 };
 
-void Button::push() { m_ptr_command->execute(); };
+void Button::push() {
+    m_ptr_command->execute();
+};
 
 void Button::draw_into(sf::RenderWindow& window) {
-//    process_button();
     window.draw(m_rectangle);
     window.draw(m_text);
 }
