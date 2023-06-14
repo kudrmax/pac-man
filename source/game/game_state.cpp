@@ -51,7 +51,7 @@ void GameState::update() {
     // delete food
     auto food = std::find_if(static_objects.begin(), static_objects.end(),
                              [&](auto el) {
-                                 return pacman->get_location() == el->get_location();
+                                 return &pacman->get_location() == &el->get_location();
                              });
     if (food != static_objects.end()) {
         auto food_to_delete = (*food)->accept(pacman);
@@ -67,7 +67,7 @@ void GameState::update() {
                               [&](auto el) {
 //                                  std::cout << "el = " << el->get_location() << std::endl;
 //                                  std::cout << "pacman = " << pacman->get_location() << std::endl;
-                                  return pacman->get_location() == el->get_location();
+                                  return &pacman->get_location() == &el->get_location();
                               });
     if (enemy != dynamic_objects.end()) {
         auto enemy_to_delete = (*enemy)->accept(pacman);

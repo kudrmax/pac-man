@@ -13,10 +13,10 @@ void Wall::draw_into(sf::RenderWindow& window) {
     window.draw(m_line, 2, sf::Lines);
 }
 
-void Wall::prepare_to_draw(std::shared_ptr<Room>& room) {
-    auto dir = room->get_direction(this);
-    auto size = room->get_size() / 2;
-    auto pos = room->get_position();
+void Wall::prepare_to_draw(Room& room) {
+    auto dir = room.get_direction(this);
+    auto size = room.get_size() / 2;
+    auto pos = room.get_position();
     auto vec = sf::Vector2f{ -size, 0 };
     auto rotate_vec = rotate_vector2f(vec, 90 * static_cast<int>(dir));
     auto rotate_vec2 = rotate_vector2f(rotate_vec, 90);

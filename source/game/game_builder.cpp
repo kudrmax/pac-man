@@ -41,16 +41,16 @@ void create_sides_for_room(std::vector<std::vector<std::shared_ptr<Room>>>& room
     auto room = rooms[coords.first][coords.second];
     for (const auto& side: sides) {
         if (side.second == SIDE::WALL)
-            room->set_side(side.first, std::make_shared<Wall>(room));
+            room->set_side(side.first, std::make_shared<Wall>(*room));
         else if (side.second == SIDE::PASS) {
             if (side.first == DIR::LEFT)
-                room->set_side(DIR::LEFT, std::make_shared<Pass>(room, rooms[row_n][col_n - 1]));
+                room->set_side(DIR::LEFT, std::make_shared<Pass>(*room, *rooms[row_n][col_n - 1]));
             if (side.first == DIR::UP)
-                room->set_side(DIR::UP, std::make_shared<Pass>(room, rooms[row_n - 1][col_n]));
+                room->set_side(DIR::UP, std::make_shared<Pass>(*room, *rooms[row_n - 1][col_n]));
             if (side.first == DIR::RIGHT)
-                room->set_side(DIR::RIGHT, std::make_shared<Pass>(room, rooms[row_n][col_n + 1]));
+                room->set_side(DIR::RIGHT, std::make_shared<Pass>(*room, *rooms[row_n][col_n + 1]));
             if (side.first == DIR::DOWN)
-                room->set_side(DIR::DOWN, std::make_shared<Pass>(room, rooms[row_n + 1][col_n]));
+                room->set_side(DIR::DOWN, std::make_shared<Pass>(*room, *rooms[row_n + 1][col_n]));
         }
     }
     room->set_fillable(is_fillable);
@@ -161,13 +161,13 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
 
     // PacMan
     PacMan pacman;
-    pacman.set_location(m_rooms[3][3]);
+    pacman.set_location(*m_rooms[3][3]);
     m_context.pacman = std::move(pacman);
 
     // Food
     for (auto room_food: fillable_rooms) {
         auto food = std::make_shared<Food>();
-        food->set_location(room_food);
+        food->set_location(*room_food);
         m_context.static_objects.push_back(food);
     }
 
@@ -177,15 +177,15 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     int y_rand = rand() % (m_rooms.size() - 1) + 1;
 
     auto enemy1 = std::make_shared<Enemy>();
-    enemy1->set_location(m_rooms[x_rand][y_rand]);
+    enemy1->set_location(*m_rooms[x_rand][y_rand]);
     m_context.dynamic_objects.emplace_back(enemy1);
 
     auto enemy2 = std::make_shared<Enemy>();
-    enemy2->set_location(m_rooms[x_rand][y_rand]);
+    enemy2->set_location(*m_rooms[x_rand][y_rand]);
     m_context.dynamic_objects.emplace_back(enemy2);
 
     auto enemy3 = std::make_shared<Enemy>();
-    enemy3->set_location(m_rooms[x_rand][y_rand]);
+    enemy3->set_location(*m_rooms[x_rand][y_rand]);
     m_context.dynamic_objects.emplace_back(enemy3);
 };
 

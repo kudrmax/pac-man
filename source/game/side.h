@@ -16,21 +16,21 @@ sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle);
 
 class Pass : public IRoomSide {
 public:
-    Pass(std::shared_ptr<Room>& room1, std::shared_ptr<Room>& room2) : m_room1(room1), m_room2(room2) {}
+    Pass(Room& room1, Room& room2) : m_room1(room1), m_room2(room2) {}
     void draw_into(sf::RenderWindow& window) override { /* do noting */ }
     void enter(IEntity* entity) override;
 private:
-    std::shared_ptr<Room> m_room1;
-    std::shared_ptr<Room> m_room2;
+    Room& m_room1;
+    Room& m_room2;
 };
 
 class Wall : public IRoomSide {
 public:
-    explicit Wall(std::shared_ptr<Room>& room) : m_room(room) {};
+    explicit Wall(Room& room) : m_room(room) {};
     void draw_into(sf::RenderWindow& window) override;
     void enter(IEntity* entity) override { /* do noting */ };
-    void prepare_to_draw(std::shared_ptr<Room>& room);
+    void prepare_to_draw(Room& room);
 private:
-    std::shared_ptr<Room> m_room;
+    Room& m_room;
     sf::Vertex m_line[2];
 };

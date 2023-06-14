@@ -14,11 +14,11 @@
 
 class IEntity : public IMyDrawable {
 public:
-    void set_location(std::shared_ptr<Room> ptr_room) { m_location = ptr_room; };
-    std::shared_ptr<Room> get_location() { return m_location; };
+    void set_location(Room& ptr_room) { m_location = &ptr_room; };
+    Room& get_location() { return *m_location; };
     virtual ~IEntity() = default;
 protected:
-    std::shared_ptr<Room> m_location;
+    Room* m_location;
 };
 
 struct IStaticEntity : public IEntity, public IVisitable {
