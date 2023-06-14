@@ -61,7 +61,7 @@ Menu::Menu(IStateManager& state_manager) {
             config::BUTTON_FONT_SIZE,
             std::move(std::make_unique<GameCommand>(
                     state_manager, std::make_unique<GameBuilderDirector>(
-                            std::make_unique<SimpleGameBuilder>(
+                            std::make_unique<ComplexGameBuilder>(
                                     config::SELECT_LEVEL_VIDEO_MODE_WIDTH,
                                     config::SELECT_LEVEL_VIDEO_MODE_HEIGHT,
                                     config::ROOM_SIZE),
