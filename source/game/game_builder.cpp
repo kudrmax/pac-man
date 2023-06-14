@@ -132,7 +132,7 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     for (const auto& row: m_rooms) {
         for (const auto& room: row) {
             if (room->is_fillable())
-                fillable_rooms.push_back(&*room);
+                fillable_rooms.push_back(room.get());
         }
     }
 
@@ -143,9 +143,9 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
 
     // Food
     for (auto room_food: fillable_rooms) {
-        auto food = std::make_shared<Food>();
+        auto food = std::make_unique<Food>();
         food->set_location(*room_food);
-        m_context.static_objects.push_back(food);
+        m_context.static_objects.push_back(std::move(food));
     }
 
     // Enemy
@@ -153,17 +153,17 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     int x_rand = rand() % (m_rooms.size() - 1) + 1;
     int y_rand = rand() % (m_rooms.size() - 1) + 1;
 
-    auto enemy1 = std::make_shared<Enemy>();
+    auto enemy1 = std::make_unique<Enemy>();
     enemy1->set_location(*m_rooms[x_rand][y_rand]);
-    m_context.dynamic_objects.emplace_back(enemy1);
+    m_context.dynamic_objects.emplace_back(std::move(enemy1));
 
-    auto enemy2 = std::make_shared<Enemy>();
+    auto enemy2 = std::make_unique<Enemy>();
     enemy2->set_location(*m_rooms[x_rand][y_rand]);
-    m_context.dynamic_objects.emplace_back(enemy2);
+    m_context.dynamic_objects.emplace_back(std::move(enemy2));
 
-    auto enemy3 = std::make_shared<Enemy>();
+    auto enemy3 = std::make_unique<Enemy>();
     enemy3->set_location(*m_rooms[x_rand][y_rand]);
-    m_context.dynamic_objects.emplace_back(enemy3);
+    m_context.dynamic_objects.emplace_back(std::move(enemy3));
 };
 
 void SimpleGameBuilder::create_state(IStateManager& state_manager, std::string window_title) {
