@@ -3,6 +3,8 @@
 #include <thread>
 #include <tuple>
 
+SimpleGameBuilder::SimpleGameBuilder(float width, float height, float room_size) :
+        m_width(width), m_height(height), m_room_size(room_size) {}
 
 void SimpleGameBuilder::create_rooms() {
     size_t count_of_rooms_x = 10;
@@ -11,26 +13,20 @@ void SimpleGameBuilder::create_rooms() {
 //    size_t count_of_rooms_y = m_height / m_room_size - 4;
     auto room_size = m_room_size;
     auto start = m_room_size * 2;
-    std::vector<std::shared_ptr<Room>> vec;
+    std::vector<std::unique_ptr<Room>> vec;
     for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
         for (size_t i_x = 0; i_x <= count_of_rooms_x; ++i_x) {
-            auto room = std::make_shared<Room>(room_size);
+            auto room = std::make_unique<Room>(room_size);
             room->set_position(
                     { start + static_cast<float>(i_x) * room_size, start + static_cast<float>(i_y) * room_size });
-            vec.emplace_back(room);
+            vec.emplace_back(std::move(room));
         }
-        m_rooms.push_back(vec);
+        m_rooms.push_back(std::move(vec));
         vec.clear();
     }
 }
 
-//void create_room(std::vector<std::vector<std::shared_ptr<Room>>>& rooms,
-//                 std::vector<std::pair<Room::Direction, std::shared_ptr<IRoomSide>>> sides,
-//                 std::pair<int, int> position) {
-//
-//}
-
-void create_sides_for_room(std::vector<std::vector<std::shared_ptr<Room>>>& rooms,
+void create_sides_for_room(std::vector<std::vector<std::unique_ptr<Room>>>& rooms,
                            const std::pair<int, int>& coords,
                            const std::vector<std::pair<Room::Direction, IRoomSide::SIDE>>& sides,
                            bool is_fillable = true) {
@@ -38,7 +34,7 @@ void create_sides_for_room(std::vector<std::vector<std::shared_ptr<Room>>>& room
     using SIDE = IRoomSide::SIDE;
     auto row_n = coords.first;
     auto col_n = coords.second;
-    auto room = rooms[coords.first][coords.second];
+    auto& room = rooms[coords.first][coords.second];
     for (const auto& side: sides) {
         if (side.second == SIDE::WALL)
             room->set_side(side.first, std::make_shared<Wall>(*room));
@@ -59,7 +55,7 @@ void create_sides_for_room(std::vector<std::vector<std::shared_ptr<Room>>>& room
 void SimpleGameBuilder::set_rooms_sides() {
     for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
         for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
-            auto room = m_rooms[row_n][col_n];
+            auto& room = m_rooms[row_n][col_n];
             auto row_max = m_rooms.size();
             auto cal_max = m_rooms[row_n].size();
             using DIR = Room::Direction;
@@ -129,33 +125,14 @@ void SimpleGameBuilder::set_rooms_sides() {
     }
 }
 
-void SimpleGameBuilder::create_state(IStateManager& state_manager, std::string window_title) {
-    m_game_state = std::make_unique<GameState>(state_manager, window_title);
-}
-
-void SimpleGameBuilder::set_all_to_state() {
-    std::vector<std::shared_ptr<Room>> new_vec;
-    for (auto&& v: m_rooms) {
-        new_vec.insert(new_vec.end(), v.begin(), v.end());
-    }
-    m_game_state->set_maze(std::move(Maze(new_vec)));
-    m_game_state->set_context(std::move(m_context));
-}
-
-SimpleGameBuilder::SimpleGameBuilder(float
-                                     width, float
-                                     height, float
-                                     room_size) :
-        m_width(width), m_height(height), m_room_size(room_size) {}
-
 void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
 
     // find fillable rooms
-    std::vector<std::shared_ptr<Room>> fillable_rooms;
-    for (auto& row: m_rooms) {
+    std::vector<Room*> fillable_rooms;
+    for (const auto& row: m_rooms) {
         for (const auto& room: row) {
             if (room->is_fillable())
-                fillable_rooms.push_back(room);
+                fillable_rooms.push_back(&*room);
         }
     }
 
@@ -189,8 +166,23 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     m_context.dynamic_objects.emplace_back(enemy3);
 };
 
+void SimpleGameBuilder::create_state(IStateManager& state_manager, std::string window_title) {
+    m_game_state = std::make_unique<GameState>(state_manager, window_title);
+}
+
+void SimpleGameBuilder::set_all_to_state() {
+    std::vector<std::unique_ptr<Room>> new_vec;
+    for (auto& row: m_rooms) {
+        for (auto& room: row) {
+            new_vec.push_back(std::move(room));
+        }
+    }
+    m_game_state->set_maze(std::move(Maze(new_vec)));
+    m_game_state->set_context(std::move(m_context));
+}
+
 GameBuilderDirector::GameBuilderDirector(std::unique_ptr<IGameBuilder>&&
-                                         ptr_builder,
+ptr_builder,
                                          const std::string& window_title,
                                          float dynamic_objects_ratio) :
         m_ptr_builder(std::move(ptr_builder)), m_window_title(window_title),

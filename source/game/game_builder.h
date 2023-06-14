@@ -26,7 +26,7 @@ private:
     float m_width;
     float m_height;
     float m_room_size;
-    std::vector<std::vector<std::shared_ptr<Room>>> m_rooms;
+    std::vector<std::vector<std::unique_ptr<Room>>> m_rooms;
     GameContext m_context;
     std::unique_ptr<GameState> m_game_state;
 };

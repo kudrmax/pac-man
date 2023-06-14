@@ -18,7 +18,7 @@ public:
     void set_position(sf::Vector2f position) { m_rectangle.setPosition(position); }
     float get_size() { return m_rectangle.getSize().x; }
     sf::Vector2f get_position() { return m_rectangle.getPosition(); }
-    std::shared_ptr<IRoomSide> get_side(Direction side) { return m_sides[side]; };
+    IRoomSide* get_side(Direction side) { return m_sides[side].get(); };
     Direction get_direction(IRoomSide* ptr_room_side);
     void draw_into(sf::RenderWindow& window) override;
     bool is_fillable() { return m_is_fillable; }
@@ -32,8 +32,8 @@ private:
 class Maze : public IMyDrawable {
 public:
     Maze() = default;
-    explicit Maze(std::vector<std::shared_ptr<Room>>& rooms) : m_rooms(std::move(rooms)) {};
+    explicit Maze(std::vector<std::unique_ptr<Room>>& rooms) : m_rooms(std::move(rooms)) {};
     void draw_into(sf::RenderWindow& window) override;
 private:
-    std::vector<std::shared_ptr<Room>> m_rooms;
+    std::vector<std::unique_ptr<Room>> m_rooms;
 };
