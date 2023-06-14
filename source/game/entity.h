@@ -15,7 +15,7 @@
 class IEntity : public IMyDrawable {
 public:
     void set_location(Room& ptr_room) { m_location = &ptr_room; };
-    Room& get_location() { return *m_location; };
+    Room* get_location() { return m_location; };
 protected:
     Room* m_location;
 };

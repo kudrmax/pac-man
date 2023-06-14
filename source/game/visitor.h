@@ -12,7 +12,6 @@ class TeleportEnemy;
 struct IVisitor{
     virtual std::unique_ptr<IGameEvent> visit(Food* ptr_food) = 0;
     virtual std::unique_ptr<IGameEvent> visit(Enemy* ptr_food) = 0;
-//    virtual std::shared_ptr<IGameEvent> visit(TeleportEnemy* ptr_food) = 0;
     virtual ~IVisitor() = default;
 };
 

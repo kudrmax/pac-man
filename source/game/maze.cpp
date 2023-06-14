@@ -31,7 +31,6 @@ Room::Room(float size, bool is_fillable)  : m_rectangle({ size, size }), m_is_fi
     m_rectangle.setOrigin(size / 2, size / 2);
 }
 
-
 void Maze::draw_into(sf::RenderWindow& window) {
     for (auto& ptr_room: m_rooms) {
         ptr_room->draw_into(window);
