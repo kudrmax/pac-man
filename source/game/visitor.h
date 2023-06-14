@@ -2,12 +2,12 @@
 
 //#include "game_event.h"
 //#include "entity.h"
+#include <memory>
 
 class IGameEvent;
 class Food;
 class Enemy;
 class TeleportEnemy;
-#include <iostream>
 
 struct IVisitor{
     virtual std::unique_ptr<IGameEvent> visit(Food* ptr_food) = 0;
