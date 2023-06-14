@@ -26,7 +26,10 @@ void Room::set_side(Room::Direction side, std::shared_ptr<IRoomSide> ptr_room_si
         m_sides[side] = ptr_room_side;
     else
         throw std::runtime_error("Error: side <= -1");
-};
+}
+Room::Room(float size, bool is_fillable)  : m_rectangle({ size, size }), m_is_fillable(is_fillable) {
+    m_rectangle.setOrigin(size / 2, size / 2);
+}
 
 
 void Maze::draw_into(sf::RenderWindow& window) {

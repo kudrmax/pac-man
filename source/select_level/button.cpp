@@ -10,11 +10,9 @@ bool Button::is_position_in(const sf::Vector2f& position) {
 
 void Button::select() {
     m_is_selected = true;
-//    m_rectangle.setFillColor(config::BUTTON_COLOR_SELECTION);
 };
 void Button::unselect() {
     m_is_selected = false;
-//    m_rectangle.setFillColor(config::BUTTON_COLOR_FILL);
 };
 
 void Button::push() {
