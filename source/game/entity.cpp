@@ -14,13 +14,13 @@ void PacMan::draw_into(sf::RenderWindow& window) {
     circle.setPosition(m_location->get_position());
     window.draw(circle);
 }
-std::shared_ptr<IGameEvent> PacMan::visit(Food* ptr_food) {
-    return std::make_shared<DeleteStaticEntity>(ptr_food);
+std::unique_ptr<IGameEvent> PacMan::visit(Food* ptr_food) {
+    return std::make_unique<DeleteStaticEntity>(ptr_food);
 }
-std::shared_ptr<IGameEvent> PacMan::visit(Enemy* ptr_enemy) {
-    return std::make_shared<LostGame>();
+std::unique_ptr<IGameEvent> PacMan::visit(Enemy* ptr_enemy) {
+    return std::make_unique<LostGame>();
 }
-std::shared_ptr<IGameEvent> Food::accept(IVisitor* ptr_visitor) {
+std::unique_ptr<IGameEvent> Food::accept(IVisitor* ptr_visitor) {
     return ptr_visitor->visit(this);
 }
 void Food::draw_into(sf::RenderWindow& window) {
@@ -51,4 +51,7 @@ void Enemy::action() {
         side->enter(this);
         clock.restart();
     }
+}
+std::unique_ptr<IGameEvent> Enemy::accept(IVisitor* ptr_visitor) {
+    return ptr_visitor->visit(this);
 }
