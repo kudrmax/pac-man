@@ -31,12 +31,10 @@ void GameState::event_handling() {
             m_state_manager.set_next_state(std::make_unique<SelectState>(m_state_manager, config::SELECT_LEVEL_TITLE));
             break;
         }
-
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Escape) {
                 m_context_manager.restore_previous_context();
-            }
-            else
+            } else
                 process_key_pressed(event.key.code);
         }
     }
@@ -44,42 +42,44 @@ void GameState::event_handling() {
 
 
 void GameState::update() {
-    using namespace std::chrono_literals;
-    auto& static_objects = m_context_manager.get_context()->static_objects;
-    auto& dynamic_objects = m_context_manager.get_context()->dynamic_objects;
-    auto* pacman = &m_context_manager.get_context()->pacman;
+    if (m_context_manager.get_context()->state == GameContext::INGAME) {
+        using namespace std::chrono_literals;
+        auto& static_objects = m_context_manager.get_context()->static_objects;
+        auto& dynamic_objects = m_context_manager.get_context()->dynamic_objects;
+        auto* pacman = &m_context_manager.get_context()->pacman;
 
-    // delete food
-    auto food = std::find_if(static_objects.begin(), static_objects.end(),
-                             [&](const auto& el) {
-                                 return pacman->get_location() == el->get_location();
-                             });
-    if (food != static_objects.end()) {
-        auto food_to_delete = (*food)->accept(pacman);
-        food_to_delete->handle(m_context_manager.get_context());
-    }
-    if (static_objects.empty()) {
-        m_context_manager.get_context()->state = GameContext::WIN;
-        std::cout << "YOU WIN\n";
-    }
+        // delete food
+        auto food = std::find_if(static_objects.begin(), static_objects.end(),
+                                 [&](const auto& el) {
+                                     return pacman->get_location() == el->get_location();
+                                 });
+        if (food != static_objects.end()) {
+            auto food_to_delete = (*food)->accept(pacman);
+            food_to_delete->handle(m_context_manager.get_context());
+        }
+        if (static_objects.empty()) {
+            m_context_manager.get_context()->state = GameContext::WIN;
+            std::cout << "YOU WIN\n";
+        }
 
-    // lost game if you're in entity
-    auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(),
-                              [&](const auto& el) {
-                                  return pacman->get_location() == el->get_location();
-                              });
-    if (enemy != dynamic_objects.end()) {
-        auto enemy_to_delete = (*enemy)->accept(pacman);
-        enemy_to_delete->handle(m_context_manager.get_context());
-        std::cout << "YOU LOST here\n";
-    }
-    if (m_context_manager.get_context()->state == GameContext::LOST) {
-        std::cout << "YOU LOST\n";
-    }
+        // lost game if you're in entity
+        auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(),
+                                  [&](const auto& el) {
+                                      return pacman->get_location() == el->get_location();
+                                  });
+        if (enemy != dynamic_objects.end()) {
+            auto enemy_to_delete = (*enemy)->accept(pacman);
+            enemy_to_delete->handle(m_context_manager.get_context());
+            std::cout << "YOU LOST here\n";
+        }
+        if (m_context_manager.get_context()->state == GameContext::LOST) {
+            std::cout << "YOU LOST\n";
+        }
 
-    // move enemy
-    for (auto& enemy_for_action: dynamic_objects) {
-        enemy_for_action->action();
+        // move enemy
+        for (auto& enemy_for_action: dynamic_objects) {
+            enemy_for_action->action();
+        }
     }
 };
 
@@ -125,21 +125,23 @@ void GameState::render() {
 }
 
 void GameState::process_key_pressed(sf::Keyboard::Key key) {
-    auto new_pacman = m_context_manager.get_context();
-    if (key == sf::Keyboard::A) {
-        m_context_manager.save_current_context();
-        new_pacman->pacman.move(Room::Direction::LEFT);
-    }
-    if (key == sf::Keyboard::W) {
-        m_context_manager.save_current_context();
-        new_pacman->pacman.move(Room::Direction::UP);
-    }
-    if (key == sf::Keyboard::D) {
-        m_context_manager.save_current_context();
-        new_pacman->pacman.move(Room::Direction::RIGHT);
-    }
-    if (key == sf::Keyboard::S) {
-        m_context_manager.save_current_context();
-        new_pacman->pacman.move(Room::Direction::DOWN);
+    if (m_context_manager.get_context()->state == GameContext::INGAME) {
+        auto& new_pacman = m_context_manager.get_context()->pacman;
+        if (key == sf::Keyboard::A) {
+            m_context_manager.save_current_context();
+            new_pacman.move(Room::Direction::LEFT);
+        }
+        if (key == sf::Keyboard::W) {
+            m_context_manager.save_current_context();
+            new_pacman.move(Room::Direction::UP);
+        }
+        if (key == sf::Keyboard::D) {
+            m_context_manager.save_current_context();
+            new_pacman.move(Room::Direction::RIGHT);
+        }
+        if (key == sf::Keyboard::S) {
+            m_context_manager.save_current_context();
+            new_pacman.move(Room::Direction::DOWN);
+        }
     }
 };
