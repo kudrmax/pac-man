@@ -1,6 +1,8 @@
 #include "menu.h"
-#include "../config.h"
+#include "../game/game_builder/simple_game_builder.h"
+#include "../game/game_builder/coplex_game_builder.h"
 #include "button_command.h"
+#include "../config.h"
 
 
 void Menu::process_mouse(const sf::Vector2f& position, bool is_pressed) {

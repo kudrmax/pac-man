@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../i_state.h"
-#include "../game/game_builder.h"
+#include "../game/game_builder/game_builder_director.h"
 
 struct ISelectCommand {
     virtual void execute() = 0;
