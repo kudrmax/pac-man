@@ -57,6 +57,7 @@ void SimpleGameBuilder::set_rooms_sides() {
 
     for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
         for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
+
             if (col_n == col_first && row_n == row_first) {
                 create_sides_for_room_method({ row_n, col_n },
                                              {{ DIR::LEFT,  SIDE::WALL },
@@ -112,6 +113,74 @@ void SimpleGameBuilder::set_rooms_sides() {
                                               { DIR::RIGHT, SIDE::PASS },
                                               { DIR::DOWN,  SIDE::PASS }});
             }
+
+            for (size_t row_n = 1; row_n < m_rooms.size() - 1; row_n += 2) {
+                for (size_t col_n = 1; col_n < m_rooms[row_n].size() - 1; col_n += 2) {
+                    create_sides_for_room_method({ row_n, col_n },
+                                                 {{ DIR::LEFT,  SIDE::WALL },
+                                                  { DIR::UP,    SIDE::WALL },
+                                                  { DIR::RIGHT, SIDE::WALL },
+                                                  { DIR::DOWN,  SIDE::WALL }});
+                }
+            }
+
+//    for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
+//        for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
+//            if (col_n == col_first && row_n == row_first) {
+//                create_sides_for_room_method({ row_n, col_n },
+//                                             {{ DIR::LEFT,  SIDE::WALL },
+//                                              { DIR::UP,    SIDE::WALL },
+//                                              { DIR::RIGHT, SIDE::PASS },
+//                                              { DIR::DOWN,  SIDE::PASS }});
+//            } else if (col_n == col_first && row_n == row_last) {
+//                create_sides_for_room_method({ row_n, col_n },
+//                                             {{ DIR::LEFT,  SIDE::WALL },
+//                                              { DIR::UP,    SIDE::PASS },
+//                                              { DIR::RIGHT, SIDE::PASS },
+//                                              { DIR::DOWN,  SIDE::WALL }});
+//            } else if (col_n == col_last && row_n == row_last) {
+//                create_sides_for_room_method({ row_n, col_n },
+//                                             {{ DIR::LEFT,  SIDE::PASS },
+//                                              { DIR::UP,    SIDE::PASS },
+//                                              { DIR::RIGHT, SIDE::WALL },
+//                                              { DIR::DOWN,  SIDE::WALL }});
+//            } else if (col_n == col_last && row_n == row_first) {
+//                create_sides_for_room_method({ row_n, col_n },
+//                                             {{ DIR::LEFT,  SIDE::PASS },
+//                                              { DIR::UP,    SIDE::WALL },
+//                                              { DIR::RIGHT, SIDE::WALL },
+//                                              { DIR::DOWN,  SIDE::PASS }});
+//            } else if (row_n == row_first) {
+//                create_sides_for_room_method({ row_n, col_n },
+//                                             {{ DIR::LEFT,  SIDE::PASS },
+//                                              { DIR::UP,    SIDE::WALL },
+//                                              { DIR::RIGHT, SIDE::PASS },
+//                                              { DIR::DOWN,  SIDE::PASS }});
+//            } else if (row_n == row_last) {
+//                create_sides_for_room_method({ row_n, col_n },
+//                                             {{ DIR::LEFT,  SIDE::PASS },
+//                                              { DIR::UP,    SIDE::PASS },
+//                                              { DIR::RIGHT, SIDE::PASS },
+//                                              { DIR::DOWN,  SIDE::WALL }});
+//            } else if (col_n == col_first) {
+//                create_sides_for_room_method({ row_n, col_n },
+//                                             {{ DIR::LEFT,  SIDE::WALL },
+//                                              { DIR::UP,    SIDE::PASS },
+//                                              { DIR::RIGHT, SIDE::PASS },
+//                                              { DIR::DOWN,  SIDE::PASS }});
+//            } else if (col_n == col_last) {
+//                create_sides_for_room_method({ row_n, col_n },
+//                                             {{ DIR::LEFT,  SIDE::PASS },
+//                                              { DIR::UP,    SIDE::PASS },
+//                                              { DIR::RIGHT, SIDE::WALL },
+//                                              { DIR::DOWN,  SIDE::PASS }});
+//            } else {
+//                create_sides_for_room_method({ row_n, col_n },
+//                                             {{ DIR::LEFT,  SIDE::PASS },
+//                                              { DIR::UP,    SIDE::PASS },
+//                                              { DIR::RIGHT, SIDE::PASS },
+//                                              { DIR::DOWN,  SIDE::PASS }});
+//            }
         }
     }
 }
