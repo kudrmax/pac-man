@@ -6,8 +6,8 @@
 #include "../config.h"
 #include <thread>
 
-GameState::GameState(IStateManager& state_manager, const std::string& window_title) :
-        IWindowKeeper(config::GAME_VIDEO_MODE, window_title),
+GameState::GameState(IStateManager& state_manager, const std::string& window_title, const sf::VideoMode& mode) :
+        IWindowKeeper(mode, window_title),
         IState(state_manager) {
 }
 

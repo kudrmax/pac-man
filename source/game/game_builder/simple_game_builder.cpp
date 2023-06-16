@@ -1,21 +1,30 @@
 #include "simple_game_builder.h"
+#include "../../config.h"
 
 SimpleGameBuilder::SimpleGameBuilder(float width, float height, float room_size) :
         m_width(width), m_height(height), m_room_size(room_size) {}
 
 void SimpleGameBuilder::create_rooms() {
-    size_t count_of_rooms_x = 10;
-    size_t count_of_rooms_y = 10;
-//    size_t count_of_rooms_x = m_width / m_room_size - 4;
-//    size_t count_of_rooms_y = m_height / m_room_size - 4;
+//    size_t count_of_rooms_x = (m_width - 4 * m_room_size) / m_room_size;
+//    size_t count_of_rooms_y = (m_height - 4 * m_room_size) / m_room_size;
+    size_t count_of_rooms_x = static_cast<size_t>(m_width / m_room_size - 4);
+    size_t count_of_rooms_y = static_cast<size_t>(m_height / m_room_size - 4);
+//    std::cout << "m_width = " << m_width << std::endl;
+//    std::cout << "m_height = " << m_height << std::endl;
+//    std::cout << "m_room_size = " << m_room_size << std::endl;
+//    std::cout << "count_of_rooms_x = " << (m_width - 4 * m_room_size) / m_room_size << std::endl;
+//    std::cout << "count_of_rooms_y = " << (m_height - 4 * m_room_size) / m_room_size << std::endl;
+//    size_t count_of_rooms_x = 20;
+//    size_t count_of_rooms_y = 20;
     auto room_size = m_room_size;
-    auto start = m_room_size * 2;
+    auto start_x = m_width / 2 - count_of_rooms_x * m_room_size / 2;
+    auto start_y = m_height / 2 - count_of_rooms_y * m_room_size / 2;
     std::vector<std::unique_ptr<Room>> vec;
     for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
         for (size_t i_x = 0; i_x <= count_of_rooms_x; ++i_x) {
             auto room = std::make_unique<Room>(room_size);
             room->set_position(
-                    { start + static_cast<float>(i_x) * room_size, start + static_cast<float>(i_y) * room_size });
+                    { start_x + static_cast<float>(i_x) * room_size, start_y + static_cast<float>(i_y) * room_size });
             vec.emplace_back(std::move(room));
         }
         m_rooms.push_back(std::move(vec));
@@ -164,7 +173,7 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
 };
 
 void SimpleGameBuilder::create_state(IStateManager& state_manager, std::string window_title) {
-    m_game_state = std::make_unique<GameState>(state_manager, window_title);
+    m_game_state = std::make_unique<GameState>(state_manager, window_title, sf::VideoMode(m_width, m_height));
 }
 
 void SimpleGameBuilder::set_all_to_state() {

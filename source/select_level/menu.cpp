@@ -28,8 +28,8 @@ Menu::Menu(IStateManager& state_manager) {
             std::move(std::make_unique<GameCommand>(
                     state_manager, std::make_unique<GameBuilderDirector>(
                             std::make_unique<SimpleGameBuilder>(
-                                    config::SELECT_LEVEL_VIDEO_MODE_WIDTH,
-                                    config::SELECT_LEVEL_VIDEO_MODE_HEIGHT,
+                                    config::GAME_VIDEO_MODE_WIDTH,
+                                    config::GAME_VIDEO_MODE_HEIGHT,
                                     config::ROOM_SIZE),
                             config::EASY_GAME_TITLE,
                             0
@@ -46,8 +46,8 @@ Menu::Menu(IStateManager& state_manager) {
             std::move(std::make_unique<GameCommand>(
                     state_manager, std::make_unique<GameBuilderDirector>(
                             std::make_unique<SimpleGameBuilder>(
-                                    config::SELECT_LEVEL_VIDEO_MODE_WIDTH,
-                                    config::SELECT_LEVEL_VIDEO_MODE_HEIGHT,
+                                    config::GAME_VIDEO_MODE_WIDTH,
+                                    config::GAME_VIDEO_MODE_HEIGHT,
                                     config::ROOM_SIZE),
                             config::MEDIUM_GAME_TITLE,
                             0
@@ -64,8 +64,8 @@ Menu::Menu(IStateManager& state_manager) {
             std::move(std::make_unique<GameCommand>(
                     state_manager, std::make_unique<GameBuilderDirector>(
                             std::make_unique<ComplexGameBuilder>(
-                                    config::SELECT_LEVEL_VIDEO_MODE_WIDTH,
-                                    config::SELECT_LEVEL_VIDEO_MODE_HEIGHT,
+                                    config::GAME_VIDEO_MODE_WIDTH,
+                                    config::GAME_VIDEO_MODE_HEIGHT,
                                     config::ROOM_SIZE),
                             config::HARD_GAME_TITLE,
                             0

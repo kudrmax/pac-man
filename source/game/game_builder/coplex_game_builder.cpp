@@ -1,4 +1,5 @@
 #include "coplex_game_builder.h"
+#include "../../config.h"
 
 ComplexGameBuilder::ComplexGameBuilder(float width, float height, float room_size) :
         m_width(width), m_height(height), m_room_size(room_size) {}
@@ -164,7 +165,7 @@ void ComplexGameBuilder::create_context(float dynamic_objects_ratio) {
 };
 
 void ComplexGameBuilder::create_state(IStateManager& state_manager, std::string window_title) {
-    m_game_state = std::make_unique<GameState>(state_manager, window_title);
+    m_game_state = std::make_unique<GameState>(state_manager, window_title, sf::VideoMode(m_width, m_height));
 }
 
 void ComplexGameBuilder::set_all_to_state() {
