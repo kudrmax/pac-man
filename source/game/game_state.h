@@ -5,6 +5,7 @@
 #include "maze.h"
 #include "game_contex.h"
 #include "game_event.h"
+//#include "../config.h"
 
 
 class GameState : public IState, public IWindowKeeper {
@@ -19,6 +20,8 @@ public:
 private:
     void process_key_pressed(sf::Keyboard::Key key);
 //    void process_event(std::unique_ptr<IGameEvent> ptr_event);
+private:
+    void clear_background();
 private:
     ContextManager m_context_manager;
     Maze m_maze;

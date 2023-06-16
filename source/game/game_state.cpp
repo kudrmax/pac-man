@@ -86,6 +86,8 @@ void GameState::update() {
 void GameState::render() {
     m_window.clear();
 
+    clear_background();
+
     m_context_manager.get_context()->pacman.draw_into(m_window);
 
     for (auto& el: m_context_manager.get_context()->static_objects)
@@ -96,30 +98,31 @@ void GameState::render() {
 
     m_maze.draw_into(m_window);
 
-    auto tickness = 25;
-    if (m_context_manager.get_context()->state == GameContext::WIN) {
-        sf::RectangleShape rec;
-        rec.setSize({ static_cast<float>(config::GAME_VIDEO_MODE.width) - tickness * 2,
-                      static_cast<float>(config::GAME_VIDEO_MODE.height) - tickness * 2 });
-        rec.setOrigin({ rec.getSize().x / 2, rec.getSize().y / 2 });
-        rec.setPosition({ static_cast<float>(config::GAME_VIDEO_MODE.width) / 2,
-                          static_cast<float>(config::GAME_VIDEO_MODE.height) / 2 });
-        rec.setOutlineThickness(tickness);
-        rec.setOutlineColor(sf::Color::Green);
-        rec.setFillColor(sf::Color::Transparent);
-        m_window.draw(rec);
-    } else if (m_context_manager.get_context()->state == GameContext::LOST) {
-        sf::RectangleShape rec;
-        rec.setSize({ static_cast<float>(config::GAME_VIDEO_MODE.width) - tickness * 2,
-                      static_cast<float>(config::GAME_VIDEO_MODE.height) - tickness * 2 });
-        rec.setOrigin({ rec.getSize().x / 2, rec.getSize().y / 2 });
-        rec.setPosition({ static_cast<float>(config::GAME_VIDEO_MODE.width) / 2,
-                          static_cast<float>(config::GAME_VIDEO_MODE.height) / 2 });
-        rec.setOutlineThickness(tickness);
-        rec.setOutlineColor(sf::Color::Red);
-        rec.setFillColor(sf::Color::Transparent);
-        m_window.draw(rec);
-    }
+//    auto tickness = 25;
+//    sf::RectangleShape rec;
+
+
+//    if (m_context_manager.get_context()->state == GameContext::WIN) {
+//        rec.setSize({ static_cast<float>(config::GAME_VIDEO_MODE.width) - tickness * 2,
+//                      static_cast<float>(config::GAME_VIDEO_MODE.height) - tickness * 2 });
+//        rec.setOrigin({ rec.getSize().x / 2, rec.getSize().y / 2 });
+//        rec.setPosition({ static_cast<float>(config::GAME_VIDEO_MODE.width) / 2,
+//                          static_cast<float>(config::GAME_VIDEO_MODE.height) / 2 });
+//        rec.setOutlineThickness(tickness);
+//        rec.setOutlineColor(sf::Color::Green);
+//        rec.setFillColor(sf::Color::Transparent);
+//        m_window.draw(rec);
+//    } else if (m_context_manager.get_context()->state == GameContext::LOST) {
+////        rec.setSize({ static_cast<float>(config::GAME_VIDEO_MODE.width) - tickness * 2,
+////                      static_cast<float>(config::GAME_VIDEO_MODE.height) - tickness * 2 });
+////        rec.setOrigin({ rec.getSize().x / 2, rec.getSize().y / 2 });
+////        rec.setPosition({ static_cast<float>(config::GAME_VIDEO_MODE.width) / 2,
+////                          static_cast<float>(config::GAME_VIDEO_MODE.height) / 2 });
+////        rec.setOutlineThickness(tickness);
+////        rec.setOutlineColor(sf::Color::Red);
+////        rec.setFillColor(sf::Color::Transparent);
+//    }
+//    m_window.draw(rec);
 
     m_window.display();
 }
@@ -144,4 +147,15 @@ void GameState::process_key_pressed(sf::Keyboard::Key key) {
             new_pacman.move(Room::Direction::DOWN);
         }
     }
+}
+void GameState::clear_background() {
+    auto state = m_context_manager.get_context()->state;
+    sf::Color background_color;
+    if (state == GameContext::LOST)
+        background_color = config::GAME_COLOR_BACKGROUND_LOST;
+    else if (state == GameContext::WIN)
+        background_color = config::GAME_COLOR_BACKGROUND_WIN;
+    else
+        background_color = config::GAME_COLOR_BACKGROUND_INGAME;
+    m_window.clear(background_color);
 };
