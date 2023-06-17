@@ -23,7 +23,7 @@ public:
     void save_current_context();
     void restore_previous_context();
     void set_context(GameContext&& context) { m_context = std::move(context); };
-    GameContext* get_context() { return &m_context; };
+    GameContext& get_context() { return m_context; };
 private:
     GameContext m_context;
     std::stack<GameContext> m_history;

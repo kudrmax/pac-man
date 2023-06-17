@@ -44,27 +44,27 @@ void GameState::event_handling() {
 
 void GameState::update() {
     std::cout << "GameState::update()" << std::endl;
-    if (m_context_manager.get_context()->state == GameContext::INGAME) {
+    if (m_context_manager.get_context().state == GameContext::INGAME) {
         using namespace std::chrono_literals;
-        auto& static_objects = m_context_manager.get_context()->static_objects;
-        auto& dynamic_objects = m_context_manager.get_context()->dynamic_objects;
-        auto* pacman = &m_context_manager.get_context()->pacman;
+        auto& static_objects = m_context_manager.get_context().static_objects;
+        auto& dynamic_objects = m_context_manager.get_context().dynamic_objects;
+        auto* pacman = &m_context_manager.get_context().pacman;
 
         // Pacman and food
         auto find_food = [&pacman](const auto& el) { return pacman->get_location() == el->get_location(); };
         auto food = std::find_if(static_objects.begin(), static_objects.end(), find_food);
         if (food != static_objects.end())
-            (*food)->accept(pacman)->handle(m_context_manager.get_context());
+            (*food)->accept(pacman)->handle(&m_context_manager.get_context());
 
         // Pacman wins
         if (static_objects.empty())
-            m_context_manager.get_context()->state = GameContext::WIN;
+            m_context_manager.get_context().state = GameContext::WIN;
 
         // Pacman and enemy
         auto find_enemy = [&pacman](const auto& el) { return pacman->get_location() == el->get_location(); };
         auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(), find_enemy);
         if (enemy != dynamic_objects.end())
-            (*enemy)->accept(pacman)->handle(m_context_manager.get_context());
+            (*enemy)->accept(pacman)->handle(&m_context_manager.get_context());
 
         // Move enemy
         for (auto& enemy_for_action: dynamic_objects) {
@@ -83,22 +83,22 @@ void GameState::render() {
     m_maze.draw_into(m_window);
 
     // static_objects
-    for (auto& el: m_context_manager.get_context()->static_objects)
+    for (auto& el: m_context_manager.get_context().static_objects)
         el->draw_into(m_window);
 
     // dynamic_objects
-    for (auto& el: m_context_manager.get_context()->dynamic_objects)
+    for (auto& el: m_context_manager.get_context().dynamic_objects)
         el->draw_into(m_window);
 
     // PacMan
-    m_context_manager.get_context()->pacman.draw_into(m_window);
+    m_context_manager.get_context().pacman.draw_into(m_window);
 
     m_window.display();
 }
 
 void GameState::process_key_pressed(sf::Keyboard::Key key) {
-    if (m_context_manager.get_context()->state == GameContext::INGAME) {
-        auto& new_pacman = m_context_manager.get_context()->pacman;
+    if (m_context_manager.get_context().state == GameContext::INGAME) {
+        auto& new_pacman = m_context_manager.get_context().pacman;
         if (key == sf::Keyboard::A) {
             m_context_manager.save_current_context();
             new_pacman.move(Room::Direction::LEFT);
@@ -117,8 +117,9 @@ void GameState::process_key_pressed(sf::Keyboard::Key key) {
         }
     }
 }
+
 void GameState::clear_background() {
-    auto state = m_context_manager.get_context()->state;
+    const auto& state = m_context_manager.get_context().state;
     sf::Color background_color;
     if (state == GameContext::LOST)
         background_color = config::GAME_COLOR_BACKGROUND_LOST;
