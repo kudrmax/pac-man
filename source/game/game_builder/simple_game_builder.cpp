@@ -1,5 +1,6 @@
 #include "simple_game_builder.h"
 #include "../../config.h"
+#include <algorithm>
 
 SimpleGameBuilder::SimpleGameBuilder(float width, float height, float room_size) :
         m_width(width), m_height(height), m_room_size(room_size) {}
@@ -7,17 +8,47 @@ SimpleGameBuilder::SimpleGameBuilder(float width, float height, float room_size)
 void SimpleGameBuilder::create_rooms() {
     size_t count_of_rooms_x = static_cast<size_t>(m_width / m_room_size - 4);
     size_t count_of_rooms_y = static_cast<size_t>(m_height / m_room_size - 4);
+//    size_t count_of_rooms_x = 9;
+//    size_t count_of_rooms_y = 9;
+    if (count_of_rooms_x % 2 == 0)
+        ++count_of_rooms_x;
+    if (count_of_rooms_y % 2 == 0)
+        ++count_of_rooms_y;
     auto room_size = m_room_size;
     auto start_x = m_width / 2 - count_of_rooms_x * m_room_size / 2;
     auto start_y = m_height / 2 - count_of_rooms_y * m_room_size / 2;
-    std::vector<std::unique_ptr<Room>> vec;
-    for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
-        for (size_t i_x = 0; i_x <= count_of_rooms_x; ++i_x) {
-            auto room = std::make_unique<Room>(room_size);
-            room->set_position({ start_x + i_x * room_size, start_y + i_y * room_size });
-            vec.emplace_back(std::move(room));
+    std::vector<std::unique_ptr<Room>> row_v;
+    for (size_t i_y = 0; i_y < count_of_rooms_y; ++i_y) {
+        for (size_t i_x = 0; i_x < count_of_rooms_x; ++i_x) {
+            row_v.push_back(nullptr);
         }
-        m_rooms.push_back(std::move(vec));
+        m_rooms.push_back(std::move(row_v));
+        row_v.clear();
+    }
+
+    for (size_t i_y = 0; i_y < count_of_rooms_y; ++i_y) {
+        for (size_t i_x = 0; i_x < count_of_rooms_x; ++i_x) {
+            if (i_y % 2 == 0 && i_x % 2 == 1 || i_y % 2 == 1) {
+                auto room = std::make_unique<Room>(room_size);
+                room->set_position({ start_x + i_x * room_size, start_y + i_y * room_size });
+//                vec.emplace_back(std::move(room));
+                m_rooms[i_y][i_x] = nullptr;
+                m_rooms[i_y][i_x] = std::move(room);
+            } else {
+                auto room = std::make_unique<Room>(room_size);
+                room->set_position({ start_x + i_x * room_size, start_y + i_y * room_size });
+//                vec.emplace_back(std::move(room));
+                m_rooms[i_y][i_x] = nullptr;
+//                m_rooms[i_y][i_x] = std::move(room);
+//                auto room = std::make_unique<Room>(room_size);
+//                room->set_position({ start_x + i_x * room_size, start_y + i_y * room_size });
+//                vec.emplace_back(std::move(room));
+//                vec.emplace_back(nullptr);
+//                std::unique_ptr<Room> ptr = nullptr;
+//                vec.emplace_back(std::move(ptr));
+            }
+        }
+//        m_rooms.push_back(std::move(vec));
     }
 }
 
@@ -55,135 +86,45 @@ void SimpleGameBuilder::set_rooms_sides() {
     using DIR = Room::Direction;
     using SIDE = IRoomSide::SIDE;
 
-    for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
-        for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
+    for (int row_n = 0; row_n < m_rooms.size(); ++row_n) {
+        for (int col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
+            auto* this_room = m_rooms[row_n][col_n].get();
+            if (this_room != nullptr) {
+                auto dir = DIR::UP;
+                if (row_n - 1 < 0 || m_rooms[row_n - 1][col_n] == nullptr)
+                    this_room->set_side(dir, std::make_shared<Wall>(*this_room));
+                else
+                    this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n - 1][col_n]));
 
-            if (col_n == col_first && row_n == row_first) {
-                create_sides_for_room_method({ row_n, col_n },
-                                             {{ DIR::LEFT,  SIDE::WALL },
-                                              { DIR::UP,    SIDE::WALL },
-                                              { DIR::RIGHT, SIDE::PASS },
-                                              { DIR::DOWN,  SIDE::PASS }});
-            } else if (col_n == col_first && row_n == row_last) {
-                create_sides_for_room_method({ row_n, col_n },
-                                             {{ DIR::LEFT,  SIDE::WALL },
-                                              { DIR::UP,    SIDE::PASS },
-                                              { DIR::RIGHT, SIDE::PASS },
-                                              { DIR::DOWN,  SIDE::WALL }});
-            } else if (col_n == col_last && row_n == row_last) {
-                create_sides_for_room_method({ row_n, col_n },
-                                             {{ DIR::LEFT,  SIDE::PASS },
-                                              { DIR::UP,    SIDE::PASS },
-                                              { DIR::RIGHT, SIDE::WALL },
-                                              { DIR::DOWN,  SIDE::WALL }});
-            } else if (col_n == col_last && row_n == row_first) {
-                create_sides_for_room_method({ row_n, col_n },
-                                             {{ DIR::LEFT,  SIDE::PASS },
-                                              { DIR::UP,    SIDE::WALL },
-                                              { DIR::RIGHT, SIDE::WALL },
-                                              { DIR::DOWN,  SIDE::PASS }});
-            } else if (row_n == row_first) {
-                create_sides_for_room_method({ row_n, col_n },
-                                             {{ DIR::LEFT,  SIDE::PASS },
-                                              { DIR::UP,    SIDE::WALL },
-                                              { DIR::RIGHT, SIDE::PASS },
-                                              { DIR::DOWN,  SIDE::PASS }});
-            } else if (row_n == row_last) {
-                create_sides_for_room_method({ row_n, col_n },
-                                             {{ DIR::LEFT,  SIDE::PASS },
-                                              { DIR::UP,    SIDE::PASS },
-                                              { DIR::RIGHT, SIDE::PASS },
-                                              { DIR::DOWN,  SIDE::WALL }});
-            } else if (col_n == col_first) {
-                create_sides_for_room_method({ row_n, col_n },
-                                             {{ DIR::LEFT,  SIDE::WALL },
-                                              { DIR::UP,    SIDE::PASS },
-                                              { DIR::RIGHT, SIDE::PASS },
-                                              { DIR::DOWN,  SIDE::PASS }});
-            } else if (col_n == col_last) {
-                create_sides_for_room_method({ row_n, col_n },
-                                             {{ DIR::LEFT,  SIDE::PASS },
-                                              { DIR::UP,    SIDE::PASS },
-                                              { DIR::RIGHT, SIDE::WALL },
-                                              { DIR::DOWN,  SIDE::PASS }});
-            } else {
-                create_sides_for_room_method({ row_n, col_n },
-                                             {{ DIR::LEFT,  SIDE::PASS },
-                                              { DIR::UP,    SIDE::PASS },
-                                              { DIR::RIGHT, SIDE::PASS },
-                                              { DIR::DOWN,  SIDE::PASS }});
+                dir = DIR::LEFT;
+                if (col_n - 1 < 0 || m_rooms[row_n][col_n - 1] == nullptr)
+                    this_room->set_side(dir, std::make_shared<Wall>(*this_room));
+                else
+                    this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n - 1]));
+
+                dir = DIR::DOWN;
+                if (row_n + 1 > m_rooms.size() - 1 || m_rooms[row_n + 1][col_n] == nullptr)
+                    this_room->set_side(dir, std::make_shared<Wall>(*this_room));
+                else
+                    this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n + 1][col_n]));
+
+                dir = DIR::RIGHT;
+                if (col_n + 1 > m_rooms[row_n].size() - 1 || m_rooms[row_n][col_n + 1] == nullptr)
+                    this_room->set_side(dir, std::make_shared<Wall>(*this_room));
+                else
+                    this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n + 1]));
+
+
+//                this_room->set_side(DIR::UP, std::make_shared<Pass>(*m_rooms[row_n][col_n], *m_rooms[row_n][col_n]));
+//                this_room->set_side(DIR::UP, std::make_shared<Wall>(*this_room));
+//                this_room->set_side(DIR::DOWN, std::make_shared<Wall>(*this_room));
+//                this_room->set_side(DIR::RIGHT, std::make_shared<Wall>(*this_room));
+//                this_room->set_side(DIR::LEFT, std::make_shared<Wall>(*this_room));
             }
-
-            for (size_t row_n = 1; row_n < m_rooms.size() - 1; row_n += 2) {
-                for (size_t col_n = 1; col_n < m_rooms[row_n].size() - 1; col_n += 2) {
-                    create_sides_for_room_method({ row_n, col_n },
-                                                 {{ DIR::LEFT,  SIDE::WALL },
-                                                  { DIR::UP,    SIDE::WALL },
-                                                  { DIR::RIGHT, SIDE::WALL },
-                                                  { DIR::DOWN,  SIDE::WALL }});
-                }
-            }
-
-//    for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
-//        for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
-//            if (col_n == col_first && row_n == row_first) {
-//                create_sides_for_room_method({ row_n, col_n },
-//                                             {{ DIR::LEFT,  SIDE::WALL },
-//                                              { DIR::UP,    SIDE::WALL },
-//                                              { DIR::RIGHT, SIDE::PASS },
-//                                              { DIR::DOWN,  SIDE::PASS }});
-//            } else if (col_n == col_first && row_n == row_last) {
-//                create_sides_for_room_method({ row_n, col_n },
-//                                             {{ DIR::LEFT,  SIDE::WALL },
-//                                              { DIR::UP,    SIDE::PASS },
-//                                              { DIR::RIGHT, SIDE::PASS },
-//                                              { DIR::DOWN,  SIDE::WALL }});
-//            } else if (col_n == col_last && row_n == row_last) {
-//                create_sides_for_room_method({ row_n, col_n },
-//                                             {{ DIR::LEFT,  SIDE::PASS },
-//                                              { DIR::UP,    SIDE::PASS },
-//                                              { DIR::RIGHT, SIDE::WALL },
-//                                              { DIR::DOWN,  SIDE::WALL }});
-//            } else if (col_n == col_last && row_n == row_first) {
-//                create_sides_for_room_method({ row_n, col_n },
-//                                             {{ DIR::LEFT,  SIDE::PASS },
-//                                              { DIR::UP,    SIDE::WALL },
-//                                              { DIR::RIGHT, SIDE::WALL },
-//                                              { DIR::DOWN,  SIDE::PASS }});
-//            } else if (row_n == row_first) {
-//                create_sides_for_room_method({ row_n, col_n },
-//                                             {{ DIR::LEFT,  SIDE::PASS },
-//                                              { DIR::UP,    SIDE::WALL },
-//                                              { DIR::RIGHT, SIDE::PASS },
-//                                              { DIR::DOWN,  SIDE::PASS }});
-//            } else if (row_n == row_last) {
-//                create_sides_for_room_method({ row_n, col_n },
-//                                             {{ DIR::LEFT,  SIDE::PASS },
-//                                              { DIR::UP,    SIDE::PASS },
-//                                              { DIR::RIGHT, SIDE::PASS },
-//                                              { DIR::DOWN,  SIDE::WALL }});
-//            } else if (col_n == col_first) {
-//                create_sides_for_room_method({ row_n, col_n },
-//                                             {{ DIR::LEFT,  SIDE::WALL },
-//                                              { DIR::UP,    SIDE::PASS },
-//                                              { DIR::RIGHT, SIDE::PASS },
-//                                              { DIR::DOWN,  SIDE::PASS }});
-//            } else if (col_n == col_last) {
-//                create_sides_for_room_method({ row_n, col_n },
-//                                             {{ DIR::LEFT,  SIDE::PASS },
-//                                              { DIR::UP,    SIDE::PASS },
-//                                              { DIR::RIGHT, SIDE::WALL },
-//                                              { DIR::DOWN,  SIDE::PASS }});
-//            } else {
-//                create_sides_for_room_method({ row_n, col_n },
-//                                             {{ DIR::LEFT,  SIDE::PASS },
-//                                              { DIR::UP,    SIDE::PASS },
-//                                              { DIR::RIGHT, SIDE::PASS },
-//                                              { DIR::DOWN,  SIDE::PASS }});
-//            }
         }
     }
 }
+
 
 void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
 
@@ -234,7 +175,8 @@ void SimpleGameBuilder::set_all_to_state() {
     std::vector<std::unique_ptr<Room>> new_vec;
     for (auto& row: m_rooms) {
         for (auto& room: row) {
-            new_vec.push_back(std::move(room));
+            if (room != nullptr)
+                new_vec.push_back(std::move(room));
         }
     }
     m_game_state->set_maze(std::move(Maze(new_vec)));

@@ -16,6 +16,8 @@ Room::Direction Room::get_direction(IRoomSide* ptr_room_side) {
     // как это у других реализовано чекнуть
 }
 void Room::draw_into(sf::RenderWindow& window) {
+    m_rectangle.setFillColor(config::GAME_COLOR_ROOM);
+    window.draw(m_rectangle);
     m_sides[0]->draw_into(window);
     m_sides[1]->draw_into(window);
     m_sides[2]->draw_into(window);
