@@ -5,6 +5,7 @@
 #include "../exit/exite_state.h"
 #include "../config.h"
 #include <thread>
+#include <memory>
 
 GameState::GameState(IStateManager& state_manager, const std::string& window_title, const sf::VideoMode& mode) :
         IWindowKeeper(mode, window_title),
@@ -51,27 +52,31 @@ void GameState::update() {
         auto& dynamic_objects = context.dynamic_objects;
         auto& pacman = context.pacman;
         auto& state = context.state;
+        std::vector<std::unique_ptr<IGameEvent>> game_events;
 
-        // Pacman and food
+        // dynamic_objects -- action
+        for (auto& enemy_for_action: dynamic_objects)
+            enemy_for_action->action();
+
+        // PacMan and static_objects
         auto find_food = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
         auto food = std::find_if(static_objects.begin(), static_objects.end(), find_food);
         if (food != static_objects.end())
-            (*food)->accept(&pacman)->handle(&context);
+            game_events.push_back((*food)->accept(pacman));
 
         // Pacman wins
         if (static_objects.empty())
-            state = GameContext::WIN;
+            game_events.push_back(std::make_unique<WinGame>());
 
-        // Pacman and enemy
+        // Pacman and dynamic_objects
         auto find_enemy = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
         auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(), find_enemy);
         if (enemy != dynamic_objects.end())
-            (*enemy)->accept(&pacman)->handle(&context);
+            game_events.push_back((*enemy)->accept(pacman));
 
-        // Move enemy
-        for (auto& enemy_for_action: dynamic_objects) {
-            enemy_for_action->action();
-        }
+        // Обработать все IGameEvent
+        for (auto& event: game_events)
+            event->handle(context);
     }
 };
 

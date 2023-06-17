@@ -11,7 +11,7 @@ void ContextManager::restore_previous_context() {
 void ContextManager::save_current_context() {
     m_history.push(m_context.clone());
 }
-GameContext GameContext::clone() {
+GameContext GameContext::clone() const {
     GameContext new_context;
     new_context.pacman = pacman;
     new_context.state = state;

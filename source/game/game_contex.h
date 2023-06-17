@@ -8,7 +8,7 @@
 
 
 struct GameContext {
-    GameContext clone();
+    GameContext clone() const;
     enum State {
         INGAME, WIN, LOST
     };
