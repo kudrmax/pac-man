@@ -46,25 +46,27 @@ void GameState::update() {
     std::cout << "GameState::update()" << std::endl;
     if (m_context_manager.get_context().state == GameContext::INGAME) {
         using namespace std::chrono_literals;
-        auto& static_objects = m_context_manager.get_context().static_objects;
-        auto& dynamic_objects = m_context_manager.get_context().dynamic_objects;
-        auto* pacman = &m_context_manager.get_context().pacman;
+        auto& context = m_context_manager.get_context();
+        auto& static_objects = context.static_objects;
+        auto& dynamic_objects = context.dynamic_objects;
+        auto& pacman = context.pacman;
+        auto& state = context.state;
 
         // Pacman and food
-        auto find_food = [&pacman](const auto& el) { return pacman->get_location() == el->get_location(); };
+        auto find_food = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
         auto food = std::find_if(static_objects.begin(), static_objects.end(), find_food);
         if (food != static_objects.end())
-            (*food)->accept(pacman)->handle(&m_context_manager.get_context());
+            (*food)->accept(&pacman)->handle(&context);
 
         // Pacman wins
         if (static_objects.empty())
-            m_context_manager.get_context().state = GameContext::WIN;
+            state = GameContext::WIN;
 
         // Pacman and enemy
-        auto find_enemy = [&pacman](const auto& el) { return pacman->get_location() == el->get_location(); };
+        auto find_enemy = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
         auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(), find_enemy);
         if (enemy != dynamic_objects.end())
-            (*enemy)->accept(pacman)->handle(&m_context_manager.get_context());
+            (*enemy)->accept(&pacman)->handle(&context);
 
         // Move enemy
         for (auto& enemy_for_action: dynamic_objects) {
