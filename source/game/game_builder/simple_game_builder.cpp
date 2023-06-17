@@ -22,6 +22,13 @@ void SimpleGameBuilder::create_rooms() {
                 row_v.emplace_back(std::move(room));
             } else
                 row_v.emplace_back(nullptr);
+//            auto flag = rand() % 10;
+//            if (flag != 0) {
+//                auto room = std::make_unique<Room>(m_room_size);
+//                room->set_position({ start_x + i_x * m_room_size, start_y + i_y * m_room_size });
+//                row_v.emplace_back(std::move(room));
+//            } else
+//                row_v.emplace_back(nullptr);
         }
         m_rooms.push_back(std::move(row_v));
         row_v.clear();
@@ -60,7 +67,6 @@ void SimpleGameBuilder::set_rooms_sides() {
         }
     }
 }
-
 
 void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
 
