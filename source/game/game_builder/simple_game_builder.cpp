@@ -71,11 +71,11 @@ void SimpleGameBuilder::set_rooms_sides() {
 void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
 
     // find fillable rooms
-    std::vector<Room*> fillable_rooms;
+    std::vector<Room*> rooms_for_entity;
     for (const auto& row: m_rooms) {
         for (const auto& room: row) {
-            if (room->is_fillable())
-                fillable_rooms.push_back(room.get());
+            if (room != nullptr)
+                rooms_for_entity.push_back(room.get());
         }
     }
 
@@ -85,7 +85,7 @@ void SimpleGameBuilder::create_context(float dynamic_objects_ratio) {
     m_context.pacman = std::move(pacman);
 
     // Food
-    for (auto room_food: fillable_rooms) {
+    for (auto room_food: rooms_for_entity) {
         auto food = std::make_unique<Food>();
         food->set_location(*room_food);
         m_context.static_objects.push_back(std::move(food));

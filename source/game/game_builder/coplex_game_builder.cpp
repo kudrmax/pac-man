@@ -136,7 +136,7 @@ void ComplexGameBuilder::create_context(float dynamic_objects_ratio) {
 
     // PacMan
     PacMan pacman;
-    pacman.set_location(*m_rooms[3][3]);
+    pacman.set_location(*m_rooms[4][4]);
     m_context.pacman = std::move(pacman);
 
     // Food

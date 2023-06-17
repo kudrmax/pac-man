@@ -26,7 +26,7 @@ namespace config {
     const float EASY_GAME_ENEMY_RATIO = 0.0f;
     const float MEDIUM_GAME_ENEMY_RATIO = 0.03f;
     const float HARD_GAME_ENEMY_RATIO = 0.07f;
-    const float ROOM_SIZE = 50;
+    const float ROOM_SIZE = 100;
     const float GAME_ENEMY_SIZE = ROOM_SIZE * 0.7;
     const float GAME_FOOD_SIZE = ROOM_SIZE * 0.2;
 // Пакмэн:

@@ -50,89 +50,50 @@ void GameState::update() {
         auto& dynamic_objects = m_context_manager.get_context()->dynamic_objects;
         auto* pacman = &m_context_manager.get_context()->pacman;
 
-        // delete food
-        auto food = std::find_if(static_objects.begin(), static_objects.end(),
-                                 [&](const auto& el) {
-                                     return pacman->get_location() == el->get_location();
-                                 });
-        if (food != static_objects.end()) {
-            auto food_to_delete = (*food)->accept(pacman);
-            food_to_delete->handle(m_context_manager.get_context());
-        }
-        if (static_objects.empty()) {
+        // Pacman and food
+        auto find_food = [&pacman](const auto& el) { return pacman->get_location() == el->get_location(); };
+        auto food = std::find_if(static_objects.begin(), static_objects.end(), find_food);
+        if (food != static_objects.end())
+            (*food)->accept(pacman)->handle(m_context_manager.get_context());
+
+        // Pacman wins
+        if (static_objects.empty())
             m_context_manager.get_context()->state = GameContext::WIN;
-            std::cout << "YOU WIN\n";
+
+        // Pacman and enemy
+        auto find_enemy = [&pacman](const auto& el) { return pacman->get_location() == el->get_location(); };
+        auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(), find_enemy);
+        if (enemy != dynamic_objects.end())
+            (*enemy)->accept(pacman)->handle(m_context_manager.get_context());
+
+        // Move enemy
+        for (auto& enemy_for_action: dynamic_objects) {
+            enemy_for_action->action();
         }
-        std::cout << "GameState::update end()" << std::endl;
-
-
-        // lost game if you're in entity
-//        auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(),
-//                                  [&](const auto& el) {
-//                                      return pacman->get_location() == el->get_location();
-//                                  });
-//        if (enemy != dynamic_objects.end()) {
-//            auto enemy_to_delete = (*enemy)->accept(pacman);
-//            enemy_to_delete->handle(m_context_manager.get_context());
-//            std::cout << "YOU LOST here\n";
-//        }
-//        if (m_context_manager.get_context()->state == GameContext::LOST) {
-//            std::cout << "YOU LOST\n";
-//        }
-
-        // move enemy
-//        for (auto& enemy_for_action: dynamic_objects) {
-//            enemy_for_action->action();
-//        }
     }
 };
 
 void GameState::render() {
-    std::cout << "GameState::render start()" << std::endl;
     m_window.clear();
 
+    // Background
     clear_background();
 
-//    m_context_manager.get_context()->pacman.draw_into(m_window);
-
-//    for (auto& el: m_context_manager.get_context()->static_objects)
-//        el->draw_into(m_window);
-//
-//    for (auto& el: m_context_manager.get_context()->dynamic_objects)
-//        el->draw_into(m_window);
-    std::cout << "m_maze.draw_into(m_window); start" << std::endl;
+    // Maze
     m_maze.draw_into(m_window);
-    std::cout << "m_maze.draw_into(m_window); end" << std::endl;
 
-//    auto tickness = 25;
-//    sf::RectangleShape rec;
+    // static_objects
+    for (auto& el: m_context_manager.get_context()->static_objects)
+        el->draw_into(m_window);
 
+    // dynamic_objects
+    for (auto& el: m_context_manager.get_context()->dynamic_objects)
+        el->draw_into(m_window);
 
-//    if (m_context_manager.get_context()->state == GameContext::WIN) {
-//        rec.setSize({ static_cast<float>(config::GAME_VIDEO_MODE.width) - tickness * 2,
-//                      static_cast<float>(config::GAME_VIDEO_MODE.height) - tickness * 2 });
-//        rec.setOrigin({ rec.getSize().x / 2, rec.getSize().y / 2 });
-//        rec.setPosition({ static_cast<float>(config::GAME_VIDEO_MODE.width) / 2,
-//                          static_cast<float>(config::GAME_VIDEO_MODE.height) / 2 });
-//        rec.setOutlineThickness(tickness);
-//        rec.setOutlineColor(sf::Color::Green);
-//        rec.setFillColor(sf::Color::Transparent);
-//        m_window.draw(rec);
-//    } else if (m_context_manager.get_context()->state == GameContext::LOST) {
-////        rec.setSize({ static_cast<float>(config::GAME_VIDEO_MODE.width) - tickness * 2,
-////                      static_cast<float>(config::GAME_VIDEO_MODE.height) - tickness * 2 });
-////        rec.setOrigin({ rec.getSize().x / 2, rec.getSize().y / 2 });
-////        rec.setPosition({ static_cast<float>(config::GAME_VIDEO_MODE.width) / 2,
-////                          static_cast<float>(config::GAME_VIDEO_MODE.height) / 2 });
-////        rec.setOutlineThickness(tickness);
-////        rec.setOutlineColor(sf::Color::Red);
-////        rec.setFillColor(sf::Color::Transparent);
-//    }
-//    m_window.draw(rec);
+    // PacMan
+    m_context_manager.get_context()->pacman.draw_into(m_window);
 
     m_window.display();
-    std::cout << "GameState::render end()" << std::endl;
-
 }
 
 void GameState::process_key_pressed(sf::Keyboard::Key key) {
