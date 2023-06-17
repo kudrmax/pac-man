@@ -40,29 +40,33 @@ void SimpleGameBuilder::set_rooms_sides() {
         for (int col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
             auto* this_room = m_rooms[row_n][col_n].get();
             if (this_room != nullptr) {
-                auto dir = DIR::UP;
-                if (row_n - 1 < 0 || m_rooms[row_n - 1][col_n] == nullptr)
-                    this_room->set_side(dir, std::make_shared<Wall>(*this_room));
-                else
-                    this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n - 1][col_n]));
-
-                dir = DIR::LEFT;
-                if (col_n - 1 < 0 || m_rooms[row_n][col_n - 1] == nullptr)
-                    this_room->set_side(dir, std::make_shared<Wall>(*this_room));
-                else
-                    this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n - 1]));
-
-                dir = DIR::DOWN;
-                if (row_n + 1 > m_rooms.size() - 1 || m_rooms[row_n + 1][col_n] == nullptr)
-                    this_room->set_side(dir, std::make_shared<Wall>(*this_room));
-                else
-                    this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n + 1][col_n]));
-
-                dir = DIR::RIGHT;
-                if (col_n + 1 > m_rooms[row_n].size() - 1 || m_rooms[row_n][col_n + 1] == nullptr)
-                    this_room->set_side(dir, std::make_shared<Wall>(*this_room));
-                else
-                    this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n + 1]));
+                for (int i = 0; i < 4; ++i) {
+                    auto dir = static_cast<DIR>(i);
+                    if (dir == Room::UP) {
+                        if (row_n - 1 < 0 || m_rooms[row_n - 1][col_n] == nullptr)
+                            this_room->set_side(dir, std::make_shared<Wall>(*this_room));
+                        else
+                            this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n - 1][col_n]));
+                    }
+                    if (dir == Room::LEFT) {
+                        if (col_n - 1 < 0 || m_rooms[row_n][col_n - 1] == nullptr)
+                            this_room->set_side(dir, std::make_shared<Wall>(*this_room));
+                        else
+                            this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n - 1]));
+                    }
+                    if (dir == Room::DOWN) {
+                        if (row_n + 1 > m_rooms.size() - 1 || m_rooms[row_n + 1][col_n] == nullptr)
+                            this_room->set_side(dir, std::make_shared<Wall>(*this_room));
+                        else
+                            this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n + 1][col_n]));
+                    }
+                    if (dir == Room::RIGHT) {
+                        if (col_n + 1 > m_rooms[row_n].size() - 1 || m_rooms[row_n][col_n + 1] == nullptr)
+                            this_room->set_side(dir, std::make_shared<Wall>(*this_room));
+                        else
+                            this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n + 1]));
+                    }
+                }
             }
         }
     }
