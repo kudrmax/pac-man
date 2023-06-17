@@ -18,9 +18,9 @@ void GameState::set_context(GameContext&& context) {
 }
 
 bool GameState::do_step() {
-    std::cout << "GameState::do_step()" << std::endl;
     event_handling();
-    update();
+    if (m_context_manager.get_context().state == GameContext::INGAME)
+        update();
     render();
     return true;
 }
@@ -30,7 +30,8 @@ void GameState::event_handling() {
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_window.close();
-            m_state_manager.set_next_state(std::make_unique<SelectState>(m_state_manager, config::SELECT_LEVEL_TITLE));
+            m_state_manager.set_next_state(
+                    std::make_unique<SelectState>(m_state_manager, config::SELECT_LEVEL_TITLE));
             break;
         }
         if (event.type == sf::Event::KeyPressed) {
@@ -44,40 +45,37 @@ void GameState::event_handling() {
 
 
 void GameState::update() {
-    std::cout << "GameState::update()" << std::endl;
-    if (m_context_manager.get_context().state == GameContext::INGAME) {
-        using namespace std::chrono_literals;
-        auto& context = m_context_manager.get_context();
-        auto& static_objects = context.static_objects;
-        auto& dynamic_objects = context.dynamic_objects;
-        auto& pacman = context.pacman;
-        auto& state = context.state;
-        std::vector<std::unique_ptr<IGameEvent>> game_events;
+    using namespace std::chrono_literals;
+    auto& context = m_context_manager.get_context();
+    auto& static_objects = context.static_objects;
+    auto& dynamic_objects = context.dynamic_objects;
+    auto& pacman = context.pacman;
+    auto& state = context.state;
+    std::vector<std::unique_ptr<IGameEvent>> game_events;
 
-        // dynamic_objects -- action
-        for (auto& enemy_for_action: dynamic_objects)
-            enemy_for_action->action();
+    // dynamic_objects -- action
+    for (auto& enemy_for_action: dynamic_objects)
+        enemy_for_action->action();
 
-        // PacMan and static_objects
-        auto find_food = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
-        auto food = std::find_if(static_objects.begin(), static_objects.end(), find_food);
-        if (food != static_objects.end())
-            game_events.push_back((*food)->accept(pacman));
+    // PacMan and static_objects
+    auto find_food = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
+    auto food = std::find_if(static_objects.begin(), static_objects.end(), find_food);
+    if (food != static_objects.end())
+        game_events.push_back((*food)->accept(pacman));
 
-        // Pacman wins
-        if (static_objects.empty())
-            game_events.push_back(std::make_unique<WinGame>());
+    // Pacman wins
+    if (static_objects.empty())
+        game_events.push_back(std::make_unique<WinGame>());
 
-        // Pacman and dynamic_objects
-        auto find_enemy = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
-        auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(), find_enemy);
-        if (enemy != dynamic_objects.end())
-            game_events.push_back((*enemy)->accept(pacman));
+    // Pacman and dynamic_objects
+    auto find_enemy = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
+    auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(), find_enemy);
+    if (enemy != dynamic_objects.end())
+        game_events.push_back((*enemy)->accept(pacman));
 
-        // Обработать все IGameEvent
-        for (auto& event: game_events)
-            event->handle(context);
-    }
+    // Обработать все IGameEvent
+    for (auto& event: game_events)
+        event->handle(context);
 };
 
 void GameState::render() {

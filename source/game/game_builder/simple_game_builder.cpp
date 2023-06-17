@@ -41,7 +41,6 @@ void SimpleGameBuilder::set_rooms_sides() {
     size_t col_first = 0;
     size_t col_last = m_rooms[0].size() - 1;
     using DIR = Room::Direction;
-    using SIDE = IRoomSide::SIDE;
 
     for (int row_n = 0; row_n < m_rooms.size(); ++row_n) {
         for (int col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {

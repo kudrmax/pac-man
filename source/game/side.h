@@ -7,9 +7,6 @@ class IEntity;
 
 struct IRoomSide : public IMyDrawable {
     virtual void enter(IEntity* entity) = 0;
-    enum SIDE {
-        WALL, PASS
-    };
 };
 
 sf::Vector2f rotate_vector2f(const sf::Vector2f& vec, int angle);

@@ -1,123 +1,67 @@
 #include "coplex_game_builder.h"
 #include "../../config.h"
+#include <algorithm>
 
 ComplexGameBuilder::ComplexGameBuilder(float width, float height, float room_size) :
         m_width(width), m_height(height), m_room_size(room_size) {}
 
 void ComplexGameBuilder::create_rooms() {
-    size_t count_of_rooms_x = 10;
-    size_t count_of_rooms_y = 10;
-//    size_t count_of_rooms_x = m_width / m_room_size - 4;
-//    size_t count_of_rooms_y = m_height / m_room_size - 4;
-    auto room_size = m_room_size;
-    auto start = m_room_size * 2;
-    std::vector<std::unique_ptr<Room>> vec;
+    size_t count_of_rooms_x = static_cast<size_t>(m_width / m_room_size - 4);
+    size_t count_of_rooms_y = static_cast<size_t>(m_height / m_room_size - 4);
+    if (count_of_rooms_x % 2 == 1) ++count_of_rooms_x;
+    if (count_of_rooms_y % 2 == 1) ++count_of_rooms_y;
+    auto start_x = m_width / 2 - count_of_rooms_x * m_room_size / 2;
+    auto start_y = m_height / 2 - count_of_rooms_y * m_room_size / 2;
+
+    std::vector<std::unique_ptr<Room>> row_v;
     for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
         for (size_t i_x = 0; i_x <= count_of_rooms_x; ++i_x) {
-            auto room = std::make_unique<Room>(room_size);
-            room->set_position(
-                    { start + static_cast<float>(i_x) * room_size, start + static_cast<float>(i_y) * room_size });
-            vec.emplace_back(std::move(room));
+            if (i_y % 2 == 0 && i_x % 2 == 1 || i_y % 2 == 1) {
+                auto room = std::make_unique<Room>(m_room_size);
+                room->set_position({ start_x + i_x * m_room_size, start_y + i_y * m_room_size });
+                row_v.emplace_back(std::move(room));
+            } else
+                row_v.emplace_back(nullptr);
+//            auto flag = rand() % 10;
+//            if (flag != 0) {
+//                auto room = std::make_unique<Room>(m_room_size);
+//                room->set_position({ start_x + i_x * m_room_size, start_y + i_y * m_room_size });
+//                row_v.emplace_back(std::move(room));
+//            } else
+//                row_v.emplace_back(nullptr);
         }
-        m_rooms.push_back(std::move(vec));
-        vec.clear();
+        m_rooms.push_back(std::move(row_v));
+        row_v.clear();
     }
-}
-
-void create_sides_for_room_2(std::vector<std::vector<std::unique_ptr<Room>>>& rooms,
-                             const std::pair<int, int>& coords,
-                             const std::vector<std::pair<Room::Direction, IRoomSide::SIDE>>& sides,
-                             bool is_fillable = true) {
-    using DIR = Room::Direction;
-    using SIDE = IRoomSide::SIDE;
-    auto row_n = coords.first;
-    auto col_n = coords.second;
-    auto& room = rooms[coords.first][coords.second];
-    for (const auto& side: sides) {
-        if (side.second == SIDE::WALL)
-            room->set_side(side.first, std::make_shared<Wall>(*room));
-        else if (side.second == SIDE::PASS) {
-            if (side.first == DIR::LEFT)
-                room->set_side(DIR::LEFT, std::make_shared<Pass>(*room, *rooms[row_n][col_n - 1]));
-            if (side.first == DIR::UP)
-                room->set_side(DIR::UP, std::make_shared<Pass>(*room, *rooms[row_n - 1][col_n]));
-            if (side.first == DIR::RIGHT)
-                room->set_side(DIR::RIGHT, std::make_shared<Pass>(*room, *rooms[row_n][col_n + 1]));
-            if (side.first == DIR::DOWN)
-                room->set_side(DIR::DOWN, std::make_shared<Pass>(*room, *rooms[row_n + 1][col_n]));
-        }
-    }
-    room->set_fillable(is_fillable);
 }
 
 void ComplexGameBuilder::set_rooms_sides() {
-    for (size_t row_n = 0; row_n < m_rooms.size(); ++row_n) {
-        for (size_t col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
-            auto& room = m_rooms[row_n][col_n];
-            auto row_max = m_rooms.size();
-            auto cal_max = m_rooms[row_n].size();
-            using DIR = Room::Direction;
-            using SIDE = IRoomSide::SIDE;
-            if (col_n == 0 || col_n == cal_max - 1 || row_n == 0 || row_n == row_max - 1) {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::WALL },
-                                         { DIR::UP,    SIDE::WALL },
-                                         { DIR::RIGHT, SIDE::WALL },
-                                         { DIR::DOWN,  SIDE::WALL }}, false);
-            } else if (col_n == 1 && row_n == 1) {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::WALL },
-                                         { DIR::UP,    SIDE::WALL },
-                                         { DIR::RIGHT, SIDE::PASS },
-                                         { DIR::DOWN,  SIDE::PASS }});
-            } else if (col_n == 1 && row_n == row_max - 2) {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::WALL },
-                                         { DIR::UP,    SIDE::PASS },
-                                         { DIR::RIGHT, SIDE::PASS },
-                                         { DIR::DOWN,  SIDE::WALL }});
-            } else if (col_n == cal_max - 2 && row_n == row_max - 2) {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::PASS },
-                                         { DIR::UP,    SIDE::PASS },
-                                         { DIR::RIGHT, SIDE::WALL },
-                                         { DIR::DOWN,  SIDE::WALL }});
-            } else if (col_n == cal_max - 2 && row_n == 1) {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::PASS },
-                                         { DIR::UP,    SIDE::WALL },
-                                         { DIR::RIGHT, SIDE::WALL },
-                                         { DIR::DOWN,  SIDE::PASS }});
-            } else if (col_n > 1 && col_n < cal_max - 2 && row_n == 1) {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::PASS },
-                                         { DIR::UP,    SIDE::WALL },
-                                         { DIR::RIGHT, SIDE::PASS },
-                                         { DIR::DOWN,  SIDE::PASS }});
-            } else if (col_n > 1 && col_n < cal_max - 2 && row_n == row_max - 2) {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::PASS },
-                                         { DIR::UP,    SIDE::PASS },
-                                         { DIR::RIGHT, SIDE::PASS },
-                                         { DIR::DOWN,  SIDE::WALL }});
-            } else if (row_n > 1 && row_n < row_max - 2 && col_n == 1) {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::WALL },
-                                         { DIR::UP,    SIDE::PASS },
-                                         { DIR::RIGHT, SIDE::PASS },
-                                         { DIR::DOWN,  SIDE::PASS }});
-            } else if (row_n > 1 && row_n < row_max - 2 && col_n == cal_max - 2) {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::PASS },
-                                         { DIR::UP,    SIDE::PASS },
-                                         { DIR::RIGHT, SIDE::WALL },
-                                         { DIR::DOWN,  SIDE::PASS }});
-            } else {
-                create_sides_for_room_2(m_rooms, { row_n, col_n },
-                                        {{ DIR::LEFT,  SIDE::PASS },
-                                         { DIR::UP,    SIDE::PASS },
-                                         { DIR::RIGHT, SIDE::PASS },
-                                         { DIR::DOWN,  SIDE::PASS }});
+    size_t row_first = 0;
+    size_t row_last = m_rooms.size() - 1;
+    size_t col_first = 0;
+    size_t col_last = m_rooms[0].size() - 1;
+    using DIR = Room::Direction;
+
+    for (int row_n = 0; row_n < m_rooms.size(); ++row_n) {
+        for (int col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
+
+            auto* this_room = m_rooms[row_n][col_n].get();
+            if (this_room != nullptr) {
+                for (int i = 0; i < 4; ++i) {
+                    auto dir = static_cast<DIR>(i);
+                    if (dir == Room::UP && row_n - 1 >= 0 && m_rooms[row_n - 1][col_n] != nullptr)
+                        this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n - 1][col_n]));
+                    else if (dir == Room::LEFT && col_n - 1 >= 0 && m_rooms[row_n][col_n - 1] != nullptr)
+                        this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n - 1]));
+                    else if (dir == Room::DOWN && row_n + 1 <= m_rooms.size() - 1 &&
+                             m_rooms[row_n + 1][col_n] != nullptr)
+                        this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n + 1][col_n]));
+                    else if (dir == Room::RIGHT && col_n + 1 <= m_rooms[row_n].size() - 1 &&
+                             m_rooms[row_n][col_n + 1] != nullptr)
+                        this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n + 1]));
+                    else
+                        this_room->set_side(dir, std::make_shared<Wall>(*this_room));
+                }
             }
         }
     }
@@ -126,21 +70,21 @@ void ComplexGameBuilder::set_rooms_sides() {
 void ComplexGameBuilder::create_context(float dynamic_objects_ratio) {
 
     // find fillable rooms
-    std::vector<Room*> fillable_rooms;
+    std::vector<Room*> rooms_for_entity;
     for (const auto& row: m_rooms) {
         for (const auto& room: row) {
-            if (room->is_fillable())
-                fillable_rooms.push_back(room.get());
+            if (room != nullptr)
+                rooms_for_entity.push_back(room.get());
         }
     }
 
     // PacMan
     PacMan pacman;
-    pacman.set_location(*m_rooms[4][4]);
+    pacman.set_location(*m_rooms[3][3]);
     m_context.pacman = std::move(pacman);
 
     // Food
-    for (auto room_food: fillable_rooms) {
+    for (auto room_food: rooms_for_entity) {
         auto food = std::make_unique<Food>();
         food->set_location(*room_food);
         m_context.static_objects.push_back(std::move(food));
@@ -172,7 +116,8 @@ void ComplexGameBuilder::set_all_to_state() {
     std::vector<std::unique_ptr<Room>> new_vec;
     for (auto& row: m_rooms) {
         for (auto& room: row) {
-            new_vec.push_back(std::move(room));
+            if (room != nullptr)
+                new_vec.push_back(std::move(room));
         }
     }
     m_game_state->set_maze(std::move(Maze(new_vec)));
