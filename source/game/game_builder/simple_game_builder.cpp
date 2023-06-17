@@ -8,47 +8,23 @@ SimpleGameBuilder::SimpleGameBuilder(float width, float height, float room_size)
 void SimpleGameBuilder::create_rooms() {
     size_t count_of_rooms_x = static_cast<size_t>(m_width / m_room_size - 4);
     size_t count_of_rooms_y = static_cast<size_t>(m_height / m_room_size - 4);
-//    size_t count_of_rooms_x = 9;
-//    size_t count_of_rooms_y = 9;
-    if (count_of_rooms_x % 2 == 0)
-        ++count_of_rooms_x;
-    if (count_of_rooms_y % 2 == 0)
-        ++count_of_rooms_y;
-    auto room_size = m_room_size;
+    if (count_of_rooms_x % 2 == 1) ++count_of_rooms_x;
+    if (count_of_rooms_y % 2 == 1) ++count_of_rooms_y;
     auto start_x = m_width / 2 - count_of_rooms_x * m_room_size / 2;
     auto start_y = m_height / 2 - count_of_rooms_y * m_room_size / 2;
+
     std::vector<std::unique_ptr<Room>> row_v;
-    for (size_t i_y = 0; i_y < count_of_rooms_y; ++i_y) {
-        for (size_t i_x = 0; i_x < count_of_rooms_x; ++i_x) {
-            row_v.push_back(nullptr);
+    for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
+        for (size_t i_x = 0; i_x <= count_of_rooms_x; ++i_x) {
+            if (i_y % 2 == 0 && i_x % 2 == 1 || i_y % 2 == 1) {
+                auto room = std::make_unique<Room>(m_room_size);
+                room->set_position({ start_x + i_x * m_room_size, start_y + i_y * m_room_size });
+                row_v.emplace_back(std::move(room));
+            } else
+                row_v.emplace_back(nullptr);
         }
         m_rooms.push_back(std::move(row_v));
         row_v.clear();
-    }
-
-    for (size_t i_y = 0; i_y < count_of_rooms_y; ++i_y) {
-        for (size_t i_x = 0; i_x < count_of_rooms_x; ++i_x) {
-            if (i_y % 2 == 0 && i_x % 2 == 1 || i_y % 2 == 1) {
-                auto room = std::make_unique<Room>(room_size);
-                room->set_position({ start_x + i_x * room_size, start_y + i_y * room_size });
-//                vec.emplace_back(std::move(room));
-                m_rooms[i_y][i_x] = nullptr;
-                m_rooms[i_y][i_x] = std::move(room);
-            } else {
-                auto room = std::make_unique<Room>(room_size);
-                room->set_position({ start_x + i_x * room_size, start_y + i_y * room_size });
-//                vec.emplace_back(std::move(room));
-                m_rooms[i_y][i_x] = nullptr;
-//                m_rooms[i_y][i_x] = std::move(room);
-//                auto room = std::make_unique<Room>(room_size);
-//                room->set_position({ start_x + i_x * room_size, start_y + i_y * room_size });
-//                vec.emplace_back(std::move(room));
-//                vec.emplace_back(nullptr);
-//                std::unique_ptr<Room> ptr = nullptr;
-//                vec.emplace_back(std::move(ptr));
-            }
-        }
-//        m_rooms.push_back(std::move(vec));
     }
 }
 
