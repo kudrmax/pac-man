@@ -28,32 +28,6 @@ void SimpleGameBuilder::create_rooms() {
     }
 }
 
-void create_sides_for_room(std::vector<std::vector<std::unique_ptr<Room>>>& rooms,
-                           const std::pair<int, int>& coords,
-                           const std::vector<std::pair<Room::Direction, IRoomSide::SIDE>>& sides,
-                           bool is_fillable = true) {
-    using DIR = Room::Direction;
-    using SIDE = IRoomSide::SIDE;
-    auto row_n = coords.first;
-    auto col_n = coords.second;
-    auto& room = rooms[coords.first][coords.second];
-    for (const auto& side: sides) {
-        if (side.second == SIDE::WALL)
-            room->set_side(side.first, std::make_shared<Wall>(*room));
-        else if (side.second == SIDE::PASS) {
-            if (side.first == DIR::LEFT)
-                room->set_side(DIR::LEFT, std::make_shared<Pass>(*room, *rooms[row_n][col_n - 1]));
-            if (side.first == DIR::UP)
-                room->set_side(DIR::UP, std::make_shared<Pass>(*room, *rooms[row_n - 1][col_n]));
-            if (side.first == DIR::RIGHT)
-                room->set_side(DIR::RIGHT, std::make_shared<Pass>(*room, *rooms[row_n][col_n + 1]));
-            if (side.first == DIR::DOWN)
-                room->set_side(DIR::DOWN, std::make_shared<Pass>(*room, *rooms[row_n + 1][col_n]));
-        }
-    }
-    room->set_fillable(is_fillable);
-}
-
 void SimpleGameBuilder::set_rooms_sides() {
     size_t row_first = 0;
     size_t row_last = m_rooms.size() - 1;
@@ -89,13 +63,6 @@ void SimpleGameBuilder::set_rooms_sides() {
                     this_room->set_side(dir, std::make_shared<Wall>(*this_room));
                 else
                     this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n + 1]));
-
-
-//                this_room->set_side(DIR::UP, std::make_shared<Pass>(*m_rooms[row_n][col_n], *m_rooms[row_n][col_n]));
-//                this_room->set_side(DIR::UP, std::make_shared<Wall>(*this_room));
-//                this_room->set_side(DIR::DOWN, std::make_shared<Wall>(*this_room));
-//                this_room->set_side(DIR::RIGHT, std::make_shared<Wall>(*this_room));
-//                this_room->set_side(DIR::LEFT, std::make_shared<Wall>(*this_room));
             }
         }
     }
