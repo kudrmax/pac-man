@@ -27,5 +27,5 @@ void Wall::prepare_to_draw(Room& room) {
 }
 
 void Pass::enter(IEntity& entity) {
-    entity.set_location(entity.get_location() == &m_room2 ? m_room1 : m_room2);
+    entity.set_location(&entity.get_location() == &m_room2 ? m_room1 : m_room2);
 }

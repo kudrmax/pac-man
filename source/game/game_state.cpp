@@ -56,7 +56,7 @@ void GameState::update() {
         enemy_for_action->action();
 
     // PacMan and static_objects
-    auto find_food = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
+    auto find_food = [&pacman](const auto& el) { return &pacman.get_location() == &el->get_location(); };
     auto food = std::find_if(static_objects.begin(), static_objects.end(), find_food);
     if (food != static_objects.end())
         game_events.push_back((*food)->accept(pacman));
@@ -66,7 +66,7 @@ void GameState::update() {
         game_events.push_back(std::make_unique<WinGame>());
 
     // Pacman and dynamic_objects
-    auto find_enemy = [&pacman](const auto& el) { return pacman.get_location() == el->get_location(); };
+    auto find_enemy = [&pacman](const auto& el) { return &pacman.get_location() == &el->get_location(); };
     auto enemy = std::find_if(dynamic_objects.begin(), dynamic_objects.end(), find_enemy);
     if (enemy != dynamic_objects.end())
         game_events.push_back((*enemy)->accept(pacman));

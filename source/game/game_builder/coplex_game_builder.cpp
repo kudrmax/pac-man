@@ -49,7 +49,7 @@ void ComplexGameBuilder::set_rooms_sides() {
     for (int row_n = 0; row_n < m_rooms.size(); ++row_n) {
         for (int col_n = 0; col_n < m_rooms[row_n].size(); ++col_n) {
 
-            auto* this_room = m_rooms[row_n][col_n].get();
+            auto& this_room = m_rooms[row_n][col_n];
             if (this_room != nullptr) {
                 for (int i = 0; i < 4; ++i) {
                     auto dir = static_cast<DIR>(i);
