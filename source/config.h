@@ -17,7 +17,7 @@ namespace config {
     const char BUTTON_TEXT_HARD[] = "Hard";
     const char BUTTON_TEXT_EXIT[] = "Exit";
 // Игра:
-    const sf::VideoMode GAME_VIDEO_MODE{ 1920, 1080 };
+    const sf::VideoMode GAME_VIDEO_MODE{ 1920 / 3 * 2, 1080 / 3 * 2 };
     const float GAME_VIDEO_MODE_WIDTH = static_cast<float>(config::GAME_VIDEO_MODE.width);
     const float GAME_VIDEO_MODE_HEIGHT = static_cast<float>(config::GAME_VIDEO_MODE.height);
     const char EASY_GAME_TITLE[] = "Level: Easy";
@@ -26,11 +26,12 @@ namespace config {
     const float EASY_GAME_ENEMY_RATIO = 0.0f;
     const float MEDIUM_GAME_ENEMY_RATIO = 0.03f;
     const float HARD_GAME_ENEMY_RATIO = 0.07f;
-    const float ROOM_SIZE = 100;
+    const float ROOM_SIZE = 70;
     const float GAME_ENEMY_SIZE = ROOM_SIZE * 0.7;
     const float GAME_FOOD_SIZE = ROOM_SIZE * 0.2;
-    const size_t COUNT_ENEMY = 1;
+    const size_t COUNT_ENEMY = 5;
     const size_t TEXT_FOR_STATE_SIZE = 300;
+    const float DELTA_TIME_ENEMY_MOVE = 0.3;
 // Пакмэн:
     const float GAME_PACMAN_SIZE = ROOM_SIZE * 0.8;
     const sf::Keyboard::Key KEY_LEFT = sf::Keyboard::A;

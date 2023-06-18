@@ -48,9 +48,9 @@ void Enemy::draw_into(sf::RenderWindow& window) {
 }
 
 void Enemy::action() {
-    float delte_time = 0.2;
-    auto this_location = m_location;
-    if (m_time_before_action.getElapsedTime() > sf::seconds(delte_time)) {
+    auto delta_time = config::DELTA_TIME_ENEMY_MOVE;
+    if (m_time_before_action.getElapsedTime() > sf::seconds(delta_time)) {
+        auto this_location = m_location;
         Room::Direction direction;
         for (size_t i = 0; i < 30; ++i) {
             direction = static_cast<Room::Direction>(s_side_choice(s_generator));
@@ -58,22 +58,14 @@ void Enemy::action() {
             if (is_moved && m_location != m_previous_location) {
                 m_previous_location = &previous_location;
                 break;
-            } else if (m_location == m_previous_location) {
-                std::cout << "m_location == m_previous_location\n";
-                using namespace std::chrono_literals;
-//                std::this_thread::sleep_for(2s);
+            } else if (m_location == m_previous_location)
                 m_location = &previous_location;
-            }
-//            m_previous_location = &previous_location;
         }
         if (m_location == this_location) {
-            std::cout << "HERE\n";
-
             for (size_t i = 0; i < 4; ++i) {
                 auto [is_moved, previous_location] = m_location->get_side(static_cast<Room::Direction>(i)).enter(*this);
-                if (is_moved) {
+                if (is_moved)
                     break;
-                }
             }
         }
         m_time_before_action.restart();
