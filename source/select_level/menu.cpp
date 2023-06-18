@@ -32,7 +32,7 @@ Menu::Menu(IStateManager& state_manager) {
                                     config::GAME_VIDEO_MODE_HEIGHT,
                                     config::ROOM_SIZE),
                             config::EASY_GAME_TITLE,
-                            config::MEDIUM_GAME_ENEMY_RATIO
+                            config::EASY_GAME_ENEMY_RATIO
                     )
             ))
     ));

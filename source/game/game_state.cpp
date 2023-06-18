@@ -149,7 +149,7 @@ void GameState::effect_from_state() {
             throw std::runtime_error("No such file in directory");
         sf::Text text;
         text.setFont(m_font);
-        text.setString("Game Over!");
+        text.setString("Game over!");
         text.setCharacterSize(config::TEXT_FOR_STATE_SIZE);
         auto textRect = text.getLocalBounds();
         text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "i_state.h"
 #include <memory>
 
 class IState;
