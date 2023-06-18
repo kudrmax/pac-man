@@ -11,6 +11,7 @@ bool Button::is_position_in(const sf::Vector2f& position) {
 void Button::select() {
     m_is_selected = true;
 };
+
 void Button::unselect() {
     m_is_selected = false;
 };

@@ -1,9 +1,8 @@
 #pragma once
 
 #include "entity.h"
-#include <memory>
-
 #include "game_contex.h"
+#include <memory>
 
 class GameContext;
 

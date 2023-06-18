@@ -3,7 +3,6 @@
 #include "entity.h"
 #include <memory>
 #include <vector>
-#include <list>
 #include <stack>
 
 

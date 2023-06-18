@@ -1,5 +1,4 @@
 #include "entity.h"
-#include "side.h"
 #include "game_event.h"
 #include "../config.h"
 #include <thread>

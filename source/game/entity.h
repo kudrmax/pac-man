@@ -2,7 +2,7 @@
 
 #include "../i_draw.h"
 #include "maze.h"
-#include "visitor.h"
+#include "i_visitor.h"
 #include <time.h>
 #include <stdlib.h>
 #include <random>
