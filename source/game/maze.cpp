@@ -13,7 +13,6 @@ Room::Direction Room::get_direction(IRoomSide& ptr_room_side) {
     if (m_sides[DOWN].get() == &ptr_room_side)
         return DOWN;
     return INVALID;
-    // как это у других реализовано чекнуть
 }
 void Room::draw_into(sf::RenderWindow& window) {
     m_rectangle.setFillColor(config::GAME_COLOR_ROOM);

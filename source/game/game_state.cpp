@@ -77,8 +77,6 @@ void GameState::update() {
 };
 
 void GameState::render() {
-    m_window.clear();
-
     // Background
     clear_background();
 
@@ -86,16 +84,17 @@ void GameState::render() {
     m_maze.draw_into(m_window);
 
     // static_objects
-    for (auto& el: m_context_manager.get_context().static_objects)
-        el->draw_into(m_window);
+    for (auto& static_object: m_context_manager.get_context().static_objects)
+        static_object->draw_into(m_window);
 
     // dynamic_objects
-    for (auto& el: m_context_manager.get_context().dynamic_objects)
-        el->draw_into(m_window);
+    for (auto& dynamic_object: m_context_manager.get_context().dynamic_objects)
+        dynamic_object->draw_into(m_window);
 
     // PacMan
     m_context_manager.get_context().pacman.draw_into(m_window);
 
+    // display
     m_window.display();
 }
 
@@ -122,13 +121,17 @@ void GameState::process_key_pressed(sf::Keyboard::Key key) {
 }
 
 void GameState::clear_background() {
-    const auto& state = m_context_manager.get_context().state;
     sf::Color background_color;
-    if (state == GameContext::LOST)
-        background_color = config::GAME_COLOR_BACKGROUND_LOST;
-    else if (state == GameContext::WIN)
-        background_color = config::GAME_COLOR_BACKGROUND_WIN;
-    else
-        background_color = config::GAME_COLOR_BACKGROUND_INGAME;
+    switch (m_context_manager.get_context().state) {
+        case GameContext::LOST:
+            background_color = config::GAME_COLOR_BACKGROUND_LOST;
+            break;
+        case GameContext::WIN:
+            background_color = config::GAME_COLOR_BACKGROUND_WIN;
+            break;
+        default:
+            background_color = config::GAME_COLOR_BACKGROUND_INGAME;
+            break;
+    }
     m_window.clear(background_color);
 };

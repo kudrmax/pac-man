@@ -57,11 +57,9 @@ void ComplexGameBuilder::set_rooms_sides() {
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n - 1][col_n]));
                     else if (dir == Room::LEFT && col_n - 1 >= 0 && m_rooms[row_n][col_n - 1] != nullptr)
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n - 1]));
-                    else if (dir == Room::DOWN && row_n + 1 <= m_rooms.size() - 1 &&
-                             m_rooms[row_n + 1][col_n] != nullptr)
+                    else if (dir == Room::DOWN && row_n + 1 <= m_rooms.size() - 1 && m_rooms[row_n + 1][col_n] != nullptr)
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n + 1][col_n]));
-                    else if (dir == Room::RIGHT && col_n + 1 <= m_rooms[row_n].size() - 1 &&
-                             m_rooms[row_n][col_n + 1] != nullptr)
+                    else if (dir == Room::RIGHT && col_n + 1 <= m_rooms[row_n].size() - 1 && m_rooms[row_n][col_n + 1] != nullptr)
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n + 1]));
                     else
                         this_room->set_side(dir, std::make_shared<Wall>(*this_room));
@@ -117,13 +115,13 @@ void ComplexGameBuilder::create_state(IStateManager& state_manager, std::string 
 }
 
 void ComplexGameBuilder::set_all_to_state() {
-    std::vector<std::unique_ptr<Room>> new_vec;
+    std::vector<std::unique_ptr<Room>> rooms_without_nullptr;
     for (auto& row: m_rooms) {
         for (auto& room: row) {
             if (room != nullptr)
-                new_vec.push_back(std::move(room));
+                rooms_without_nullptr.push_back(std::move(room));
         }
     }
-    m_game_state->set_maze(std::move(Maze(new_vec)));
+    m_game_state->set_maze(Maze(rooms_without_nullptr));
     m_game_state->set_context(std::move(m_context));
 }
