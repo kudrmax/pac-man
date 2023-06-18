@@ -26,6 +26,7 @@ bool GameState::do_step() {
 
 void GameState::event_handling() {
     sf::Event event;
+    m_do_not_update = false;
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_window.close();
@@ -38,8 +39,9 @@ void GameState::event_handling() {
                 m_context_manager.restore_previous_context();
                 m_do_not_update = true;
             }
-            else
+            else {
                 process_key_pressed(event.key.code);
+            }
         }
     }
 }
