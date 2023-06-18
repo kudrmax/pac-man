@@ -6,16 +6,20 @@ ComplexGameBuilder::ComplexGameBuilder(float width, float height, float room_siz
         m_width(width), m_height(height), m_room_size(room_size) {}
 
 void ComplexGameBuilder::create_rooms() {
-    size_t count_of_rooms_x = static_cast<size_t>(m_width / m_room_size - 4);
-    size_t count_of_rooms_y = static_cast<size_t>(m_height / m_room_size - 4);
-    if (count_of_rooms_x % 2 == 1) ++count_of_rooms_x;
-    if (count_of_rooms_y % 2 == 1) ++count_of_rooms_y;
-    auto start_x = m_width / 2 - count_of_rooms_x * m_room_size / 2;
-    auto start_y = m_height / 2 - count_of_rooms_y * m_room_size / 2;
+    size_t count_of_rooms_x = m_width / m_room_size - 2;
+    size_t count_of_rooms_y = m_height / m_room_size - 2;
+    if (count_of_rooms_x % 2 == 0) ++count_of_rooms_x;
+    if (count_of_rooms_y % 2 == 0) ++count_of_rooms_y;
+    auto start_x = (m_width - count_of_rooms_x * m_room_size) / 2.0f + m_room_size / 2.0f;
+    auto start_y = (m_height - count_of_rooms_y * m_room_size + m_room_size) / 2.0f;
+    std::cout << "count_of_rooms_y = " << count_of_rooms_y << std::endl;
+    std::cout << "start_y = " << start_y << std::endl;
+    std::cout << "m_height - start_y = " << m_height - start_y << std::endl;
+    std::cout << "... = " << (m_height - start_y) / count_of_rooms_y  << std::endl;
 
     std::vector<std::unique_ptr<Room>> row_v;
-    for (size_t i_y = 0; i_y <= count_of_rooms_y; ++i_y) {
-        for (size_t i_x = 0; i_x <= count_of_rooms_x; ++i_x) {
+    for (size_t i_y = 0; i_y < count_of_rooms_y; ++i_y) {
+        for (size_t i_x = 0; i_x < count_of_rooms_x; ++i_x) {
             if (i_y % 2 == 0 && i_x % 2 == 1 || i_y % 2 == 1) {
                 auto room = std::make_unique<Room>(m_room_size);
                 room->set_position({ start_x + i_x * m_room_size, start_y + i_y * m_room_size });

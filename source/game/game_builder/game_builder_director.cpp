@@ -16,6 +16,5 @@ std::unique_ptr<GameState> GameBuilderDirector::build(IStateManager& state_manag
     m_ptr_builder->create_context(m_dynamic_objects_ratio);
     m_ptr_builder->create_state(state_manager, m_window_title);
     m_ptr_builder->set_all_to_state();
-    std::cout << "GameState::set_all_to_state()" << std::endl;
     return m_ptr_builder->get_game();
 };

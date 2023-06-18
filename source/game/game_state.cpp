@@ -35,9 +35,9 @@ void GameState::event_handling() {
             break;
         }
         if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Escape) {
+            if (event.key.control && event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::Escape)
                 m_context_manager.restore_previous_context();
-            } else
+            else
                 process_key_pressed(event.key.code);
         }
     }
