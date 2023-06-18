@@ -19,10 +19,13 @@ public:
     void render() override;
 private:
     void process_key_pressed(sf::Keyboard::Key key);
-//    void process_event(std::unique_ptr<IGameEvent> ptr_event);
+    void process_event(std::unique_ptr<IGameEvent> event){
+        event->handle(m_context_manager.get_context());
+    };
 private:
     void clear_background();
 private:
     ContextManager m_context_manager;
     Maze m_maze;
+    bool m_do_not_update = false;
 };

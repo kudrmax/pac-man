@@ -16,9 +16,10 @@ void GameState::set_context(GameContext&& context) {
 }
 
 bool GameState::do_step() {
+    sf::Event event;
     event_handling();
-    if (m_context_manager.get_context().state == GameContext::INGAME)
-        update();
+        if (m_context_manager.get_context().state == GameContext::INGAME && !m_do_not_update)
+            update();
     render();
     return true;
 }
@@ -33,8 +34,10 @@ void GameState::event_handling() {
             break;
         }
         if (event.type == sf::Event::KeyPressed) {
-            if (event.key.control && event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::Escape)
+            if (event.key.control && event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::Escape) {
                 m_context_manager.restore_previous_context();
+                m_do_not_update = true;
+            }
             else
                 process_key_pressed(event.key.code);
         }
@@ -48,7 +51,6 @@ void GameState::update() {
     auto& static_objects = context.static_objects;
     auto& dynamic_objects = context.dynamic_objects;
     auto& pacman = context.pacman;
-    auto& state = context.state;
     std::vector<std::unique_ptr<IGameEvent>> game_events;
 
     // dynamic_objects -- action
@@ -73,7 +75,7 @@ void GameState::update() {
 
     // Обработать все IGameEvent
     for (auto& event: game_events)
-        event->handle(context);
+        process_event(std::move(event));
 };
 
 void GameState::render() {
