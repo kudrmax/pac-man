@@ -32,7 +32,7 @@ Menu::Menu(IStateManager& state_manager) {
                                     config::GAME_VIDEO_MODE_HEIGHT,
                                     config::ROOM_SIZE),
                             config::EASY_GAME_TITLE,
-                            0
+                            config::MEDIUM_GAME_ENEMY_RATIO
                     )
             ))
     ));
@@ -50,7 +50,7 @@ Menu::Menu(IStateManager& state_manager) {
                                     config::GAME_VIDEO_MODE_HEIGHT,
                                     config::ROOM_SIZE),
                             config::MEDIUM_GAME_TITLE,
-                            0
+                            config::MEDIUM_GAME_ENEMY_RATIO
                     )
             ))
     ));
@@ -68,7 +68,7 @@ Menu::Menu(IStateManager& state_manager) {
                                     config::GAME_VIDEO_MODE_HEIGHT,
                                     config::ROOM_SIZE),
                             config::HARD_GAME_TITLE,
-                            0
+                            config::HARD_GAME_ENEMY_RATIO
                     )
             ))
     ));

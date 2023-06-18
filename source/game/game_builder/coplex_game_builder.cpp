@@ -26,13 +26,6 @@ void ComplexGameBuilder::create_rooms() {
                 row_v.emplace_back(std::move(room));
             } else
                 row_v.emplace_back(nullptr);
-//            auto flag = rand() % 10;
-//            if (flag != 0) {
-//                auto room = std::make_unique<Room>(m_room_size);
-//                room->set_position({ start_x + i_x * m_room_size, start_y + i_y * m_room_size });
-//                row_v.emplace_back(std::move(room));
-//            } else
-//                row_v.emplace_back(nullptr);
         }
         m_rooms.push_back(std::move(row_v));
         row_v.clear();
@@ -40,10 +33,6 @@ void ComplexGameBuilder::create_rooms() {
 }
 
 void ComplexGameBuilder::set_rooms_sides() {
-    size_t row_first = 0;
-    size_t row_last = m_rooms.size() - 1;
-    size_t col_first = 0;
-    size_t col_last = m_rooms[0].size() - 1;
     using DIR = Room::Direction;
 
     for (int row_n = 0; row_n < m_rooms.size(); ++row_n) {
@@ -92,7 +81,7 @@ void ComplexGameBuilder::create_context(float dynamic_objects_ratio) {
     }
 
     // Enemy
-    for (size_t i = 0; i < config::COUNT_ENEMY; ++i) {
+    for (size_t i = 0; i < config::COUNT_ENEMY * dynamic_objects_ratio; ++i) {
         if (auto index = generate_index(); index != -1) {
             auto enemy = std::make_unique<Enemy>();
             enemy->set_location(*m_rooms_for_entity[index]);

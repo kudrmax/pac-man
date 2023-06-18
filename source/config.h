@@ -25,11 +25,11 @@ namespace config {
     const char HARD_GAME_TITLE[] = "Level: Hard";
     const float EASY_GAME_ENEMY_RATIO = 0.0f;
     const float MEDIUM_GAME_ENEMY_RATIO = 0.03f;
-    const float HARD_GAME_ENEMY_RATIO = 0.07f;
+    const float HARD_GAME_ENEMY_RATIO = 0.05f;
     const float ROOM_SIZE = 70;
     const float GAME_ENEMY_SIZE = ROOM_SIZE * 0.7;
     const float GAME_FOOD_SIZE = ROOM_SIZE * 0.2;
-    const size_t COUNT_ENEMY = 5;
+    const size_t COUNT_ENEMY = 100;
     const size_t TEXT_FOR_STATE_SIZE = 300;
     const float DELTA_TIME_ENEMY_MOVE = 0.3;
 // Пакмэн:

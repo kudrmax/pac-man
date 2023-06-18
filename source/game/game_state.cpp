@@ -139,6 +139,7 @@ void GameState::clear_background() {
     }
     m_window.clear(background_color);
 }
+
 void GameState::effect_from_state() {
     if (m_context_manager.get_context().state == GameContext::LOST) {
         sf::Font m_font;
