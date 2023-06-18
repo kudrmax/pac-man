@@ -1,10 +1,8 @@
 #include "game_state.h"
+#include "entity.h"
 #include "../i_state_manager.h"
 #include "../select_level/select_level_state.h"
-#include "entity.h"
-#include "../exit/exite_state.h"
 #include "../config.h"
-#include <thread>
 #include <memory>
 
 GameState::GameState(IStateManager& state_manager, const std::string& window_title, const sf::VideoMode& mode) :

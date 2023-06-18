@@ -4,7 +4,7 @@
 #include "../config.h"
 
 void PacMan::move(Room::Direction direction) {
-    m_location->get_side(direction)->enter(this);
+    m_location->get_side(direction).enter(*this);
 }
 
 void PacMan::draw_into(sf::RenderWindow& window) {
@@ -48,8 +48,8 @@ void Enemy::action() {
     Room::Direction direction = static_cast<Room::Direction>(dir);
     if (clock.getElapsedTime() > sf::seconds(delte_time)) {
         std::cout << delte_time << std::endl;
-        auto side = m_location->get_side(direction);
-        side->enter(this);
+        auto& side = m_location->get_side(direction);
+        side.enter(*this);
         clock.restart();
     }
 }

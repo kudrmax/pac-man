@@ -3,14 +3,14 @@
 #include "../config.h"
 #include "side.h"
 
-Room::Direction Room::get_direction(IRoomSide* ptr_room_side) {
-    if (m_sides[LEFT].get() == ptr_room_side)
+Room::Direction Room::get_direction(IRoomSide& ptr_room_side) {
+    if (m_sides[LEFT].get() == &ptr_room_side)
         return LEFT;
-    if (m_sides[RIGHT].get() == ptr_room_side)
+    if (m_sides[RIGHT].get() == &ptr_room_side)
         return RIGHT;
-    if (m_sides[UP].get() == ptr_room_side)
+    if (m_sides[UP].get() == &ptr_room_side)
         return UP;
-    if (m_sides[DOWN].get() == ptr_room_side)
+    if (m_sides[DOWN].get() == &ptr_room_side)
         return DOWN;
     return INVALID;
     // как это у других реализовано чекнуть
@@ -29,7 +29,7 @@ void Room::set_side(Room::Direction side, std::shared_ptr<IRoomSide>&& ptr_room_
     else
         m_sides[side] = ptr_room_side;
 }
-Room::Room(float size, bool is_fillable)  : m_rectangle({ size, size }), m_is_fillable(is_fillable) {
+Room::Room(float size, bool is_fillable)  : m_rectangle({ size, size }) {
     m_rectangle.setOrigin(size / 2, size / 2);
 }
 

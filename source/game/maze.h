@@ -18,15 +18,12 @@ public:
     void set_position(sf::Vector2f position) { m_rectangle.setPosition(position); }
     float get_size() { return m_rectangle.getSize().x; }
     sf::Vector2f get_position() { return m_rectangle.getPosition(); }
-    IRoomSide* get_side(Direction side) { return m_sides[side].get(); };
-    Direction get_direction(IRoomSide* ptr_room_side);
+    IRoomSide& get_side(Direction side) { return *m_sides[side]; };
+    Direction get_direction(IRoomSide& ptr_room_side);
     void draw_into(sf::RenderWindow& window) override;
-    bool is_fillable() { return m_is_fillable; }
-    void set_fillable(bool is_fillable) { m_is_fillable = is_fillable; }
 private:
     sf::RectangleShape m_rectangle;
     std::array<std::shared_ptr<IRoomSide>, 4> m_sides;
-    bool m_is_fillable;
 };
 
 class Maze : public IMyDrawable {
