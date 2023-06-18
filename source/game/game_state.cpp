@@ -105,21 +105,23 @@ void GameState::render() {
 void GameState::process_key_pressed(sf::Keyboard::Key key) {
     if (m_context_manager.get_context().state == GameContext::INGAME) {
         auto& new_pacman = m_context_manager.get_context().pacman;
-        if (key == sf::Keyboard::A) {
-            m_context_manager.save_current_context();
-            new_pacman.move(Room::Direction::LEFT);
-        }
-        if (key == sf::Keyboard::W) {
-            m_context_manager.save_current_context();
-            new_pacman.move(Room::Direction::UP);
-        }
-        if (key == sf::Keyboard::D) {
-            m_context_manager.save_current_context();
-            new_pacman.move(Room::Direction::RIGHT);
-        }
-        if (key == sf::Keyboard::S) {
-            m_context_manager.save_current_context();
-            new_pacman.move(Room::Direction::DOWN);
+        switch (key) {
+            case config::KEY_LEFT:
+                m_context_manager.save_current_context();
+                new_pacman.move(Room::Direction::LEFT);
+                break;
+            case config::KEY_UP:
+                m_context_manager.save_current_context();
+                new_pacman.move(Room::Direction::UP);
+                break;
+            case config::KEY_RIGHT:
+                m_context_manager.save_current_context();
+                new_pacman.move(Room::Direction::RIGHT);
+                break;
+            case config::KEY_DOWN:
+                m_context_manager.save_current_context();
+                new_pacman.move(Room::Direction::DOWN);
+                break;
         }
     }
 }
