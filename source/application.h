@@ -5,7 +5,6 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-class IState;
 class ISelectCommand;
 
 class Application : public IStateManager {

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "i_draw.h"
-
 class IStateManager;
 
 class IState {

@@ -12,10 +12,6 @@ void ComplexGameBuilder::create_rooms() {
     if (count_of_rooms_y % 2 == 0) ++count_of_rooms_y;
     auto start_x = (m_width - count_of_rooms_x * m_room_size) / 2.0f + m_room_size / 2.0f;
     auto start_y = (m_height - count_of_rooms_y * m_room_size + m_room_size) / 2.0f;
-    std::cout << "count_of_rooms_y = " << count_of_rooms_y << std::endl;
-    std::cout << "start_y = " << start_y << std::endl;
-    std::cout << "m_height - start_y = " << m_height - start_y << std::endl;
-    std::cout << "... = " << (m_height - start_y) / count_of_rooms_y << std::endl;
 
     std::vector<std::unique_ptr<Room>> row_v;
     for (size_t i_y = 0; i_y < count_of_rooms_y; ++i_y) {
