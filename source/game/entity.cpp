@@ -2,6 +2,7 @@
 #include "side.h"
 #include "game_event.h"
 #include "../config.h"
+#include <thread>
 
 void PacMan::move(Room::Direction direction) {
     m_location->get_side(direction).enter(*this);
@@ -50,10 +51,18 @@ void Enemy::action() {
     float delte_time = 0.2;
     if (m_time_before_action.getElapsedTime() > sf::seconds(delte_time)) {
         Room::Direction direction;
-        for (size_t i = 0; i < 30; ++i) {
+        for (size_t i = 0; i < 60; ++i) {
             direction = static_cast<Room::Direction>(s_side_choice(s_generator));
-            if (m_location->get_side(direction).enter(*this))
+            auto [is_moved, previous_location] = m_location->get_side(direction).enter(*this);
+            if (is_moved) {
+//                m_previous_location = &previous_location;
                 break;
+            } else if (m_location == m_previous_location) {
+                std::cout << "m_location == m_previous_location\n";
+                using namespace std::chrono_literals;
+//                std::this_thread::sleep_for(2s);
+            }
+//            m_previous_location = &previous_location;
         }
         m_time_before_action.restart();
     }

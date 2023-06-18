@@ -42,11 +42,13 @@ struct Enemy : public IDynamicEntity {
     std::unique_ptr<IDynamicEntity> clone() const override { return std::make_unique<Enemy>(*this); };
     std::unique_ptr<IGameEvent> accept(IVisitor& ptr_visitor) override;
     void action() override;
+    void set_previous_location() { m_previous_location = m_location; };
 private:
     inline static std::mt19937 s_generator{ std::random_device{}() };
     inline static std::uniform_int_distribution s_side_choice{ 0, 3 };
 //    inline static std::normal_distribution<float> s_rest_time{ config::ACTION_MEAN, config::ACTION_STDDEV };
     sf::Clock m_time_before_action;
+    Room* m_previous_location;
 };
 
 struct PacMan : public IEntity, public IVisitor {

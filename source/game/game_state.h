@@ -22,6 +22,7 @@ private:
     void process_event(std::unique_ptr<IGameEvent> event) { event->handle(m_context_manager.get_context()); };
 private:
     void clear_background();
+    void effect_from_state();
 private:
     ContextManager m_context_manager;
     Maze m_maze;

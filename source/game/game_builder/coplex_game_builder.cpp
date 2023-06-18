@@ -96,6 +96,7 @@ void ComplexGameBuilder::create_context(float dynamic_objects_ratio) {
         if (auto index = generate_index(); index != -1) {
             auto enemy = std::make_unique<Enemy>();
             enemy->set_location(*m_rooms_for_entity[index]);
+            enemy->set_previous_location();
             m_context.dynamic_objects.push_back(std::move(enemy));
             remove_from_room_for_entity(index);
         }

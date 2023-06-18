@@ -18,8 +18,8 @@ void GameState::set_context(GameContext&& context) {
 bool GameState::do_step() {
     sf::Event event;
     event_handling();
-        if (m_context_manager.get_context().state == GameContext::INGAME && !m_do_not_update)
-            update();
+    if (m_context_manager.get_context().state == GameContext::INGAME && !m_do_not_update)
+        update();
     render();
     return true;
 }
@@ -38,8 +38,7 @@ void GameState::event_handling() {
             if (event.key.control && event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::Escape) {
                 m_context_manager.restore_previous_context();
                 m_do_not_update = true;
-            }
-            else {
+            } else {
                 process_key_pressed(event.key.code);
             }
         }
@@ -48,7 +47,6 @@ void GameState::event_handling() {
 
 
 void GameState::update() {
-    using namespace std::chrono_literals;
     auto& context = m_context_manager.get_context();
     auto& static_objects = context.static_objects;
     auto& dynamic_objects = context.dynamic_objects;
@@ -98,6 +96,8 @@ void GameState::render() {
     // PacMan
     m_context_manager.get_context().pacman.draw_into(m_window);
 
+    effect_from_state();
+
     // display
     m_window.display();
 }
@@ -138,4 +138,49 @@ void GameState::clear_background() {
             break;
     }
     m_window.clear(background_color);
+}
+void GameState::effect_from_state() {
+    if (m_context_manager.get_context().state == GameContext::LOST) {
+        sf::Font m_font;
+        if (!m_font.loadFromFile(config::FONT_FILE))
+            throw std::runtime_error("No such file in directory");
+        sf::Text text;
+        text.setFont(m_font);
+        text.setString("Game Over!");
+        text.setCharacterSize(config::TEXT_FOR_STATE_SIZE);
+        auto textRect = text.getLocalBounds();
+        text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+        text.setPosition(m_window.getSize().x / 2, m_window.getSize().y / 2);
+        text.setFillColor(config::BUTTON_COLOR_TEXT);
+        text.setOutlineColor(config::BUTTON_COLOR_FRAME);
+        text.setOutlineThickness(config::BUTTON_FRAME_THICKNESS);
+
+        auto color = sf::Color{ 255, 150, 150, 250 / 2 };
+        sf::RectangleShape background;
+        background.setFillColor(color);
+        background.setSize({ static_cast<float>(m_window.getSize().x), static_cast<float>(m_window.getSize().y) });
+        m_window.draw(background);
+        m_window.draw(text);
+    } else if (m_context_manager.get_context().state == GameContext::WIN) {
+        sf::Font m_font;
+        if (!m_font.loadFromFile(config::FONT_FILE))
+            throw std::runtime_error("No such file in directory");
+        sf::Text text;
+        text.setFont(m_font);
+        text.setString("Win!");
+        text.setCharacterSize(config::TEXT_FOR_STATE_SIZE);
+        auto textRect = text.getLocalBounds();
+        text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+        text.setPosition(m_window.getSize().x / 2, m_window.getSize().y / 2);
+        text.setFillColor(config::BUTTON_COLOR_TEXT);
+        text.setOutlineColor(config::BUTTON_COLOR_FRAME);
+        text.setOutlineThickness(config::BUTTON_FRAME_THICKNESS);
+
+        auto color = sf::Color{ 150, 255, 150, 250 / 2 };
+        sf::RectangleShape background;
+        background.setFillColor(color);
+        background.setSize({ static_cast<float>(m_window.getSize().x), static_cast<float>(m_window.getSize().y) });
+        m_window.draw(background);
+        m_window.draw(text);
+    }
 };

@@ -25,8 +25,12 @@ void Wall::prepare_to_draw(Room& room) {
     m_line[0] = pos0;
     m_line[1] = pos1;
 }
+std::pair<bool, Room&> Wall::enter(IEntity& entity) {
+    return { false, entity.get_location() };
+}
 
-bool Pass::enter(IEntity& entity) {
+std::pair<bool, Room&> Pass::enter(IEntity& entity) {
+    auto& this_room = entity.get_location();
     entity.set_location(&entity.get_location() == &m_room2 ? m_room1 : m_room2);
-    return true;
+    return { true, this_room };
 }
