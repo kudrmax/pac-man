@@ -48,23 +48,21 @@ void Enemy::draw_into(sf::RenderWindow& window) {
 }
 
 void Enemy::action() {
-    auto delta_time = config::DELTA_TIME_ENEMY_MOVE;
-    if (m_time_before_action.getElapsedTime() > sf::seconds(delta_time)) {
-        auto this_location = m_location;
+    if (m_time_before_action.getElapsedTime() > sf::seconds(config::DELTA_TIME_ENEMY_MOVE)) {
+        auto original_location = m_location;
         Room::Direction direction;
         for (size_t i = 0; i < 30; ++i) {
             direction = static_cast<Room::Direction>(s_side_choice(s_generator));
-            auto [is_moved, previous_location] = m_location->get_side(direction).enter(*this);
+            auto is_moved = m_location->get_side(direction).enter(*this);
             if (is_moved && m_location != m_previous_location) {
-                m_previous_location = &previous_location;
+                m_previous_location = original_location;
                 break;
             } else if (m_location == m_previous_location)
-                m_location = &previous_location;
+                m_location = original_location;
         }
-        if (m_location == this_location) {
+        if (m_location == original_location) {
             for (size_t i = 0; i < 4; ++i) {
-                auto [is_moved, previous_location] = m_location->get_side(static_cast<Room::Direction>(i)).enter(*this);
-                if (is_moved)
+                if (m_location->get_side(static_cast<Room::Direction>(i)).enter(*this))
                     break;
             }
         }
