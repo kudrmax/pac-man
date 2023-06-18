@@ -15,7 +15,7 @@ void ComplexGameBuilder::create_rooms() {
     std::cout << "count_of_rooms_y = " << count_of_rooms_y << std::endl;
     std::cout << "start_y = " << start_y << std::endl;
     std::cout << "m_height - start_y = " << m_height - start_y << std::endl;
-    std::cout << "... = " << (m_height - start_y) / count_of_rooms_y  << std::endl;
+    std::cout << "... = " << (m_height - start_y) / count_of_rooms_y << std::endl;
 
     std::vector<std::unique_ptr<Room>> row_v;
     for (size_t i_y = 0; i_y < count_of_rooms_y; ++i_y) {
@@ -57,9 +57,11 @@ void ComplexGameBuilder::set_rooms_sides() {
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n - 1][col_n]));
                     else if (dir == Room::LEFT && col_n - 1 >= 0 && m_rooms[row_n][col_n - 1] != nullptr)
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n - 1]));
-                    else if (dir == Room::DOWN && row_n + 1 <= m_rooms.size() - 1 && m_rooms[row_n + 1][col_n] != nullptr)
+                    else if (dir == Room::DOWN && row_n + 1 <= m_rooms.size() - 1 &&
+                             m_rooms[row_n + 1][col_n] != nullptr)
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n + 1][col_n]));
-                    else if (dir == Room::RIGHT && col_n + 1 <= m_rooms[row_n].size() - 1 && m_rooms[row_n][col_n + 1] != nullptr)
+                    else if (dir == Room::RIGHT && col_n + 1 <= m_rooms[row_n].size() - 1 &&
+                             m_rooms[row_n][col_n + 1] != nullptr)
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n + 1]));
                     else
                         this_room->set_side(dir, std::make_shared<Wall>(*this_room));
@@ -71,43 +73,33 @@ void ComplexGameBuilder::set_rooms_sides() {
 
 void ComplexGameBuilder::create_context(float dynamic_objects_ratio) {
 
-    // find fillable rooms
-    std::vector<Room*> rooms_for_entity;
-    for (const auto& row: m_rooms) {
-        for (const auto& room: row) {
-            if (room != nullptr)
-                rooms_for_entity.push_back(room.get());
-        }
-    }
-
-    // PacMan
-    PacMan pacman;
-    pacman.set_location(*m_rooms[3][3]);
-    m_context.pacman = std::move(pacman);
+    // find rooms_for_entity
+    fill_rooms_for_entity();
 
     // Food
-    for (auto room_food: rooms_for_entity) {
+    for (size_t index = 0; index < m_rooms_for_entity.size(); ++index) {
         auto food = std::make_unique<Food>();
-        food->set_location(*room_food);
+        food->set_location(*m_rooms_for_entity[index]);
         m_context.static_objects.push_back(std::move(food));
     }
 
+    // PacMan
+    if (auto index = generate_index(); index != -1) {
+        PacMan pacman;
+        pacman.set_location(*m_rooms_for_entity[index]);
+        m_context.pacman = std::move(pacman);
+        remove_from_room_for_entity(index);
+    }
+
     // Enemy
-    srand(time(NULL));
-    int x_rand = rand() % (m_rooms.size() - 1) + 1;
-    int y_rand = rand() % (m_rooms.size() - 1) + 1;
-
-    auto enemy1 = std::make_unique<Enemy>();
-    enemy1->set_location(*m_rooms[x_rand][y_rand]);
-    m_context.dynamic_objects.emplace_back(std::move(enemy1));
-
-    auto enemy2 = std::make_unique<Enemy>();
-    enemy2->set_location(*m_rooms[x_rand][y_rand]);
-    m_context.dynamic_objects.emplace_back(std::move(enemy2));
-
-    auto enemy3 = std::make_unique<Enemy>();
-    enemy3->set_location(*m_rooms[x_rand][y_rand]);
-    m_context.dynamic_objects.emplace_back(std::move(enemy3));
+    for (size_t i = 0; i < config::COUNT_ENEMY; ++i) {
+        if (auto index = generate_index(); index != -1) {
+            auto enemy = std::make_unique<Enemy>();
+            enemy->set_location(*m_rooms_for_entity[index]);
+            m_context.dynamic_objects.push_back(std::move(enemy));
+            remove_from_room_for_entity(index);
+        }
+    }
 };
 
 void ComplexGameBuilder::create_state(IStateManager& state_manager, std::string window_title) {
