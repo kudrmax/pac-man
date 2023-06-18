@@ -15,15 +15,19 @@ void PacMan::draw_into(sf::RenderWindow& window) {
     pacman_circle.setPosition(m_location->get_position());
     window.draw(pacman_circle);
 }
+
 std::unique_ptr<IGameEvent> PacMan::visit(Food& ptr_food) {
     return std::make_unique<DeleteStaticEntity>(ptr_food);
 }
+
 std::unique_ptr<IGameEvent> PacMan::visit(Enemy& ptr_enemy) {
     return std::make_unique<LostGame>();
 }
+
 std::unique_ptr<IGameEvent> Food::accept(IVisitor& ptr_visitor) {
     return ptr_visitor.visit(*this);
 }
+
 void Food::draw_into(sf::RenderWindow& window) {
     float size = config::GAME_FOOD_SIZE / 2;
     auto food_circle = sf::CircleShape(size);
@@ -32,6 +36,7 @@ void Food::draw_into(sf::RenderWindow& window) {
     food_circle.setPosition(m_location->get_position());
     window.draw(food_circle);
 }
+
 void Enemy::draw_into(sf::RenderWindow& window) {
     float size = config::GAME_ENEMY_SIZE / 2;
     auto enemy_circle = sf::CircleShape(size);
@@ -40,19 +45,20 @@ void Enemy::draw_into(sf::RenderWindow& window) {
     enemy_circle.setPosition(m_location->get_position());
     window.draw(enemy_circle);
 }
+
 void Enemy::action() {
-    //        srand(time(NULL));
-    int dir = rand() % 4;
     float delte_time = 0.2;
-//        Room::Direction direction = Room::Direction::LEFT;
-    Room::Direction direction = static_cast<Room::Direction>(dir);
-    if (clock.getElapsedTime() > sf::seconds(delte_time)) {
-        std::cout << delte_time << std::endl;
-        auto& side = m_location->get_side(direction);
-        side.enter(*this);
-        clock.restart();
+    if (m_time_before_action.getElapsedTime() > sf::seconds(delte_time)) {
+        Room::Direction direction;
+        for (size_t i = 0; i < 30; ++i) {
+            direction = static_cast<Room::Direction>(s_side_choice(s_generator));
+            if (m_location->get_side(direction).enter(*this))
+                break;
+        }
+        m_time_before_action.restart();
     }
 }
+
 std::unique_ptr<IGameEvent> Enemy::accept(IVisitor& ptr_visitor) {
     return ptr_visitor.visit(*this);
 }
