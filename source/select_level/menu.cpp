@@ -2,6 +2,7 @@
 #include "../game/game_builder/simple_game_builder.h"
 #include "../game/game_builder/coplex_game_builder.h"
 #include "button_command.h"
+#include "button.h"
 #include "../config.h"
 
 

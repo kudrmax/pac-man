@@ -1,8 +1,7 @@
 #include "select_level_state.h"
-#include "../config.h"
-
 #include "../i_state_manager.h"
 #include "../exit/exite_state.h"
+#include "../config.h"
 
 
 void SelectState::event_handling() {
