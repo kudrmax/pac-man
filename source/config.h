@@ -29,7 +29,7 @@ namespace config {
     const float ROOM_SIZE = 100;
     const float GAME_ENEMY_SIZE = ROOM_SIZE * 0.7;
     const float GAME_FOOD_SIZE = ROOM_SIZE * 0.2;
-    const size_t COUNT_ENEMY = 6;
+    const size_t COUNT_ENEMY = 1;
     const size_t TEXT_FOR_STATE_SIZE = 300;
 // Пакмэн:
     const float GAME_PACMAN_SIZE = ROOM_SIZE * 0.8;
