@@ -4,6 +4,7 @@
 #include "../select_level/select_level_state.h"
 #include "../config.h"
 #include <memory>
+#include <iostream>
 
 GameState::GameState(IStateManager& state_manager, const std::string& window_title, const sf::VideoMode& mode) :
         IWindowKeeper(mode, window_title),
@@ -26,7 +27,7 @@ bool GameState::do_step() {
 
 void GameState::event_handling() {
     sf::Event event;
-    m_do_not_update = false;
+//    m_do_not_update = false;
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_window.close();
@@ -38,9 +39,11 @@ void GameState::event_handling() {
             if (event.key.control && event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::Escape) {
                 m_context_manager.restore_previous_context();
                 m_do_not_update = true;
-            } else {
+            } else
                 process_key_pressed(event.key.code);
-            }
+        } else if (event.type == sf::Event::KeyReleased) {
+            if (event.key.control && event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::Escape)
+                m_do_not_update = false;
         }
     }
 }
