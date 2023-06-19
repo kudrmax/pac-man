@@ -46,7 +46,6 @@ struct Enemy : public IDynamicEntity {
 private:
     inline static std::mt19937 s_generator{ std::random_device{}() };
     inline static std::uniform_int_distribution s_side_choice{ 0, 3 };
-//    inline static std::normal_distribution<float> s_rest_time{ config::ACTION_MEAN, config::ACTION_STDDEV };
     sf::Clock m_time_before_action;
     Room* m_previous_location;
 };

@@ -47,6 +47,7 @@ void Enemy::draw_into(sf::RenderWindow& window) {
 }
 
 void Enemy::action() {
+    // паттерн стратегия
     if (m_time_before_action.getElapsedTime() > sf::seconds(config::DELTA_TIME_ENEMY_MOVE)) {
         auto original_location = m_location;
         Room::Direction direction;

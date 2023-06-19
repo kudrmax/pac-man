@@ -48,7 +48,7 @@ Button::Button(const sf::Vector2f& button_center_pos,
     m_text.setCharacterSize(font_size);
     m_text.setLetterSpacing(1);
     auto textRect = m_text.getLocalBounds();
-    m_text.setOrigin(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f);
+    m_text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
     m_text.setPosition(button_center_pos);
     m_text.setFillColor(config::BUTTON_COLOR_TEXT);
     m_text.setOutlineColor(config::BUTTON_COLOR_FRAME);

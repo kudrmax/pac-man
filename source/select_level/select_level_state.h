@@ -12,6 +12,7 @@ class SelectState : public IState, public IWindowKeeper {
 public:
     SelectState(IStateManager& state_manager, const std::string& window_title);
     bool do_step() override;
+protected:
     void event_handling() override;
     void update() override;
     void render() override;

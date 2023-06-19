@@ -2,7 +2,7 @@
 
 #include "i_game_builder.h"
 
-struct GameBuilderWithHoles : public IGameBuilder{
+struct GameBuilderWithHoles : public IGameBuilder {
     GameBuilderWithHoles(float width, float height, float room_size);
     virtual void create_rooms() = 0;
     void set_rooms_sides() override;

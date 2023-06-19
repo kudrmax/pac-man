@@ -38,11 +38,9 @@ void GameBuilderWithHoles::set_rooms_sides() {
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n - 1][col_n]));
                     else if (dir == Room::LEFT && col_n - 1 >= 0 && m_rooms[row_n][col_n - 1] != nullptr)
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n - 1]));
-                    else if (dir == Room::DOWN && row_n + 1 <= m_rooms.size() - 1 &&
-                             m_rooms[row_n + 1][col_n] != nullptr)
+                    else if (dir == Room::DOWN && row_n + 1 <= m_rooms.size() - 1 && m_rooms[row_n + 1][col_n] != nullptr)
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n + 1][col_n]));
-                    else if (dir == Room::RIGHT && col_n + 1 <= m_rooms[row_n].size() - 1 &&
-                             m_rooms[row_n][col_n + 1] != nullptr)
+                    else if (dir == Room::RIGHT && col_n + 1 <= m_rooms[row_n].size() - 1 && m_rooms[row_n][col_n + 1] != nullptr)
                         this_room->set_side(dir, std::make_shared<Pass>(*this_room, *m_rooms[row_n][col_n + 1]));
                     else
                         this_room->set_side(dir, std::make_shared<Wall>(*this_room));

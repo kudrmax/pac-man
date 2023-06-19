@@ -19,6 +19,7 @@ void GameState::set_context(GameContext&& context) {
 bool GameState::do_step() {
     sf::Event event;
     event_handling();
+    // проверять только m_do_not_update
     if (m_context_manager.get_context().state == GameContext::INGAME && !m_do_not_update)
         update();
     render();
@@ -27,7 +28,6 @@ bool GameState::do_step() {
 
 void GameState::event_handling() {
     sf::Event event;
-//    m_do_not_update = false;
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             m_window.close();
@@ -54,7 +54,9 @@ void GameState::update() {
     auto& static_objects = context.static_objects;
     auto& dynamic_objects = context.dynamic_objects;
     auto& pacman = context.pacman;
-    std::vector<std::unique_ptr<IGameEvent>> game_events;
+
+    static std::vector<std::unique_ptr<IGameEvent>> game_events;
+    game_events.clear();
 
     // dynamic_objects -- action
     for (auto& enemy_for_action: dynamic_objects)
