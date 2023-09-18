@@ -14,36 +14,38 @@
 
 ## About this project
 
+- Для отработки паттернов, таких как <перечисление>
+- Для отработки ООП
+- Для отработки SFML
+
 Делал для отработки паттернов...
 
 ## How it looks
 
-### Gameplay video
+[//]: # (![Photo]&#40;doc/gameplay_hard.png&#41;)
+[//]: # (![Photo]&#40;doc/gameplay_medium.png&#41;)
+[//]: # (![Photo]&#40;doc/game_over.png&#41;)
 
-![Pac-Man 3D Video](doc/pacman-maze.png)](https://magentacloud.de/s/qYDg6BKK7G6TxpB)
+[//]: # (<p align="center">)
+<img src="doc/gameplay_hard.png" width="300"/>
+<img src="doc/gameplay_medium.png" width="300"/>
+<img src="doc/game_over.png" width="300"/>
+<img src="doc/menu.png" width="100"/>
 
-### Game photos
-
-![Dashboard](doc/dashboard-general.png)
-
-![Dashboard](doc/dashboard-general.png)
+[//]: # (</p>)
 
 ## Documentation
 
 ### Технологии
 
 - C++
-- SFML
+- [SFML](https://www.sfml-dev.org/index.php)
 - Patterns
     - Memento
     - Memento
     - Memento
     - Memento
 - CMake
-
-### Project UML
-
-![Dashboard](doc/dashboard-general.png)
 
 ### How to run
 
