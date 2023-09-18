@@ -5,7 +5,7 @@
 [//]: # (</p>)
 
 <p align="center">
-      <img src="doc/logo_readme.png" width="726">
+      <img src="doc/logo.png.png" width="726">
 </p>
 
 
