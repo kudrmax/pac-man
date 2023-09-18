@@ -19,14 +19,34 @@ state, compose, prototype, etc.) and SFML.
 
 ## How it looks
 
-<img src="doc/gameplay_hard.png" height="250"/>
-<img src="doc/gameplay_medium.png" height="250"/>
-<img src="doc/game_over.png" height="250"/>
-<img src="doc/menu.png" height="250"/>
+<img src="doc/gameplay_hard.png"/>
+
+<img src="doc/gameplay_medium.png"/>
+
+<img src="doc/game_over.png"/>
+
+<img src="doc/menu.png" height="500"/>
+
+
+[//]: # (![Image]&#40;doc/gameplay_hard.png&#41;)
+
+[//]: # (![Image]&#40;doc/gameplay_medium.png&#41;)
+
+[//]: # (![Image]&#40;doc/game_over.png&#41;)
+
+[//]: # (![Image]&#40;doc/menu.png&#41;)
+
+[//]: # (<img src="doc/gameplay_hard.png" height="250"/>)
+
+[//]: # (<img src="doc/gameplay_medium.png" height="250"/>)
+
+[//]: # (<img src="doc/game_over.png" height="250"/>)
+
+[//]: # (<img src="doc/menu.png" height="250"/>)
 
 ## Documentation
 
-### Built With
+### Built with
 
 - C++
 - [SFML](https://www.sfml-dev.org/index.php)
