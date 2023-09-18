@@ -1,29 +1,17 @@
-[//]: # (<p align="center">)
-
-[//]: # (      <img src="https://ww1.logoeps.net/wp-content/uploads/2016/12/pac-man-logo-785x205.png" width="726">)
-
-[//]: # (</p>)
-
 <p align="center">
       <img src="doc/logo.png" width="726">
 </p>
 
-
-
 ## Table of content
 
-- [About this project](#about-this-project)
+- [About](#about)
 - [How it looks](#how-it-looks)
 - [Documentation](#documentation)
 - [Contact](#contact)
 
-## About this project
+## About
 
-Игра на основе PacMan, созданная на языке C++ с визуализацией через SFML, с целью практики в ООП, паттернах (таких как
-state, compose, prototype и др.) и SFML.
-
-A PacMan-based game created in C++ with visualization via SFML, for the purpose of practicing in OOP, patterns (such as
-state, compose, prototype, etc.) and SFML.
+A PacMan-based game created in C++ with visualization via SFML, for the purpose of practicing in OOP, patterns (such as state, compose, prototype, etc.) and SFML.
 
 ## How it looks
 
@@ -34,7 +22,6 @@ state, compose, prototype, etc.) and SFML.
 <img src="doc/game_over.png"/>
 
 <img src="doc/menu.png" height="500"/>
-
 
 [//]: # (![Image]&#40;doc/gameplay_hard.png&#41;)
 
@@ -61,7 +48,6 @@ state, compose, prototype, etc.) and SFML.
 - Patterns: state, composite, command, prototype, memento, visitor, builder
 - CMake
 
-
 ### How to use
 
 You win if you eat all the available food. You lose if you run into a hostile mob.
@@ -71,5 +57,4 @@ You win if you eat all the available food. You lose if you run into a hostile mo
 
 ## Contact
 
-Макс
-Кудряшов - [GitHub](tg://resolve?domain=bzvyagintsev) - [Telegram](tg://resolve?domain=bzvyagintsev) - [Email](tg://resolve?domain=bzvyagintsev)
+Макс Кудряшов - [GitHub](https://github.com/kudrmax) - [Telegram](https://t.me/kudrmax)
