@@ -1,40 +1,9 @@
-
-
 <p align="center">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/VK_Full_Logo_%282021-present%29.svg/2560px-VK_Full_Logo_%282021-present%29.svg.png" width="726">
+      <img src="https://ww1.logoeps.net/wp-content/uploads/2016/12/pac-man-logo-785x205.png" width="726">
 </p>
-
-<p align="center">
-   <img src="" alt="Unity Version">
-   <img src="" alt="Game Version">
-   <img src="" alt="License">
-</p>
-
-## About
-
-About Text Here
-
-## Documentation
-
-Documentation Here
-
-## Distribute
-
-- [Service Name](Page Link)
-
-
-## Developers
-
-- [Delevoper Name](GitHub Profile Link)
-
-## License
-
----
-
-# Название проекта
-Добавьте краткое описание проекта, опишите какую задачу он решает. 1-3 предложения будет достаточно. Добавьте бейджи для важных статусов проекта: статус разработки (в разработке, на поддержке и т.д.), статус билда, процент покрытия тестами и тд.
 
 ## Содержание
+
 - [Технологии](#технологии)
 - [Начало работы](#начало-работы)
 - [Тестирование](#тестирование)
@@ -43,78 +12,50 @@ Documentation Here
 - [To do](#to-do)
 - [Команда проекта](#команда-проекта)
 
-## Технологии
-- [GatsbyJS](https://www.gatsbyjs.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- ...
+## About this project
 
-## Использование
-Расскажите как установить и использовать ваш проект, покажите пример кода:
+Делал для отработки паттернов...
 
-Установите npm-пакет с помощью команды:
-```sh
-$ npm i your-awesome-plugin-name
-```
+## How it looks
 
-И добавьте в свой проект:
-```typescript
-import { hi } from "your-awesome-plugin-name";
+### Gameplay video
 
-hi(); // Выведет в консоль "Привет!"
-```
+![Pac-Man 3D Video](doc/pacman-maze.png)](https://magentacloud.de/s/qYDg6BKK7G6TxpB)
 
-## Разработка
+### Game photos
 
-### Требования
-Для установки и запуска проекта, необходим [NodeJS](https://nodejs.org/) v8+.
+![Dashboard](doc/dashboard-general.png)
 
-### Установка зависимостей
-Для установки зависимостей, выполните команду:
-```sh
-$ npm i
-```
+![Dashboard](doc/dashboard-general.png)
 
-### Запуск Development сервера
-Чтобы запустить сервер для разработки, выполните команду:
-```sh
-npm start
-```
+## Documentation
 
-### Создание билда
-Чтобы выполнить production сборку, выполните команду: 
-```sh
-npm run build
-```
+### Технологии
 
-## Тестирование
-Какие инструменты тестирования использованы в проекте и как их запускать. Например:
+- C++
+- SFML
+- Patterns
+    - Memento
+    - Memento
+    - Memento
+    - Memento
+- CMake
 
-Наш проект покрыт юнит-тестами Jest. Для их запуска выполните команду:
-```sh
-npm run test
-```
+### Project UML
 
-## Deploy и CI/CD
-Расскажите, как развернуть приложение. Как запустить пайплайны и т.д.
+![Dashboard](doc/dashboard-general.png)
 
-## Contributing
-Как помочь в разработке проекта? Как отправить предложение или баг-репорт. Как отправить доработку (оформить pull request, какие стайлгайды используются). Можно вынести в отдельный файл — [Contributing.md](./CONTRIBUTING.md).
+### How to run
 
-## FAQ 
-Если потребители вашего кода часто задают одни и те же вопросы, добавьте ответы на них в этом разделе.
+Как собрать проект
 
-### Зачем вы разработали этот проект?
-Чтобы был.
+### How to use
 
-## To do
-- [x] Добавить крутое README
-- [ ] Всё переписать
-- [ ] ...
+You win if you eat all the available food. You lose if you run into a hostile mob.
 
-## Команда проекта
-Оставьте пользователям контакты и инструкции, как связаться с командой разработки.
+- <kbd>w, a, s, d</kbd> Move PacMan
+- <kbd>CTRL+Z</kbd> or <kbd>ESC</kbd> Cancel last movement
 
-- [Богдан Звягинцев](tg://resolve?domain=bzvyagintsev) — Front-End Engineer
+## Distribute
 
-## Источники
-Если вы чем-то вдохновлялись, расскажите об этом: где брали идеи, какие туториалы смотрели, ссылки на исходники кода. 
+- [Макс Кудряшов](tg://resolve?domain=bzvyagintsev)
