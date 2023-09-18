@@ -2,68 +2,46 @@
       <img src="https://ww1.logoeps.net/wp-content/uploads/2016/12/pac-man-logo-785x205.png" width="726">
 </p>
 
-## Содержание
+## Table of content
 
-- [Технологии](#технологии)
-- [Начало работы](#начало-работы)
-- [Тестирование](#тестирование)
-- [Deploy и CI/CD](#deploy-и-ci/cd)
-- [Contributing](#contributing)
-- [To do](#to-do)
-- [Команда проекта](#команда-проекта)
+- [About this project](#about-this-project)
+- [How it looks](#how-it-looks)
+- [Documentation](#documentation)
+- [Contact](#contact)
 
 ## About this project
 
-- Для отработки паттернов, таких как <перечисление>
-- Для отработки ООП
-- Для отработки SFML
+Игра на основе PacMan, созданная на языке C++ с визуализацией через SFML, с целью практики в ООП, паттернах (таких как
+state, compose, prototype и др.) и SFML.
 
-Делал для отработки паттернов...
+A PacMan-based game created in C++ with visualization via SFML, for the purpose of practicing in OOP, patterns (such as
+state, compose, prototype, etc.) and SFML.
 
 ## How it looks
 
-[//]: # (![Photo]&#40;doc/gameplay_hard.png&#41;)
-
-[//]: # (![Photo]&#40;doc/gameplay_medium.png&#41;)
-
-[//]: # (![Photo]&#40;doc/game_over.png&#41;)
-
-[//]: # (<p align="center">)
-
-<img src="doc/gameplay_hard.png" width="300"/>
-<img src="doc/gameplay_medium.png" width="300"/>
-<img src="doc/game_over.png" width="300"/>
-<img src="doc/menu.png" width="100"/>
-
-[//]: # (</p>)
+<img src="doc/gameplay_hard.png" height="250"/>
+<img src="doc/gameplay_medium.png" height="250"/>
+<img src="doc/game_over.png" height="250"/>
+<img src="doc/menu.png" height="250"/>
 
 ## Documentation
 
-### Технологии
+### Built With
 
 - C++
 - [SFML](https://www.sfml-dev.org/index.php)
-- Patterns
-    - State
-    - Composite
-    - Command
-    - Prototype
-    - Memento
-    - Visitor
-    - Builder
+- Patterns: state, composite, command, prototype, memento, visitor, builder
 - CMake
 
-### How to run
-
-Как собрать проект
 
 ### How to use
 
 You win if you eat all the available food. You lose if you run into a hostile mob.
 
-- <kbd>w, a, s, d</kbd> Move PacMan
+- <kbd>w</kbd>, <kbd>a</kbd>, <kbd>s</kbd>, <kbd>d</kbd> Move PacMan
 - <kbd>CTRL+Z</kbd> or <kbd>ESC</kbd> Cancel last movement
 
-## Distribute
+## Contact
 
-- [Макс Кудряшов](tg://resolve?domain=bzvyagintsev)
+Макс
+Кудряшов - [GitHub](tg://resolve?domain=bzvyagintsev) - [Telegram](tg://resolve?domain=bzvyagintsev) - [Email](tg://resolve?domain=bzvyagintsev)
