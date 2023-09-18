@@ -1,3 +1,36 @@
+
+
+<p align="center">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/VK_Full_Logo_%282021-present%29.svg/2560px-VK_Full_Logo_%282021-present%29.svg.png" width="726">
+</p>
+
+<p align="center">
+   <img src="" alt="Unity Version">
+   <img src="" alt="Game Version">
+   <img src="" alt="License">
+</p>
+
+## About
+
+About Text Here
+
+## Documentation
+
+Documentation Here
+
+## Distribute
+
+- [Service Name](Page Link)
+
+
+## Developers
+
+- [Delevoper Name](GitHub Profile Link)
+
+## License
+
+---
+
 # Название проекта
 Добавьте краткое описание проекта, опишите какую задачу он решает. 1-3 предложения будет достаточно. Добавьте бейджи для важных статусов проекта: статус разработки (в разработке, на поддержке и т.д.), статус билда, процент покрытия тестами и тд.
 
