@@ -1,6 +1,14 @@
+[//]: # (<p align="center">)
+
+[//]: # (      <img src="https://ww1.logoeps.net/wp-content/uploads/2016/12/pac-man-logo-785x205.png" width="726">)
+
+[//]: # (</p>)
+
 <p align="center">
-      <img src="https://ww1.logoeps.net/wp-content/uploads/2016/12/pac-man-logo-785x205.png" width="726">
+      <img src="doc/logo.png" width="726">
 </p>
+
+
 
 ## Table of content
 
