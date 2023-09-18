@@ -23,10 +23,13 @@
 ## How it looks
 
 [//]: # (![Photo]&#40;doc/gameplay_hard.png&#41;)
+
 [//]: # (![Photo]&#40;doc/gameplay_medium.png&#41;)
+
 [//]: # (![Photo]&#40;doc/game_over.png&#41;)
 
 [//]: # (<p align="center">)
+
 <img src="doc/gameplay_hard.png" width="300"/>
 <img src="doc/gameplay_medium.png" width="300"/>
 <img src="doc/game_over.png" width="300"/>
@@ -41,10 +44,13 @@
 - C++
 - [SFML](https://www.sfml-dev.org/index.php)
 - Patterns
+    - State
+    - Composite
+    - Command
+    - Prototype
     - Memento
-    - Memento
-    - Memento
-    - Memento
+    - Visitor
+    - Builder
 - CMake
 
 ### How to run
