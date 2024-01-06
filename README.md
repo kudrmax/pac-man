@@ -1,60 +1,43 @@
-<p align="center">
-      <img src="doc/logo.png" width="726">
-</p>
+[//]: # (<p align="center">)
 
-## Table of content
+[//]: # (      <img src="https://ww1.logoeps.net/wp-content/uploads/2016/12/pac-man-logo-785x205.png" width="726">)
 
-- [About](#about)
-- [How it looks](#how-it-looks)
-- [Documentation](#documentation)
-- [Contact](#contact)
+[//]: # (</p>)
 
-## About
+![gif.gif](images/gif.gif)
 
-A PacMan-based game created in C++ with visualization via SFML, for the purpose of practicing in OOP, patterns (such as state, compose, prototype, etc.) and SFML.
+## О проекте
 
-## How it looks
+Игра на основе существующей игры PacMan, созданная на языке `C++` с визуализацией через `SFML`, с целью практики в ООП,
+паттернах (таких как
+state, compose, prototype и др.) и `SFML`.
 
-<img src="doc/gameplay_hard.png"/>
+## Технологии
 
-<img src="doc/gameplay_medium.png"/>
+- `C++`
+- `SFML`
+- Паттерны:
+    - State
+    - Command
+    - Composite
+    - Prototype
+    - Memento
+    - Visitor
+    - Builder
 
-<img src="doc/game_over.png"/>
+## Скриншоты
 
-<img src="doc/menu.png" height="500"/>
+![hard.png](images/hard.png)
+![medium.png](images/medium.png)
+![game_over.png](images/mix.png)
 
-[//]: # (![Image]&#40;doc/gameplay_hard.png&#41;)
+## Использование
 
-[//]: # (![Image]&#40;doc/gameplay_medium.png&#41;)
+Чтобы победить нужно съесть всю еду. Если вы столкнетесь с врагом, то вы проиграете.
 
-[//]: # (![Image]&#40;doc/game_over.png&#41;)
+- <kbd>W, A, S, D</kbd> чтобы двигаться
+- <kbd>CTRL+Z</kbd> or <kbd>ESC</kbd> чтобы отменить последнее перемещение
 
-[//]: # (![Image]&#40;doc/menu.png&#41;)
+## Контакты
 
-[//]: # (<img src="doc/gameplay_hard.png" height="250"/>)
-
-[//]: # (<img src="doc/gameplay_medium.png" height="250"/>)
-
-[//]: # (<img src="doc/game_over.png" height="250"/>)
-
-[//]: # (<img src="doc/menu.png" height="250"/>)
-
-## Documentation
-
-### Built with
-
-- C++
-- [SFML](https://www.sfml-dev.org/index.php)
-- Patterns: state, composite, command, prototype, memento, visitor, builder
-- CMake
-
-### How to use
-
-You win if you eat all the available food. You lose if you run into a hostile mob.
-
-- <kbd>w</kbd>, <kbd>a</kbd>, <kbd>s</kbd>, <kbd>d</kbd> Move PacMan
-- <kbd>CTRL+Z</kbd> or <kbd>ESC</kbd> Cancel last movement
-
-## Contact
-
-Макс Кудряшов - [GitHub](https://github.com/kudrmax) - [Telegram](https://t.me/kudrmax)
+[Telegram](t.me/kudrmax) - [GitHub](https://github.com/kudrmax)
