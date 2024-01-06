@@ -51,7 +51,7 @@ Button::Button(const sf::Vector2f& button_center_pos,
     m_text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
     m_text.setPosition(button_center_pos);
     m_text.setFillColor(config::BUTTON_COLOR_TEXT);
-    m_text.setOutlineColor(config::BUTTON_COLOR_FRAME);
+    m_text.setOutlineColor(config::BUTTON_TEXT_COLOR_FRAME);
     m_text.setOutlineThickness(config::BUTTON_FRAME_THICKNESS);
     m_ptr_command = std::move(ptr_command);
 }

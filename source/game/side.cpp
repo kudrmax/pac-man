@@ -24,6 +24,8 @@ void Wall::prepare_to_draw(Room& room) {
     auto pos1 = pos + rotate_vec - rotate_vec2;
     m_line[0] = pos0;
     m_line[1] = pos1;
+    m_line[0].color = sf::Color::Blue;
+    m_line[1].color = sf::Color::Blue;
 }
 
 bool Wall::enter(IEntity& entity) {

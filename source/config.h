@@ -26,10 +26,10 @@ namespace config {
     const float EASY_GAME_ENEMY_RATIO = 0.0f;
     const float MEDIUM_GAME_ENEMY_RATIO = 0.03f;
     const float HARD_GAME_ENEMY_RATIO = 0.05f;
-    const float ROOM_SIZE = 70;
+    const float ROOM_SIZE = 75;
     const float GAME_ENEMY_SIZE = ROOM_SIZE * 0.7;
     const float GAME_FOOD_SIZE = ROOM_SIZE * 0.2;
-    const size_t COUNT_ENEMY = 100;
+    const size_t COUNT_ENEMY = 50;
     const size_t TEXT_FOR_STATE_SIZE = 300;
     const float DELTA_TIME_ENEMY_MOVE = 0.3;
 // Пакмэн:
@@ -40,17 +40,23 @@ namespace config {
     const sf::Keyboard::Key KEY_DOWN = sf::Keyboard::S;
     const sf::Keyboard::Key KEY_CLOSE = sf::Keyboard::Escape;
 // Цвета:
+//    const sf::Color BUTTON_COLOR_TEXT = sf::Color::White;
+//    const sf::Color BUTTON_COLOR_FILL = sf::Color{ 0x5865F2ff };
+//    const sf::Color BUTTON_COLOR_SELECTION = sf::Color{ 0x43B581FF };
+//    const sf::Color BUTTON_COLOR_FRAME = sf::Color::Black;
+//    const sf::Color SELECT_LEVEL_BACKGROUND_COLOR{ 0x36393FFF };
     const sf::Color BUTTON_COLOR_TEXT = sf::Color::White;
-    const sf::Color BUTTON_COLOR_FILL = sf::Color{ 0x5865F2ff };
-    const sf::Color BUTTON_COLOR_SELECTION = sf::Color{ 0x43B581FF };
-    const sf::Color BUTTON_COLOR_FRAME = sf::Color::Black;
-    const sf::Color SELECT_LEVEL_BACKGROUND_COLOR{ 0x36393FFF };
-    const sf::Color GAME_COLOR_BACKGROUND_INGAME{ 50, 50, 50 };
+    const sf::Color BUTTON_COLOR_FILL = sf::Color::Black;
+    const sf::Color BUTTON_COLOR_SELECTION = sf::Color::Green;
+    const sf::Color BUTTON_COLOR_FRAME = sf::Color::Blue;
+    const sf::Color BUTTON_TEXT_COLOR_FRAME = sf::Color::Black;
+    const sf::Color SELECT_LEVEL_BACKGROUND_COLOR = sf::Color::Black;
+    const sf::Color GAME_COLOR_BACKGROUND_INGAME{ 0, 0, 0 };
     const sf::Color GAME_COLOR_BACKGROUND_WIN{ 0, 100, 0 };
     const sf::Color GAME_COLOR_BACKGROUND_LOST{ 100, 0, 0 };
     const sf::Color GAME_COLOR_PACMAN{ 250, 250, 0 };
     const sf::Color GAME_COLOR_ROOM = sf::Color::Black;
     const sf::Color GAME_COLOR_WALL = sf::Color::Blue;
-    const sf::Color GAME_FOOD_COLOR{ 0, 200, 100 };
+    const sf::Color GAME_FOOD_COLOR{ 180, 125, 106 };
     const sf::Color GAME_ENEMY_COLOR{ 255, 50, 0 };
 }
