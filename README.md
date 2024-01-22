@@ -40,4 +40,4 @@ state, compose, prototype и др.) и `SFML`.
 
 ## Контакты
 
-[Telegram](t.me/kudrmax) - [GitHub](https://github.com/kudrmax)
+Макс Кудряшов - [Telegram](https://t.me/kudrmax) - [GitHub](https://github.com/kudrmax)
