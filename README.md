@@ -1,10 +1,4 @@
-[//]: # (<p align="center">)
-
-[//]: # (      <img src="https://ww1.logoeps.net/wp-content/uploads/2016/12/pac-man-logo-785x205.png" width="726">)
-
-[//]: # (</p>)
-
-![gif.gif](images/gif.gif)
+<p align="left"><img src="images/gif.gif" width="600px"></p>
 
 ## О проекте
 
@@ -27,9 +21,9 @@ state, compose, prototype и др.) и `SFML`.
 
 ## Скриншоты
 
-![hard.png](images/hard.png)
-![medium.png](images/medium.png)
-![game_over.png](images/mix.png)
+<p align="left"><img src="images/hard.png" width="600px"></p>
+<p align="left"><img src="images/medium.png" width="600px"></p>
+<p align="left"><img src="images/mix.png" width="800px"></p>
 
 ## Управление
 
